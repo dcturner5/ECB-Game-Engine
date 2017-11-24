@@ -1,6 +1,6 @@
 package com.gammarush.engine.graphics;
 
-import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -36,7 +36,7 @@ public class Camera {
 		Renderer.setProjectionMatrix(Matrix4f.orthographic(0.0f, width, height, 0.0f, MIN_DEPTH, MAX_DEPTH));
 	}
 	
-	public void follow(Entity target) {
+	public void follow(Mob target) {
 		if(target == null) return;
 		position = new Vector3f(-target.position.x + renderer.width / zoom / 2 - target.width / 2, -target.position.y + renderer.height / zoom / 2 - target.height / 2, 0);
 	}

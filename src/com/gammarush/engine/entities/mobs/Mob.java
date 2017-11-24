@@ -1,5 +1,11 @@
 package com.gammarush.engine.entities.mobs;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,11 +17,12 @@ import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
+import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
-import com.gammarush.engine.structures.Structure;
 import com.gammarush.engine.tiles.Tile;
 
 public class Mob extends Entity {
@@ -69,6 +76,51 @@ public class Mob extends Entity {
 		Renderer.MOB.setUniform1i("sprite_index", animationIndex + direction * animationWidth);
 	}
 	
+	public void control() {
+		Vector2f initial = new Vector2f(velocity);
+		
+		float alteredSpeed = speed;
+		if((KeyCallback.isKeyDown(GLFW_KEY_W) || KeyCallback.isKeyDown(GLFW_KEY_S)) && 
+				(KeyCallback.isKeyDown(GLFW_KEY_A) || KeyCallback.isKeyDown(GLFW_KEY_D))) alteredSpeed = alteredSpeed * 1.4f / 2f;
+		
+		if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
+			velocity.y -= alteredSpeed;
+			direction = Mob.DIRECTION_UP;
+		}
+		if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
+			velocity.y += alteredSpeed;
+			direction = DIRECTION_DOWN;
+		}
+		if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
+			velocity.x -= alteredSpeed;
+			direction = DIRECTION_LEFT;
+		}
+		if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
+			velocity.x += alteredSpeed;
+			direction = DIRECTION_RIGHT;
+		}
+		if(KeyCallback.isKeyDown(GLFW_KEY_SPACE)) {
+			Interactive e = getInteractive();
+			if(e != null) e.activate(null);
+		}
+		
+		if(velocity.x != 0 || velocity.y != 0) moving = true;
+		else moving = false;
+		
+		Vector2f position2D = new Vector2f(position.x, position.y);
+		position2D = position2D.add(velocity);
+		
+		Vector2f translation = physics.collision(position2D);
+		position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
+		
+		position2D = position2D.add(translation);
+		
+		position.x = position2D.x;
+		position.y = position2D.y;
+		
+		velocity = initial;
+	}
+	
 	public void updateBehaviors() {
 		if(!behaviors.isEmpty()) {
 			Collections.sort(behaviors, behaviorSorter);
@@ -94,11 +146,6 @@ public class Mob extends Entity {
 			animationFrame = 0;
             animationIndex = 0;
 		}
-	}
-	
-	public void setStructure(Structure structure) {
-		this.structure = structure;
-		if(structure != null) position.z = structure.position.z + .0001f;
 	}
 	
 	public Interactive getInteractive() {

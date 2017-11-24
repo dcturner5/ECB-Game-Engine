@@ -35,13 +35,13 @@ public class Door extends Interactive {
 			entity.position.x = destination.position.x + destination.placement.x;
 			entity.position.y = destination.position.y + destination.placement.y;
 			
-			entity.setStructure(null);
+			//entity.setStructure(null);
 		}
 		else {
 			entity.position.x = destination.position.x + destination.placement.x;
 			entity.position.y = destination.position.y + destination.placement.y + destination.structure.layer * Tile.HEIGHT;
 			
-			entity.setStructure(destination.structure);
+			//entity.setStructure(destination.structure);
 		}
 	}
 	

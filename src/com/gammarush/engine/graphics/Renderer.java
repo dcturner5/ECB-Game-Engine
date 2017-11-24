@@ -43,8 +43,8 @@ public class Renderer {
 		this.width = width;
 		this.height = height;
 		
-		Renderer.screenWidth = game.width * game.scale;
-		Renderer.screenHeight = game.height * game.scale;
+		Renderer.screenWidth = (int) (game.width * game.scale);
+		Renderer.screenHeight = (int) (game.height * game.scale);
 		
 		camera = new Camera(new Vector3f(0.0f, 0.0f, 0.0f), this);
 		projectionMatrix = Matrix4f.orthographic(0.0f, this.width, this.height, 0.0f, Camera.MIN_DEPTH, Camera.MAX_DEPTH);
@@ -114,7 +114,7 @@ public class Renderer {
 	
 	public void render() {
 		game.world.render(this);
-		game.player.render(this);
+		game.player.render();
 		game.gui.render(this);
 	}
 	

@@ -5,30 +5,18 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.astar.AStar;
-import com.gammarush.engine.entities.Entity;
-import com.gammarush.engine.entities.interactives.vehicles.Mercury;
-import com.gammarush.engine.entities.mobs.Human;
-import com.gammarush.engine.entities.player.Player;
+import com.gammarush.engine.entities.interactives.static_vehicles.StaticMercury;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
-import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.gui.UIManager;
-import com.gammarush.engine.input.CursorPosCallback;
 import com.gammarush.engine.input.Input;
-import com.gammarush.engine.input.KeyCallback;
-import com.gammarush.engine.input.MouseButtonCallback;
-import com.gammarush.engine.input.ScrollCallback;
-import com.gammarush.engine.input.WindowSizeCallback;
-import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.player.Player;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.world.World;
 
@@ -43,7 +31,7 @@ public class Game implements Runnable {
 
 	public int width = 1280;
 	public int height = 720;
-	public int scale = 2;
+	public float scale = 1.5f;
 	
 	private Thread thread;
 	private boolean running = false;
@@ -53,7 +41,7 @@ public class Game implements Runnable {
 	public Input input;
 	public Renderer renderer;
 	public World world;
-	public Player player;
+	public com.gammarush.engine.player.Player player;
 	public UIManager gui;
 	
 	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
@@ -72,7 +60,7 @@ public class Game implements Runnable {
 		}
 		
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-		window = glfwCreateWindow(width * scale, height * scale, "", NULL, NULL);
+		window = glfwCreateWindow((int) (width * scale), (int) (height * scale), "", NULL, NULL);
 		
 		try (MemoryStack stack = stackPush()) {
 			IntBuffer pWidth = stack.mallocInt(1);
@@ -126,12 +114,12 @@ public class Game implements Runnable {
 		tiles.put(Tile.CLIFF_DOWNLEFT_IN, new Tile(new Texture("res/tiles/cliff_downleft_in.png"), new TextureArray("res/tiles/blend/cliff_downleft_in.png", 1), new Vector2i(-1, 1), true, Tile.BLEND_TYPE_RECESSIVE));
 		tiles.put(Tile.CLIFF_DOWNRIGHT_IN, new Tile(new Texture("res/tiles/cliff_downright_in.png"), new TextureArray("res/tiles/blend/cliff_downright_in.png", 1), new Vector2i(1, 1), true, Tile.BLEND_TYPE_RECESSIVE));
 		*/
-		world = new World(128, 128, this);
+		world = new World(32, 32, this);
 		world.generate((int)(Math.random() * 10000));
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		world.interactives.add(new Mercury(new Vector3f(128, 256, Renderer.STRUCTURE_LAYER), this));
+		world.interactives.add(new StaticMercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), this));
 		
 		gui = new UIManager(this);
 	}

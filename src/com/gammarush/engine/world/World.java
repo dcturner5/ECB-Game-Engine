@@ -275,26 +275,6 @@ public class World {
 	public void renderEntities(Renderer renderer) {
 		Renderer.DEFAULT.enable();
 		
-		Tree.MODEL.getMesh().bind();
-		Tree.MODEL.getTexture().bind(Tree.TEXTURE_LOCATION);
-		Tree.MODEL.getNormalMap().bind(Tree.NORMAL_MAP_LOCATION);
-		for(Tree e : trees) {
-			e.prepare();
-			Tree.MODEL.draw();
-		}
-		Tree.MODEL.getMesh().unbind();
-		Tree.MODEL.getTexture().unbind(Tree.TEXTURE_LOCATION);
-		Tree.MODEL.getNormalMap().unbind(Tree.NORMAL_MAP_LOCATION);
-		
-		Door.MODEL.getMesh().bind();
-		Door.MODEL.getTexture().bind(Door.TEXTURE_LOCATION);
-		for(Door e : doors) {
-			e.prepare();
-			Door.MODEL.draw();
-		}
-		Door.MODEL.getMesh().unbind();
-		Door.MODEL.getTexture().unbind(Door.TEXTURE_LOCATION);
-		
 		//ITEMS
 		for(Item e : items) {
 			e.prepare();
@@ -312,6 +292,11 @@ public class World {
 		}
 		Human.MODEL.getMesh().unbind();
 		Human.MODEL.getTexture().unbind(Human.TEXTURE_LOCATION);
+		
+		for(Interactive e : interactives) {
+			e.prepare();
+			e.render();
+		}
 		Renderer.MOB.disable();
 	}
 	

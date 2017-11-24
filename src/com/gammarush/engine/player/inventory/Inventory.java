@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.player.inventory;
+package com.gammarush.engine.player.inventory;
 
 import java.util.HashMap;
 
