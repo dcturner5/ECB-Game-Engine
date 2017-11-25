@@ -28,6 +28,11 @@ public class Entity {
 	public static final int TEXTURE_LOCATION = 0;
 	public static final int NORMAL_MAP_LOCATION = 1;
 	
+	public static final int DIRECTION_UP = 0;
+	public static final int DIRECTION_DOWN = 1;
+	public static final int DIRECTION_LEFT = 2;
+	public static final int DIRECTION_RIGHT = 3;
+	
 	public Entity(Vector3f position, int width, int height, Model model, Game game) {
 		this.game = game;
 		

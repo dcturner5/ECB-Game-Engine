@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -27,16 +28,19 @@ public class Renderer {
 	public static Matrix4f projectionMatrix;
 	
 	public static Shader DEFAULT;
-	public static Shader GUI;
 	public static Shader FONT;
-	public static Shader TILE;
+	public static Shader GUI;
 	public static Shader MOB;
 	public static Shader STRUCTURE;
+	public static Shader TILE;
+	public static Shader VEHICLE;
 	
 	public static final int TILE_LAYER = 0;
 	public static final int ENTITY_LAYER = 1;
 	public static final int STRUCTURE_LAYER = 1;
 	public static final int GUI_LAYER = 7;
+	
+	public static final int SCALE = 4;
 	
 	public Renderer(int width, int height, Game game) {
 		this.game = game;
@@ -60,25 +64,17 @@ public class Renderer {
 		DEFAULT.setUniform1i("normal_map", Entity.NORMAL_MAP_LOCATION);
 		DEFAULT.disable();
 		
-		GUI = new Shader("shaders/gui.vert", "shaders/gui.frag");
-		GUI.enable();
-		GUI.setUniformMat4f("pr_matrix", projectionMatrix);
-		GUI.setUniform1i("sprite", UIManager.TEXTURE_LOCATION);
-		GUI.disable();
-		
 		FONT = new Shader("shaders/font.vert", "shaders/font.frag");
 		FONT.enable();
 		FONT.setUniformMat4f("pr_matrix", projectionMatrix);
 		FONT.setUniform1i("sprite", Font.TEXTURE_LOCATION);
 		FONT.disable();
 		
-		TILE = new Shader("shaders/tile.vert", "shaders/tile.frag");
-		TILE.enable();
-		TILE.setUniform1i("sprite", Tile.TEXTURE_LOCATION);
-		TILE.setUniform1i("normal_map", Tile.NORMAL_MAP_LOCATION);
-		TILE.setUniform1i("blend_map", Tile.BLEND_MAP_MASK_LOCATION);
-		TILE.setUniform1i("blend_sprite", Tile.BLEND_MAP_TEXTURE_LOCATION);
-		TILE.disable();
+		GUI = new Shader("shaders/gui.vert", "shaders/gui.frag");
+		GUI.enable();
+		GUI.setUniformMat4f("pr_matrix", projectionMatrix);
+		GUI.setUniform1i("sprite", UIManager.TEXTURE_LOCATION);
+		GUI.disable();
 		
 		MOB = new Shader("shaders/mob.vert", "shaders/mob.frag");
 		MOB.enable();
@@ -90,6 +86,19 @@ public class Renderer {
 		STRUCTURE.setUniform1i("sprite", Structure.TEXTURE_LOCATION);
 		STRUCTURE.setUniform1i("normal_map", Structure.NORMAL_MAP_LOCATION);
 		STRUCTURE.disable();
+		
+		TILE = new Shader("shaders/tile.vert", "shaders/tile.frag");
+		TILE.enable();
+		TILE.setUniform1i("sprite", Tile.TEXTURE_LOCATION);
+		TILE.setUniform1i("normal_map", Tile.NORMAL_MAP_LOCATION);
+		TILE.setUniform1i("blend_map", Tile.BLEND_MAP_MASK_LOCATION);
+		TILE.setUniform1i("blend_sprite", Tile.BLEND_MAP_TEXTURE_LOCATION);
+		TILE.disable();
+		
+		VEHICLE = new Shader("shaders/vehicle.vert", "shaders/vehicle.frag");
+		VEHICLE.enable();
+		VEHICLE.setUniform1i("sprite", Vehicle.TEXTURE_LOCATION);
+		VEHICLE.disable();
 	}
 	
 	public static void setProjectionMatrix(Matrix4f projectionMatrix) {
@@ -99,10 +108,6 @@ public class Renderer {
 		DEFAULT.setUniformMat4f("pr_matrix", projectionMatrix);
 		DEFAULT.disable();
 		
-		TILE.enable();
-		TILE.setUniformMat4f("pr_matrix", projectionMatrix);
-		TILE.disable();
-		
 		MOB.enable();
 		MOB.setUniformMat4f("pr_matrix", projectionMatrix);
 		MOB.disable();
@@ -110,6 +115,14 @@ public class Renderer {
 		STRUCTURE.enable();
 		STRUCTURE.setUniformMat4f("pr_matrix", projectionMatrix);
 		STRUCTURE.disable();
+		
+		TILE.enable();
+		TILE.setUniformMat4f("pr_matrix", projectionMatrix);
+		TILE.disable();
+		
+		VEHICLE.enable();
+		VEHICLE.setUniformMat4f("pr_matrix", projectionMatrix);
+		VEHICLE.disable();
 	}
 	
 	public void render() {

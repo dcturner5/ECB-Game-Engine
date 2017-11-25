@@ -43,8 +43,8 @@ public class Tile {
 	public static final int CLIFF_DOWNLEFT_IN = CLIFF + 11;
 	public static final int CLIFF_DOWNRIGHT_IN = CLIFF + 12;
 	
-	public static final int WIDTH = 64;
-	public static final int HEIGHT = 64;
+	public static final int WIDTH = 16 * Renderer.SCALE;
+	public static final int HEIGHT = 16 * Renderer.SCALE;
 	
 	public Model model;
 	

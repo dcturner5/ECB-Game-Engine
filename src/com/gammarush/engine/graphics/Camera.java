@@ -1,6 +1,7 @@
 package com.gammarush.engine.graphics;
 
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -38,7 +39,13 @@ public class Camera {
 	
 	public void follow(Mob target) {
 		if(target == null) return;
-		position = new Vector3f(-target.position.x + renderer.width / zoom / 2 - target.width / 2, -target.position.y + renderer.height / zoom / 2 - target.height / 2, 0);
+		if(!target.isRidingVehicle()) {
+			position = new Vector3f(-target.position.x + renderer.width / zoom / 2 - target.width / 2, -target.position.y + renderer.height / zoom / 2 - target.height / 2, 0);
+		}
+		else {
+			Vehicle vehicle = target.getVehicle();
+			position = new Vector3f(-vehicle.position.x + renderer.width / zoom / 2 - vehicle.width / 2, -vehicle.position.y + renderer.height / zoom / 2 - vehicle.height / 2, 0);
+		}
 	}
 
 }

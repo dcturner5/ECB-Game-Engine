@@ -13,7 +13,7 @@ public class Player {
 	
 	public Player(Vector3f position, Game game) {
 		this.game = game;
-		mob = new Human(position, game);
+		setMob(new Human(position, game));
 	}
 	
 	public void update(double delta) {
@@ -30,7 +30,15 @@ public class Player {
 	}
 	
 	public void prepare() {
-		mob.prepare();
+		getMob().prepare();
+	}
+
+	public Mob getMob() {
+		return mob;
+	}
+
+	public void setMob(Mob mob) {
+		this.mob = mob;
 	}
 
 }

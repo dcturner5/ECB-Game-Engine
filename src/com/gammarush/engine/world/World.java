@@ -12,6 +12,7 @@ import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.interactives.Tree;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.mobs.Human;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
@@ -50,12 +51,12 @@ public class World {
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<Human> humans = new ArrayList<Human>();
 	public ArrayList<Item> items = new ArrayList<Item>();
+	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	public ArrayList<Structure> structures = new ArrayList<Structure>();
 	
 	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
 	public ArrayList<Door> doors = new ArrayList<Door>();
 	public ArrayList<Tree> trees = new ArrayList<Tree>();
-	
 	
 	public GlobalLight global;
 	public AmbientLight ambient;
@@ -101,6 +102,7 @@ public class World {
 		entities.clear();
 		entities.addAll(humans);
 		entities.addAll(items);
+		entities.addAll(vehicles);
 		entities.addAll(interactives);
 		
 		//interactives.clear();
@@ -175,7 +177,9 @@ public class World {
 		}
 		Renderer.TILE.disable();
 		
-		
+		Renderer.VEHICLE.enable();
+		Renderer.VEHICLE.setUniformMat4f("vw_matrix", viewMatrix);
+		Renderer.VEHICLE.disable();
 	}
 	
 	public void renderTiles(Renderer renderer) {
@@ -274,13 +278,10 @@ public class World {
 	
 	public void renderEntities(Renderer renderer) {
 		Renderer.DEFAULT.enable();
-		
-		//ITEMS
 		for(Item e : items) {
 			e.prepare();
 			e.render();
 		}
-		
 		Renderer.DEFAULT.disable();
 		
 		Renderer.MOB.enable();
@@ -298,6 +299,13 @@ public class World {
 			e.render();
 		}
 		Renderer.MOB.disable();
+		
+		Renderer.VEHICLE.enable();
+		for(Vehicle e : vehicles) {
+			e.prepare();
+			e.render();
+		}
+		Renderer.VEHICLE.disable();
 	}
 	
 	public void renderStructures(Renderer renderer) {

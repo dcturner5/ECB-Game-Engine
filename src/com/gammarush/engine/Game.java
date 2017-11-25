@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
 import com.gammarush.engine.entities.interactives.static_vehicles.StaticMercury;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.gui.UIManager;
@@ -41,7 +42,7 @@ public class Game implements Runnable {
 	public Input input;
 	public Renderer renderer;
 	public World world;
-	public com.gammarush.engine.player.Player player;
+	public Player player;
 	public UIManager gui;
 	
 	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
@@ -119,7 +120,7 @@ public class Game implements Runnable {
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		world.interactives.add(new StaticMercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), this));
+		world.interactives.add(new StaticMercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
 	}

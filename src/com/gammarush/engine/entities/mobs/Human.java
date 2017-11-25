@@ -14,8 +14,8 @@ import com.gammarush.engine.tiles.Tile;
 
 public class Human extends Mob {
 	
-	public static final int WIDTH = Tile.WIDTH;
-	public static final int HEIGHT = Tile.HEIGHT;
+	public static final int WIDTH = 16 * Renderer.SCALE;
+	public static final int HEIGHT = 16 * Renderer.SCALE;
 	public static final Model MODEL = new Model(WIDTH, HEIGHT, new TextureArray("res/entities/human.png", 16));
 	
 	protected Behavior travel, lumber;
@@ -28,26 +28,28 @@ public class Human extends Mob {
 	}
 	
 	public void update(double delta) {
-		super.update(delta);
-		Vector2f initial = new Vector2f(velocity);
-		
-		updateBehaviors();
-		
-		if(velocity.x != 0 || velocity.y != 0) moving = true;
-		else moving = false;
-		
-		Vector2f position2D = new Vector2f(position.x, position.y);
-		position2D = position2D.add(velocity);
-		
-		Vector2f translation = physics.collision(position2D);
-		position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
-		
-		position2D = position2D.add(translation);
-		
-		position.x = position2D.x;
-		position.y = position2D.y;
-		
-		velocity = initial;
+		if(!isRidingVehicle()) {
+			super.update(delta);
+			Vector2f initial = new Vector2f(velocity);
+			
+			updateBehaviors();
+			
+			if(velocity.x != 0 || velocity.y != 0) moving = true;
+			else moving = false;
+			
+			Vector2f position2D = new Vector2f(position.x, position.y);
+			position2D = position2D.add(velocity);
+			
+			Vector2f translation = physics.collision(position2D);
+			position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
+			
+			position2D = position2D.add(translation);
+			
+			position.x = position2D.x;
+			position.y = position2D.y;
+			
+			velocity = initial;
+		}
 	}
 	
 	public void idle() {
