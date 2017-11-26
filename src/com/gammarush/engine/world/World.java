@@ -3,7 +3,6 @@ package com.gammarush.engine.world;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Random;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
@@ -18,7 +17,6 @@ import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
 import com.gammarush.engine.lights.PointLight;
 import com.gammarush.engine.math.matrix.Matrix4f;
-import com.gammarush.engine.math.noise.Noise2D;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -26,7 +24,6 @@ import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.structures.Structure;
-import com.gammarush.engine.structures.StructureData;
 import com.gammarush.engine.tiles.BlendData;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.tiles.TileBatch;
@@ -38,9 +35,8 @@ public class World {
 	public int width;
 	public int height;
 	
-	public TerrainEditor terrainEditor;
-	
 	private int[] array;
+	private boolean[] entityCollisionArray;
 	private int[] landscapeArray;
 	private int[] biomeArray;
 	private float[] elevationArray;
@@ -78,11 +74,10 @@ public class World {
 	public World(int width, int height, Game game) {
 		this.game = game;
 		
-		this.terrainEditor = new TerrainEditor(this);
-		
 		this.width = width;
 		this.height = height;
 		this.array = new int[width * height];
+		this.entityCollisionArray = new boolean[width * height];
 		this.landscapeArray = new int[width * height];
 		this.biomeArray = new int[width * height];
 		this.elevationArray = new float[width * height];
@@ -109,6 +104,7 @@ public class World {
 		
 		structures.clear();
 		
+		updateEntityCollisionArray();
 		for(Entity e : entities) {
 			e.update(delta);
 		}
@@ -116,6 +112,7 @@ public class World {
 		for(Structure s : structures) {
 			s.update();
 		}
+		
 	}
 	
 	public void render(Renderer renderer) {
@@ -360,6 +357,16 @@ public class World {
 		array[x + y * width] = id;
 	}
 	
+	public boolean getEntityCollision(int x, int y) {
+		if(x < 0 || y < 0 || x >= width || y >= height) return false;
+		return entityCollisionArray[x + y * width];
+	}
+	
+	public void setEntityCollision(boolean value, int x, int y) {
+		if(x < 0 || y < 0 || x >= width || y >= height) return;
+		entityCollisionArray[x + y * width] = value;
+	}
+	
 	public int getLandscape(int x, int y) {
 		if(x < 0 || y < 0 || x >= width || y >= height) return 0;
 		return landscapeArray[x + y * width];
@@ -460,22 +467,6 @@ public class World {
 		return tiles;
 	}
 	
-	public ArrayList<Vector2i> getLayerSolidTiles(int layer, int x, int y, int radius) {
-		ArrayList<Vector2i> tiles = new ArrayList<Vector2i>();
-		int x1 = x - radius;
-		int y1 = y - radius;
-		int x2 = x + radius;
-		int y2 = y + radius;
-		for(int i = x1; i < x2; i++) {
-			for(int j = y1; j < y2; j++) {
-				if(getStructureTop(i, j) != layer) {
-					tiles.add(new Vector2i(i * Tile.WIDTH, j * Tile.HEIGHT));
-				}
-			}
-		}
-		return tiles;
-	}
-	
 	public ArrayList<Vector2i> getNonSolidTiles(int x, int y, int radius) {
 		ArrayList<Vector2i> tiles = new ArrayList<Vector2i>();
 		int x1 = x - radius;
@@ -492,6 +483,23 @@ public class World {
 		return tiles;
 	}
 	
+	public void updateEntityCollisionArray() {
+		entityCollisionArray = new boolean[width * height];
+		for(Entity e :  entities) {
+			if(e.getSolid()) {
+				int fx = (int) ((e.position.x + e.getCollisionBox().x) / Tile.WIDTH);
+				int fy = (int) ((e.position.y + e.getCollisionBox().y) / Tile.HEIGHT);
+				int lx = (int) (((e.position.x + e.getCollisionBox().x + e.getCollisionBox().width)) / Tile.WIDTH);
+				int ly = (int) (((e.position.y + e.getCollisionBox().y + e.getCollisionBox().height)) / Tile.HEIGHT);
+				for(int x = fx; x <= lx; x++) {
+					for(int y = fy; y <= ly; y++) {
+						game.world.setEntityCollision(true, x, y);
+					}
+				}
+			}
+		}
+	}
+	
 	//GENERATE WORLD
 	public void generate(int seed) {
 		System.out.println("WORLD GENERATED WITH SEED: " + seed);
@@ -499,135 +507,6 @@ public class World {
 		for(int i = 0; i < width * height; i++) {
 			array[i] = Tile.DEFAULT;
 		}
-	}
-	
-	private float generateNoiseValue(int seed, int x, int y) {
-		Biome b = biomes.get(getBiome(x, y));
-		Noise2D noise = new Noise2D(seed, b.octaves, b.persistance, b.frequency);
-		float noiseValue = noise.generate(x, y);
-		return noiseValue;
-	}
-	
-	private void generateElevationArray(int seed, float[] layers) {
-		for(int x = 0; x < width; x++) {
-			for(int y = 0; y < height; y++) {
-				float value = generateNoiseValue(seed, x, y);
-				setElevation(value, x, y);
-			}
-		}
-		
-		//CLEAN UP
-		int octaves = 3;
-		for(int i = 0; i < octaves; i++) {
-			for(int x = 0; x < width; x++) {
-				for(int y = 0; y < height; y++) {
-					float value = getElevation(x, y);
-					float up = getElevation(x, y - 1);
-					float down = getElevation(x, y + 1);
-					float left = getElevation(x - 1, y);
-					float right = getElevation(x + 1, y);
-					float[] neighbors = new float[] {up, down, left, right};
-					
-					for(int j = 0; j < layers.length; j++) {
-						float layer = layers[j];
-						if(value < layer) continue;
-						
-						int sum = 0;
-						for(int k = 0; k < neighbors.length; k++) {
-							if(neighbors[k] > layer) sum++;
-						}
-						
-						if(sum < 2) setElevation(layer - .0001f, x, y);
-						else {
-							if(up < layer && down < layer && left > layer && right > layer) setElevation(layer - .0001f, x, y);
-							if(up > layer && down > layer && left < layer && right < layer) setElevation(layer - .0001f, x, y);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	private void generateBiomeArray(int seed) {
-		//int seed, int octaves, float persistance, float frequency
-		Noise2D tempNoise = new Noise2D(seed + 1, 4, .4f, 1/64f);
-		Noise2D humNoise = new Noise2D(seed + 2, 4, .4f, 1/32f);
-		
-		for(int x = 0; x < width; x++) {
-			for(int y = 0; y < height; y++) {
-				float tempValue = tempNoise.generate(x, y);
-				float humValue = humNoise.generate(x, y);
-				
-				boolean exit = false;
-				for(Biome b : biomes) {
-					if(!exit && b.valid(tempValue, humValue)) {
-						exit = true;
-						setBiome(b.id, x, y);
-					}
-				}
-			}
-		}
-	}
-	
-	public void generateCliff(int x, int y, float[] layers) {
-		float value = getElevation(x, y);
-		float up = getElevation(x, y - 1);
-		float down = getElevation(x, y + 1);
-		float left = getElevation(x - 1, y);
-		float right = getElevation(x + 1, y);
-		float upleft = getElevation(x - 1, y - 1);
-		float upright = getElevation(x + 1, y - 1);
-		float downleft = getElevation(x - 1, y + 1);
-		float downright = getElevation(x + 1, y + 1);
-		
-		boolean upBoolean = false;
-		boolean downBoolean = false;
-		boolean complete = false;
-		for(int i = 0; i < layers.length; i++) {
-			float layer = layers[i];
-			if(value > layer) {
-				if(down > layer && up < layer) {
-					complete = true;
-					upBoolean = true;
-					setTile(Tile.CLIFF_UP, x, y);
-				}
-				if(up > layer && down < layer) {
-					complete = true;
-					downBoolean = true;
-					setTile(Tile.CLIFF_DOWN, x, y);
-				}
-				if(right > layer && left < layer) {
-					complete = true;
-					setTile(Tile.CLIFF_LEFT, x, y);
-					if(upBoolean) setTile(Tile.CLIFF_UPLEFT, x, y);
-					if(downBoolean) setTile(Tile.CLIFF_DOWNLEFT, x, y);
-				}
-				if(left > layer && right < layer) {
-					complete = true;
-					setTile(Tile.CLIFF_RIGHT, x, y);
-					if(upBoolean) setTile(Tile.CLIFF_UPRIGHT, x, y);
-					if(downBoolean) setTile(Tile.CLIFF_DOWNRIGHT, x, y);
-				}
-				if(!complete) {
-					if(upleft < layer) setTile(Tile.CLIFF_UPLEFT_IN, x, y);
-					if(upright < layer) setTile(Tile.CLIFF_UPRIGHT_IN, x, y);
-					if(downleft < layer) setTile(Tile.CLIFF_DOWNLEFT_IN, x, y);
-					if(downright < layer) setTile(Tile.CLIFF_DOWNRIGHT_IN, x, y);
-				}
-			}
-		}
-	}
-	
-	private float getRandomNoise(int seed, int x, int y) {
-		Random rng = new Random(hash((int) hash(x, y), seed));
-		int r = rng.nextInt();
-		return (float)(r & 0x7fff)/(float)0x7fff;
-	}
-	
-	private long hash(int x, int y) {
-		int a = x >= 0 ? 2 * x : -2 * x - 1;
-		int b = y >= 0 ? 2 * y : -2 * y - 1;
-		return a >= b ? a * a + a + b : a + b * b;
 	}
 
 }

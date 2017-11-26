@@ -97,7 +97,7 @@ public class AStar {
 			if(x == 4 && y == 1) System.out.println(world.getStructureTop(x, y));
 			return world.getStructureTop(x, y) == layer;
 		}
-		return !world.checkSolid(x, y);
+		return !(world.checkSolid(x, y) || world.getEntityCollision(x, y));
 	}
 	
 	private Node nodeInList(List<Node> list, Vector2i v) {

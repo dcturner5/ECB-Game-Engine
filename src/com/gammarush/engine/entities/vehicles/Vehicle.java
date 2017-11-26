@@ -14,7 +14,7 @@ import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.physics.Physics;
+import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.tiles.Tile;
 
 public class Vehicle extends Interactive {
@@ -29,7 +29,6 @@ public class Vehicle extends Interactive {
 			));
 	protected int occupancy = 2;
 	
-	public Physics physics;
 	public float acceleration = .2f;
 	public int direction = 2;
 	
@@ -44,7 +43,8 @@ public class Vehicle extends Interactive {
 	public Vehicle(Vector3f position, int width, int height, Model model, Model interiorModel, Game game) {
 		super(position, width, height, model, game);
 		this.interiorModel = interiorModel;
-		physics = new Physics(width, height, game.world);
+		setSolid(true);
+		setCollisionBox(new AABB(0, 0, width, height));
 	}
 	
 	@Override

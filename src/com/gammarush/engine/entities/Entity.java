@@ -25,6 +25,9 @@ public class Entity {
 	public Physics physics;
 	public Vector2f velocity = new Vector2f();
 	
+	private boolean solid = false;
+	private AABB collisionBox;
+	
 	public static final int TEXTURE_LOCATION = 0;
 	public static final int NORMAL_MAP_LOCATION = 1;
 	
@@ -40,6 +43,9 @@ public class Entity {
 		this.width = width;
 		this.height = height;
 		this.model = model;
+		
+		this.physics = new Physics(width, height, game.world);
+		this.setCollisionBox(new AABB(0, 0, width, height));
 	}
 	
 	public void update(double delta) {
@@ -72,7 +78,24 @@ public class Entity {
 	}
 	
 	public AABB getAABB() {
-		return new AABB(position.x, position.y, width, height);
+		return new AABB(position.x + collisionBox.x, position.y + collisionBox.y, collisionBox.width, collisionBox.height);
+	}
+	
+	public void setCollisionBox(AABB collisionBox) {
+		this.collisionBox = collisionBox;
+		this.physics = new Physics(collisionBox.width, collisionBox.height, physics.getWorld());
+	}
+
+	public AABB getCollisionBox() {
+		return collisionBox;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+	
+	public boolean getSolid() {
+		return solid;
 	}
 
 }

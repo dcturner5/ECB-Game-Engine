@@ -34,7 +34,6 @@ public class Mob extends Entity {
 		}
 	};
 	
-	public Physics physics;
 	public float speed = 4;
 	public int direction = 2;
 	
@@ -53,8 +52,6 @@ public class Mob extends Entity {
 
 	public Mob(Vector3f position, int width, int height, Model model, Game game) {
 		super(position, width, height, model, game);
-		
-		physics = new Physics(width, height, game.world);
 		astar = new AStar(game.world);
 	}
 	

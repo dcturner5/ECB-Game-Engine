@@ -2,6 +2,7 @@ package com.gammarush.engine.physics;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
@@ -17,7 +18,7 @@ public class Physics {
 	private float height;
 
 	public Physics(float width, float height, World world) {
-		this.world = world;
+		this.setWorld(world);
 		this.width = width;
 		this.height = height;
 	}
@@ -30,7 +31,7 @@ public class Physics {
 		AABB box = new AABB(position, width, height);
 		
 		//GET ALL SOLID TILES IN RANGE OF ENTITY
-		ArrayList<Vector2i> tiles = world.getSolidTiles((int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT), range);
+		ArrayList<Vector2i> tiles = getWorld().getSolidTiles((int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT), range);
 		
 		//ORGANIZE TILE AABB INTO SIMPLIFIED GROUPS BIGGER THAN INDIVIDUAL TILES
 		ArrayList<AABB> groups = new ArrayList<AABB>();
@@ -47,6 +48,12 @@ public class Physics {
 			if(!success) {
 				AABB group = new AABB(tile.x, tile.y, Tile.WIDTH, Tile.HEIGHT);
 				groups.add(group);
+			}
+		}
+		
+		for(Entity e : world.entities) {
+			if(e.getSolid() && e.position.x != position.x && e.position.y != position.y && e.width != width && e.height != height) {
+				groups.add(e.getAABB());
 			}
 		}
 		
@@ -76,7 +83,7 @@ public class Physics {
 		AABB box = new AABB(position, width, height);
 		
 		//GET ALL SOLID TILES IN RANGE OF ENTITY
-		ArrayList<Vector2i> tiles = world.getLayerSolidTiles(layer, (int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT), range);
+		ArrayList<Vector2i> tiles = getWorld().getSolidTiles((int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT), range);
 		
 		//ORGANIZE TILE AABB INTO SIMPLIFIED GROUPS BIGGER THAN INDIVIDUAL TILES
 		ArrayList<AABB> groups = new ArrayList<AABB>();
@@ -96,6 +103,8 @@ public class Physics {
 			}
 		}
 		
+		
+		
 		//ITERATE THRU HITBOX GROUPS
 		for(int i = 0; i < groups.size(); i++) {
 			AABB group_box = groups.get(i);
@@ -110,38 +119,6 @@ public class Physics {
 		
 		//RETURN OFFSET VECTOR (MINIMUM TRANSLATION VECTOR)
 		return mtv;
-	}
-	
-	//ADD TO DOWNWARD VELOCITY TO SIMULATE GRAVITY
-	public Vector2i gravity(Vector2i velocity) {
-		if(velocity.y < Tile.HEIGHT / 2) velocity.y += 1;
-		return velocity;
-	}
-	
-	public Vector2f gravity(Vector2f velocity) {
-		if(velocity.y < Tile.HEIGHT / 2) velocity.y += 1f;
-		return velocity;
-	}
-	
-	public Vector2i gravity(Vector2i velocity, int power) {
-		if(velocity.y < Tile.HEIGHT / 2) velocity.y += power;
-		return velocity;
-	}
-	
-	public Vector2f gravity(Vector2f velocity, float power) {
-		if(velocity.y < Tile.HEIGHT / 2) velocity.y += power;
-		return velocity;
-	}
-	
-	//ADD TO UPWARD VELOCITY TO SIMULATE A JUMP OPPOSITE TO GRAVITY
-	public Vector2i jump(Vector2i velocity, int power) {
-		velocity.y = -power;
-		return velocity;
-	}
-	
-	public Vector2f jump(Vector2f velocity, float power) {
-		velocity.y = -power;
-		return velocity;
 	}
 	
 	//SIMPLE RECTANGLE HITBOX COLLISION TEST, RETURN RESULT
@@ -172,6 +149,14 @@ public class Physics {
         else mtv.x = 0;
         
 		return mtv;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 	
 }
