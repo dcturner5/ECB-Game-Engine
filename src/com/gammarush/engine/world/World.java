@@ -99,15 +99,13 @@ public class World {
 	}
 	
 	public void update(double delta) {
+		interactives.clear();
+		interactives.addAll(vehicles);
+		
 		entities.clear();
 		entities.addAll(humans);
 		entities.addAll(items);
-		entities.addAll(vehicles);
 		entities.addAll(interactives);
-		
-		//interactives.clear();
-		//interactives.addAll(doors);
-		//interactives.addAll(trees);
 		
 		structures.clear();
 		

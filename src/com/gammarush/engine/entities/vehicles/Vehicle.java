@@ -1,18 +1,12 @@
 package com.gammarush.engine.entities.vehicles;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.Entity;
-import com.gammarush.engine.entities.interactives.static_vehicles.StaticMercury;
-import com.gammarush.engine.entities.mobs.Human;
+import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
@@ -23,7 +17,7 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
 
-public class Vehicle extends Entity {
+public class Vehicle extends Interactive {
 	
 	public Model interiorModel;
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
@@ -36,15 +30,16 @@ public class Vehicle extends Entity {
 	protected int occupancy = 2;
 	
 	public Physics physics;
-	public float speed = 8;
+	public float acceleration = .2f;
 	public int direction = 2;
 	
 	public boolean moving = true;
+	public boolean braking = false;
 	
 	protected int animationIndex = 0;
 	protected int animationFrame = 0;
 	protected int animationMaxFrame = 8;
-	protected int animationWidth = 1;
+	protected int animationWidth = 2;
 
 	public Vehicle(Vector3f position, int width, int height, Model model, Model interiorModel, Game game) {
 		super(position, width, height, model, game);
@@ -54,7 +49,48 @@ public class Vehicle extends Entity {
 	
 	@Override
 	public void update(double delta) {
+		if(velocity.x != 0 || velocity.y != 0) moving = true;
+		else moving = false;
 		
+		updateAnimation();
+		
+		float deceleration = acceleration / 2f;
+		if(braking) deceleration += .4f;
+		
+		if(velocity.x < 0) {
+			direction = DIRECTION_LEFT;
+			velocity.x = Math.min(velocity.x + deceleration, 0);
+		}
+		if(velocity.x > 0) {
+			direction = DIRECTION_RIGHT;
+			velocity.x = Math.max(velocity.x - deceleration, 0);
+		}
+		if(velocity.y < 0) {
+			direction = DIRECTION_UP;
+			velocity.y = Math.min(velocity.y + deceleration, 0);
+		}
+		if(velocity.y > 0) {
+			direction = DIRECTION_DOWN;
+			velocity.y = Math.max(velocity.y - deceleration, 0);
+		}
+		
+		//temporary
+		//make wheels independent sprite in future and rotate them in opengl
+		float speed = velocity.magnitude();
+		if(speed != 0) {
+			animationMaxFrame = (int) ((1f / speed) * 4);
+		}
+		
+		Vector2f position2D = new Vector2f(position.x, position.y);
+		position2D = position2D.add(velocity);
+		
+		Vector2f translation = physics.collision(position2D);
+		position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
+		
+		position2D = position2D.add(translation);
+		
+		position.x = position2D.x;
+		position.y = position2D.y;
 	}
 	
 	@Override
@@ -94,13 +130,13 @@ public class Vehicle extends Entity {
 		Renderer.VEHICLE.setUniform1i("sprite_index", animationIndex + direction * animationWidth);
 	}
 	
-	public void prepareInterior() {
+	private void prepareInterior() {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
-		Renderer.VEHICLE.setUniform1i("sprite_index", animationIndex + direction * animationWidth);
+		Renderer.VEHICLE.setUniform1i("sprite_index", direction);
 	}
 	
-	public void prepareMob(Mob mob, Vector2f offset) {
+	private void prepareMob(Mob mob, Vector2f offset) {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", 
 				Matrix4f.translate(position.add(offset.x * Renderer.SCALE, offset.y * Renderer.SCALE, -.0001f))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
@@ -108,54 +144,43 @@ public class Vehicle extends Entity {
 		Renderer.VEHICLE.setUniform1i("sprite_index", direction * mob.animationWidth);
 	}
 	
-	public void control() {
-		Vector2f initial = new Vector2f(velocity);
-		boolean w = KeyCallback.isKeyDown(GLFW_KEY_W);
-		boolean s = KeyCallback.isKeyDown(GLFW_KEY_S);
-		boolean a = KeyCallback.isKeyDown(GLFW_KEY_A);
-		boolean d = KeyCallback.isKeyDown(GLFW_KEY_D);
-		
-		if(w) {
-			velocity.y -= speed;
-			direction = Mob.DIRECTION_UP;
+	@Override
+	public void activate(Mob mob) {
+		if(isRiding(mob)) {
+			removeMob(mob);
 		}
-		if(s) {
-			velocity.y += speed;
-			direction = DIRECTION_DOWN;
+		else {
+			addMob(mob);
 		}
-		if(a && !(w || s)) {
-			velocity.x -= speed;
-			direction = DIRECTION_LEFT;
+	}
+	
+	public void control(Mob mob) {
+		braking = false;
+		if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
+			if(velocity.x == 0) velocity.y -= acceleration;
+			else braking = true;
 		}
-		if(d && !(w || s)) {
-			velocity.x += speed;
-			direction = DIRECTION_RIGHT;
+		if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
+			if(velocity.x == 0) velocity.y += acceleration;
+			else braking = true;
 		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_SPACE)) {
-			removeMob(game.player.getMob());
+		if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
+			if(velocity.y == 0) velocity.x -= acceleration;
+			else braking = true;
 		}
-		
-		if(velocity.x != 0 || velocity.y != 0) moving = true;
-		else moving = false;
-		
-		Vector2f position2D = new Vector2f(position.x, position.y);
-		position2D = position2D.add(velocity);
-		
-		Vector2f translation = physics.collision(position2D);
-		position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
-		
-		position2D = position2D.add(translation);
-		
-		position.x = position2D.x;
-		position.y = position2D.y;
-		
-		velocity = initial;
+		if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
+			if(velocity.y == 0) velocity.x += acceleration;
+			else braking = true;
+		}
+		if(KeyCallback.isKeyDown(GLFW_KEY_Q)) {
+			activate(mob);
+		}
 	}
 	
 	public boolean addMob(Mob mob) {
-		if(mobs.size() < occupancy) {
-			mobs.add(mob);
-			mobs.add(new Human(position, game));
+		if(mobs.size() < occupancy && mobs.add(mob)) {
+			mob.setVehicle(this);
+			//if(mobs.size() < 2) mobs.add(new Human(position, game));
 			return true;
 		}
 		return false;
@@ -163,9 +188,9 @@ public class Vehicle extends Entity {
 	
 	public boolean removeMob(Mob mob) {
 		if(mobs.remove(mob)) {
+			mob.setVehicle(null);
 			if(mobs.size() == 0) {
-				game.world.interactives.add(new StaticMercury(position, direction, game));
-				game.world.vehicles.remove(this);
+				//stop car or something
 			}
 		}
 		return false;
@@ -178,6 +203,24 @@ public class Vehicle extends Entity {
 	
 	public boolean isRiding(Mob mob) {
 		return mobs.contains(mob);
+	}
+	
+	public void updateAnimation() {
+		if(moving) {
+			if(animationFrame < animationMaxFrame) {
+                animationFrame += 1;
+            } else {
+                animationFrame = 0;
+                if(animationIndex < animationWidth - 1) {
+                    animationIndex += 1;
+                } else {
+                    animationIndex = 0;
+                }
+            }
+		} else {
+			animationFrame = 0;
+            animationIndex = 0;
+		}
 	}
 
 }

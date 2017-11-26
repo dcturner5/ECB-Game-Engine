@@ -10,7 +10,7 @@ import java.util.HashMap;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.entities.interactives.static_vehicles.StaticMercury;
+import com.gammarush.engine.entities.vehicles.Mercury;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Texture;
@@ -120,7 +120,7 @@ public class Game implements Runnable {
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		world.interactives.add(new StaticMercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
+		world.vehicles.add(new Mercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
 	}

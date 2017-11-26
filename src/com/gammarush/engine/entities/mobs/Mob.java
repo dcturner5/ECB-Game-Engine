@@ -1,10 +1,6 @@
 package com.gammarush.engine.entities.mobs;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,7 +107,7 @@ public class Mob extends Entity {
 				velocity.x += alteredSpeed;
 				direction = DIRECTION_RIGHT;
 			}
-			if(KeyCallback.isKeyDown(GLFW_KEY_SPACE)) {
+			if(KeyCallback.isKeyDown(GLFW_KEY_E)) {
 				Interactive e = getInteractive();
 				if(e != null) e.activate(this);
 			}
@@ -133,7 +129,7 @@ public class Mob extends Entity {
 			velocity = initial;
 		}
 		else if(isDrivingVehicle()) {
-			vehicle.control();
+			vehicle.control(this);
 		}
 	}
 	
@@ -193,12 +189,8 @@ public class Mob extends Entity {
 		return vehicle;
 	}
 	
-	public boolean setVehicle(Vehicle vehicle) {
-		if(vehicle.addMob(this)) {
-			this.vehicle = vehicle;
-			return true;
-		}
-		return false;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 
 }
