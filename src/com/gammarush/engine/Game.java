@@ -19,6 +19,9 @@ import com.gammarush.engine.input.Input;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.player.Player;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.tiles.TileLoader;
+import com.gammarush.engine.utils.json.JSON;
+import com.gammarush.engine.utils.json.JSONLoader;
 import com.gammarush.engine.world.World;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -46,6 +49,8 @@ public class Game implements Runnable {
 	public UIManager gui;
 	
 	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
+	public static HashMap<Integer, Tile> clothing = new HashMap<Integer, Tile>();
+	
 	
 	public void start() {
 		running = true;
@@ -54,6 +59,9 @@ public class Game implements Runnable {
 	}
 	
 	private void init() {
+		JSON json = JSONLoader.load("res/test.json");
+		System.out.println(json.getJSON("test.test1[2].test2").getClass());
+		
 		GLFWErrorCallback.createPrint(System.err).set();
 		
 		if(!glfwInit()) {

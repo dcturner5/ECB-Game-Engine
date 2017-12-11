@@ -9,7 +9,6 @@ import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.WaitSubBehavior
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
-import com.gammarush.engine.utils.Timer;
 
 public class IdleBehavior extends Behavior {
 	
