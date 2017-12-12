@@ -197,7 +197,7 @@ public class World {
 				
 				if(getStructure(x, y) == 1) continue;
 				
-				if(tile.blendWeight == null) {
+				if(tile.getBlendWeight() == null) {
 					int[] ids = new int[8];
 					int[] idCount = new int[8];
 					
@@ -217,9 +217,9 @@ public class World {
 						
 					}
 					
-					if(tile.blendType == Tile.BLEND_TYPE_RECESSIVE) {
+					if(tile.getBlendType() == Tile.BLEND_TYPE_RECESSIVE) {
 						for(int i = 0; i < tiles.size(); i++) {
-							if(tiles.get(i).blendType == Tile.BLEND_TYPE_DOMINANT) {
+							if(tiles.get(i).getBlendType() == Tile.BLEND_TYPE_DOMINANT) {
 								idCount[i] += 1;
 								blendIndices[i] = 1;
 							}
@@ -238,10 +238,10 @@ public class World {
 					}
 				}
 				else {
-					if(tile.blendType == Tile.BLEND_TYPE_RECESSIVE) {
+					if(tile.getBlendType() == Tile.BLEND_TYPE_RECESSIVE) {
 						blend = true;
 						blendIndices[0] = 1;
-						tilef = Game.tiles.get(getTile(x + tile.blendWeight.x, y + tile.blendWeight.y));
+						tilef = Game.tiles.get(getTile(x + tile.getBlendWeight().x, y + tile.getBlendWeight().y));
 					}
 				}
 				
@@ -343,7 +343,7 @@ public class World {
 		if(x < 0 || y < 0 || x >= width || y >= height) return true;
 		
 		Tile tile = Game.tiles.get(getTile(x, y));
-		if(tile.solid || getStructure(x, y) > 0) return true;
+		if(tile.getSolid() || getStructure(x, y) > 0) return true;
 		return false;
 	}
 	
@@ -505,7 +505,7 @@ public class World {
 		System.out.println("WORLD GENERATED WITH SEED: " + seed);
 		
 		for(int i = 0; i < width * height; i++) {
-			array[i] = Tile.DEFAULT;
+			array[i] = Game.tilesByName.get("grass").getId();
 		}
 	}
 

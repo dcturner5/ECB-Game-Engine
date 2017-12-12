@@ -1,35 +1,39 @@
 package com.gammarush.engine.tiles;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.gammarush.engine.graphics.model.Texture;
+import com.gammarush.engine.utils.json.JSON;
+import com.gammarush.engine.utils.json.JSONLoader;
 
 public class TileLoader {
 
-	public static void load(String path) {
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(path));
-			String line = null;
-			while ((line = in.readLine()) != null) {
-				String[] tiles = line.split("\n");
-				for(int i = 0; i < tiles.length; i++) {
-					String[] data = tiles[i].split(";");
-					int id = Integer.parseInt(data[0]);
-					String name = data[1];
-					Texture texture = new Texture(data[2]);
-					boolean solid = Boolean.parseBoolean(data[3]);
-					int blendType = Integer.parseInt(data[4]);
-				}
-			}
-			in.close();
-		} catch (FileNotFoundException ex) {
-			System.out.println("Unable to open file '" + path + "'");
-		} catch (IOException ex) {
-			System.out.println("Error reading file '" + path + "'");
+	public static HashMap<Integer, Tile> load(String path) {
+		HashMap<Integer, Tile> result = new HashMap<Integer, Tile>();
+		JSON json = JSONLoader.load(path);
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<JSON> tiles = (ArrayList<JSON>) json.getJSON("tiles");
+		for(JSON tile : tiles) {
+			int id = (int) tile.get("id");
+			result.put(id, new Tile(tile));
 		}
+		
+		return result;
+	}
+	
+	public static HashMap<String, Tile> loadByName(String path) {
+		HashMap<String, Tile> result = new HashMap<String, Tile>();
+		JSON json = JSONLoader.load(path);
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<JSON> tiles = (ArrayList<JSON>) json.getJSON("tiles");
+		for(JSON tile : tiles) {
+			String name = (String) tile.get("name");
+			result.put(name, new Tile(tile));
+		}
+		
+		return result;
 	}
 
 }

@@ -48,8 +48,9 @@ public class Game implements Runnable {
 	public Player player;
 	public UIManager gui;
 	
-	public static HashMap<Integer, Tile> tiles = new HashMap<Integer, Tile>();
-	public static HashMap<Integer, Tile> clothing = new HashMap<Integer, Tile>();
+	public static HashMap<Integer, Tile> tiles;
+	public static HashMap<String, Tile> tilesByName;
+	public static HashMap<Integer, Tile> clothing;
 	
 	
 	public void start() {
@@ -59,8 +60,9 @@ public class Game implements Runnable {
 	}
 	
 	private void init() {
-		JSON json = JSONLoader.load("res/test.json");
-		System.out.println(json.getJSON("test.test1[2].test2").getClass());
+		//JSON json = JSONLoader.load("res/test.json");
+		//System.out.println(json.getJSON("tiles[0].solid"));
+		
 		
 		GLFWErrorCallback.createPrint(System.err).set();
 		
@@ -100,7 +102,10 @@ public class Game implements Runnable {
 		renderer = new Renderer(width, height, this);
 		renderer.setClearColor(0x000000);
 		
-		tiles.put(Tile.DEFAULT, new Tile(new Texture("res/tiles/forest_ground.png"), false, Tile.BLEND_TYPE_NEUTRAL));
+		tiles = TileLoader.load("res/test.json");
+		tilesByName = TileLoader.loadByName("res/test.json");
+		
+		//tiles.put(Tile.DEFAULT, new Tile(new Texture("res/tiles/forest_ground.png"), false, Tile.BLEND_TYPE_NEUTRAL));
 		/*
 		tiles.put(Tile.WATER, new Tile(new Texture("res/tiles/water.png"), false, Tile.BLEND_TYPE_NEUTRAL));
 		tiles.put(Tile.TREE, new Tile(new Texture("res/tiles/forest_ground.png"), true, Tile.BLEND_TYPE_NEUTRAL));

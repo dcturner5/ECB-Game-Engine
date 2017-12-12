@@ -43,8 +43,8 @@ public class JSONLoader {
 		JSON result = new JSON();
 		String[] elements = split(string);
 		for(int i = 0; i < elements.length; i++) {
-			int quoteIndex = string.indexOf('\"');
-			int colonIndex = string.indexOf(':');
+			int quoteIndex = elements[i].indexOf('\"');
+			int colonIndex = elements[i].indexOf(':');
 			String name = elements[i].substring(quoteIndex, colonIndex).replace("\"", "").trim();
 			Object value = parseValue(elements[i].substring(colonIndex + 1).trim());
 			result.put(name, value);
