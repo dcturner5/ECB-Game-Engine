@@ -1,8 +1,8 @@
 package com.gammarush.engine.player;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.mobs.Human;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector3f;
 

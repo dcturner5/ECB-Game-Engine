@@ -1,0 +1,16 @@
+{
+
+	"clothing":[
+
+		{
+
+			"id":0,
+			"name":"suit",
+			"layer":1,
+			"texture":"res/entities/mobs/human/clothing/suit.png"
+
+		}
+
+	]
+
+}

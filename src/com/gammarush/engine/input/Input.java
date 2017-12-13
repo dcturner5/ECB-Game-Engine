@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.mobs.Human;
+import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.gui.components.UIComponent;
 import com.gammarush.engine.gui.containers.UIContainer;

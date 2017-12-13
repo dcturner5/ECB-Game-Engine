@@ -1,6 +1,7 @@
-package com.gammarush.engine.entities.mobs;
+package com.gammarush.engine.entities.mobs.human;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;

@@ -8,7 +8,7 @@ import com.gammarush.engine.entities.interactives.Door;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.interactives.Tree;
 import com.gammarush.engine.entities.items.Item;
-import com.gammarush.engine.entities.mobs.Human;
+import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
