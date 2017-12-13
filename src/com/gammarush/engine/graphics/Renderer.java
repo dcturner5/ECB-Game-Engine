@@ -10,7 +10,6 @@ import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.structures.Structure;
 import com.gammarush.engine.tiles.Tile;
 
 public class Renderer {
@@ -31,7 +30,6 @@ public class Renderer {
 	public static Shader FONT;
 	public static Shader GUI;
 	public static Shader MOB;
-	public static Shader STRUCTURE;
 	public static Shader TILE;
 	public static Shader VEHICLE;
 	
@@ -81,12 +79,6 @@ public class Renderer {
 		MOB.setUniform1i("sprite", Mob.TEXTURE_LOCATION);
 		MOB.disable();
 		
-		STRUCTURE = new Shader("shaders/structure.vert", "shaders/structure.frag");
-		STRUCTURE.enable();
-		STRUCTURE.setUniform1i("sprite", Structure.TEXTURE_LOCATION);
-		STRUCTURE.setUniform1i("normal_map", Structure.NORMAL_MAP_LOCATION);
-		STRUCTURE.disable();
-		
 		TILE = new Shader("shaders/tile.vert", "shaders/tile.frag");
 		TILE.enable();
 		TILE.setUniform1i("sprite", Tile.TEXTURE_LOCATION);
@@ -111,10 +103,6 @@ public class Renderer {
 		MOB.enable();
 		MOB.setUniformMat4f("pr_matrix", projectionMatrix);
 		MOB.disable();
-		
-		STRUCTURE.enable();
-		STRUCTURE.setUniformMat4f("pr_matrix", projectionMatrix);
-		STRUCTURE.disable();
 		
 		TILE.enable();
 		TILE.setUniformMat4f("pr_matrix", projectionMatrix);

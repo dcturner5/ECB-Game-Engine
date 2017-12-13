@@ -13,15 +13,13 @@ import com.gammarush.engine.SystemManager;
 import com.gammarush.engine.entities.vehicles.Mercury;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.Input;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.player.Player;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
-import com.gammarush.engine.utils.json.JSON;
-import com.gammarush.engine.utils.json.JSONLoader;
 import com.gammarush.engine.world.World;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -48,8 +46,7 @@ public class Game implements Runnable {
 	public Player player;
 	public UIManager gui;
 	
-	public static HashMap<Integer, Tile> tiles;
-	public static HashMap<String, Tile> tilesByName;
+	public static TileHashMap tiles;
 	public static HashMap<Integer, Tile> clothing;
 	
 	
@@ -102,32 +99,8 @@ public class Game implements Runnable {
 		renderer = new Renderer(width, height, this);
 		renderer.setClearColor(0x000000);
 		
-		tiles = TileLoader.load("res/test.json");
-		tilesByName = TileLoader.loadByName("res/test.json");
+		tiles = TileLoader.load("res/tiles/data.json");
 		
-		//tiles.put(Tile.DEFAULT, new Tile(new Texture("res/tiles/forest_ground.png"), false, Tile.BLEND_TYPE_NEUTRAL));
-		/*
-		tiles.put(Tile.WATER, new Tile(new Texture("res/tiles/water.png"), false, Tile.BLEND_TYPE_NEUTRAL));
-		tiles.put(Tile.TREE, new Tile(new Texture("res/tiles/forest_ground.png"), true, Tile.BLEND_TYPE_NEUTRAL));
-		
-		tiles.put(Tile.PLAINS_GROUND, new Tile(new Texture("res/tiles/plains_ground.png"), false, Tile.BLEND_TYPE_DOMINANT));
-		tiles.put(Tile.FOREST_GROUND, new Tile(new Texture("res/tiles/forest_ground.png"), false, Tile.BLEND_TYPE_DOMINANT));
-		tiles.put(Tile.DESERT_GROUND, new Tile(new Texture("res/tiles/desert_ground.png"), false, Tile.BLEND_TYPE_DOMINANT));
-		
-		tiles.put(Tile.CLIFF, new Tile(new Texture("res/tiles/cliff.png"), new TextureArray("res/tiles/blend/blend.png", 8), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_UP, new Tile(new Texture("res/tiles/cliff_up.png"), new TextureArray("res/tiles/blend/cliff_up.png", 1), new Vector2i(0, -1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_DOWN, new Tile(new Texture("res/tiles/cliff_down.png"), new TextureArray("res/tiles/blend/cliff_down.png", 1), new Vector2i(0, 1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_LEFT, new Tile(new Texture("res/tiles/cliff_left.png"), new TextureArray("res/tiles/blend/cliff_left.png", 1), new Vector2i(-1, 0), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_RIGHT, new Tile(new Texture("res/tiles/cliff_right.png"), new TextureArray("res/tiles/blend/cliff_right.png", 1), new Vector2i(1, 0), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_UPLEFT, new Tile(new Texture("res/tiles/cliff_upleft.png"), new TextureArray("res/tiles/blend/cliff_upleft.png", 1), new Vector2i(0, -1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_UPRIGHT, new Tile(new Texture("res/tiles/cliff_upright.png"), new TextureArray("res/tiles/blend/cliff_upright.png", 1), new Vector2i(0, -1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_DOWNLEFT, new Tile(new Texture("res/tiles/cliff_downleft.png"), new TextureArray("res/tiles/blend/cliff_downleft.png", 1), new Vector2i(0, 1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_DOWNRIGHT, new Tile(new Texture("res/tiles/cliff_downright.png"), new TextureArray("res/tiles/blend/cliff_downright.png", 1), new Vector2i(0, 1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_UPLEFT_IN, new Tile(new Texture("res/tiles/cliff_upleft_in.png"), new TextureArray("res/tiles/blend/cliff_upleft_in.png", 1), new Vector2i(-1, -1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_UPRIGHT_IN, new Tile(new Texture("res/tiles/cliff_upright_in.png"), new TextureArray("res/tiles/blend/cliff_upright_in.png", 1), new Vector2i(1, -1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_DOWNLEFT_IN, new Tile(new Texture("res/tiles/cliff_downleft_in.png"), new TextureArray("res/tiles/blend/cliff_downleft_in.png", 1), new Vector2i(-1, 1), true, Tile.BLEND_TYPE_RECESSIVE));
-		tiles.put(Tile.CLIFF_DOWNRIGHT_IN, new Tile(new Texture("res/tiles/cliff_downright_in.png"), new TextureArray("res/tiles/blend/cliff_downright_in.png", 1), new Vector2i(1, 1), true, Tile.BLEND_TYPE_RECESSIVE));
-		*/
 		world = new World(32, 32, this);
 		world.generate((int)(Math.random() * 10000));
 		

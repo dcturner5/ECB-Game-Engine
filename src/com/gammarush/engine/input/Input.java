@@ -16,7 +16,6 @@ import com.gammarush.engine.gui.event.EventType;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.structures.Structure;
 import com.gammarush.engine.tiles.Tile;
 
 public class Input {
@@ -31,7 +30,7 @@ public class Input {
 		this.game = game;
 		 
 		glfwSetWindowSizeCallback(this.game.window, new WindowSizeCallback(this));
-		glfwSetKeyCallback(this.game.window, new KeyCallback(this));
+		glfwSetKeyCallback(this.game.window, new KeyCallback());
 		glfwSetMouseButtonCallback(this.game.window, new MouseButtonCallback(this));
 		glfwSetCursorPosCallback(this.game.window, new CursorPosCallback(this));
 		glfwSetScrollCallback(this.game.window, new ScrollCallback(this));

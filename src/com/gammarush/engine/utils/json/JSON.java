@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class JSON extends HashMap<String, Object> {
 	
+	private static final long serialVersionUID = 494413607983759569L;
+
 	@SuppressWarnings("unchecked")
 	public Object getJSON(String string) {
 		String[] path = string.split("\\.");

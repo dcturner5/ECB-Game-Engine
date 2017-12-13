@@ -8,15 +8,14 @@ import com.gammarush.engine.utils.json.JSONLoader;
 
 public class TileLoader {
 
-	public static HashMap<Integer, Tile> load(String path) {
-		HashMap<Integer, Tile> result = new HashMap<Integer, Tile>();
+	public static TileHashMap load(String path) {
+		TileHashMap result = new TileHashMap();
 		JSON json = JSONLoader.load(path);
 		
 		@SuppressWarnings("unchecked")
 		ArrayList<JSON> tiles = (ArrayList<JSON>) json.getJSON("tiles");
 		for(JSON tile : tiles) {
-			int id = (int) tile.get("id");
-			result.put(id, new Tile(tile));
+			result.put(new Tile(tile));
 		}
 		
 		return result;

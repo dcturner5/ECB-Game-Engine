@@ -4,33 +4,10 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.entities.mobs.Human;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.gui.animation.AnimationType;
-import com.gammarush.engine.gui.animation.UIAnimationSlideClose;
-import com.gammarush.engine.gui.animation.UIAnimationSlideOpen;
-import com.gammarush.engine.gui.components.UIButton;
-import com.gammarush.engine.gui.components.UIComponent;
-import com.gammarush.engine.gui.components.UIImage;
-import com.gammarush.engine.gui.components.UIMobProfile;
-import com.gammarush.engine.gui.components.UITextBox;
 import com.gammarush.engine.gui.containers.UIContainer;
-import com.gammarush.engine.gui.event.UIEventHandler;
 import com.gammarush.engine.input.KeyCallback;
-import com.gammarush.engine.math.vector.Vector2f;
-import com.gammarush.engine.math.vector.Vector2i;
-import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
-import com.gammarush.engine.structures.FarmShack;
-import com.gammarush.engine.structures.LumberShack;
-import com.gammarush.engine.structures.StoneGate;
-import com.gammarush.engine.structures.StoneStair;
-import com.gammarush.engine.structures.StoneStairFront;
-import com.gammarush.engine.structures.StoneTower;
-import com.gammarush.engine.structures.Structure;
-import com.gammarush.engine.structures.StructureData;
-import com.gammarush.engine.structures.TownHall;
-import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.Game;
 
 public class UIManager {

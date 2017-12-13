@@ -16,7 +16,7 @@ public class Human extends Mob {
 	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
-	public static final Model MODEL = new Model(WIDTH, HEIGHT, new TextureArray("res/entities/human.png", 16));
+	public static final Model MODEL = new Model(WIDTH, HEIGHT, new TextureArray("res/entities/mobs/human/human.png", 16));
 	
 	protected Behavior travel, lumber;
 

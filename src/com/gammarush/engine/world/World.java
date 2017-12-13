@@ -1,8 +1,6 @@
 package com.gammarush.engine.world;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
@@ -21,9 +19,6 @@ import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
-import com.gammarush.engine.physics.AABB;
-import com.gammarush.engine.physics.Physics;
-import com.gammarush.engine.structures.Structure;
 import com.gammarush.engine.tiles.BlendData;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.tiles.TileBatch;
@@ -48,7 +43,6 @@ public class World {
 	public ArrayList<Human> humans = new ArrayList<Human>();
 	public ArrayList<Item> items = new ArrayList<Item>();
 	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-	public ArrayList<Structure> structures = new ArrayList<Structure>();
 	
 	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
 	public ArrayList<Door> doors = new ArrayList<Door>();
@@ -62,14 +56,14 @@ public class World {
 	public static final float[] LAYERS = new float[] {WATER_LEVEL, .15f, .4f};
 	
 	//COMPARATORS FOR EFFICENT TEXTURE BINDING
-	private Comparator<Structure> structureSorter = new Comparator<Structure>() {
+	/*private Comparator<Structure> structureSorter = new Comparator<Structure>() {
 		@Override
 		public int compare(Structure e1, Structure e2) {
 			if(e1.id > e2.id) return -1;
 			if(e1.id < e2.id) return 1;
 			return 0;
 		}
-	};
+	};*/
 	
 	public World(int width, int height, Game game) {
 		this.game = game;
@@ -102,24 +96,16 @@ public class World {
 		entities.addAll(items);
 		entities.addAll(interactives);
 		
-		structures.clear();
-		
 		updateEntityCollisionArray();
 		for(Entity e : entities) {
 			e.update(delta);
 		}
-		
-		for(Structure s : structures) {
-			s.update();
-		}
-		
 	}
 	
 	public void render(Renderer renderer) {
 		loadShaderUniforms(renderer);
 		
 		renderTiles(renderer);
-		renderStructures(renderer);
 		renderEntities(renderer);
 	}
 	
@@ -143,20 +129,6 @@ public class World {
 		Renderer.MOB.enable();
 		Renderer.MOB.setUniformMat4f("vw_matrix", viewMatrix);
 		Renderer.MOB.disable();
-		
-		Renderer.STRUCTURE.enable();
-		Renderer.STRUCTURE.setUniformMat4f("vw_matrix", viewMatrix);
-		Renderer.STRUCTURE.setUniform2f("resolution", new Vector2f(Renderer.screenWidth, Renderer.screenHeight));
-		Renderer.STRUCTURE.setUniform4f("global_color", new Vector4f(global.color.x, global.color.y, global.color.z, global.intensity));
-		Renderer.STRUCTURE.setUniform3f("global_direction", new Vector3f(global.direction.x, global.direction.y, global.direction.z));
-		Renderer.STRUCTURE.setUniform4f("ambient_color", new Vector4f(ambient.color.x, ambient.color.y, ambient.color.z, ambient.intensity));
-		for(int i = 0; i < lights.size(); i++) {
-			PointLight light = lights.get(i);
-			Renderer.STRUCTURE.setUniform3f("point_position[" + i + "]", light.position);
-			Renderer.STRUCTURE.setUniform1f("point_radius[" + i + "]", light.radius);
-			Renderer.STRUCTURE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
-		}
-		Renderer.STRUCTURE.disable();
 		
 		Renderer.TILE.enable();
 		Renderer.TILE.setUniformMat4f("vw_matrix", viewMatrix);
@@ -303,42 +275,6 @@ public class World {
 		Renderer.VEHICLE.disable();
 	}
 	
-	public void renderStructures(Renderer renderer) {
-		Renderer.STRUCTURE.enable();
-		
-		//RENDER BASE STRUCTURES
-		Collections.sort(structures, structureSorter);
-		int id = -1;
-		Structure prevStruct = null;
-		for(Structure e : structures) {
-			if(e.id != id) {
-				if(prevStruct != null) prevStruct.unbind();
-				e.bind();
-				id = e.id;
-			}
-			e.prepare();
-			e.model.draw();
-		}
-		
-		Renderer.STRUCTURE.disable();
-		
-		Renderer.DEFAULT.enable();
-		
-		id = -1;
-		for(Structure e : structures) {
-			if(e.overlay == null || !e.usingOverlay()) continue;
-			
-			if(e.id != id) {
-				e.bindOverlay();
-				id = e.id;
-			}
-			e.prepareOverlay();
-			e.overlay.draw();
-		}
-		
-		
-	}
-	
 	public boolean checkSolid(int x, int y) {
 		if(x < 0 || y < 0 || x >= width || y >= height) return true;
 		
@@ -429,28 +365,6 @@ public class World {
 		return true;
 	}
 	
-	public Structure selectStructure(float x, float y) {
-		AABB box = new AABB(x, y, 1, 1);
-		Structure structure = null;
-		for(Structure e : game.world.structures) {
-			AABB structBox = e.getAABB();
-			if(Physics.getCollision(box, structBox) && (structure == null || structure.position.z < e.position.z)) structure = e;
-		}
-		return structure;
-	}
-	
-	public Structure getNearestStructure(int type, float x, float y) {
-		Structure struct = null;
-		float structDist = Float.MAX_VALUE;
-		for(Structure e : structures) {
-			if(e.id != type) continue;
-			
-			float dist = Math.abs(e.position.x - x) + Math.abs(e.position.y - y);
-			if(dist < structDist) struct = e;
-		}
-		return struct;
-	}
-	
 	public ArrayList<Vector2i> getSolidTiles(int x, int y, int radius) {
 		ArrayList<Vector2i> tiles = new ArrayList<Vector2i>();
 		int x1 = x - radius;
@@ -505,7 +419,7 @@ public class World {
 		System.out.println("WORLD GENERATED WITH SEED: " + seed);
 		
 		for(int i = 0; i < width * height; i++) {
-			array[i] = Game.tilesByName.get("grass").getId();
+			array[i] = Game.tiles.getId("grass");
 		}
 	}
 
