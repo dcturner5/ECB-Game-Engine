@@ -5,6 +5,7 @@ import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
+import com.gammarush.engine.entities.mobs.human.clothing.Clothing;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.TextureArray;
@@ -26,6 +27,11 @@ public class Human extends Mob {
 		
 		idle = new IdleBehavior(this);
 		behaviors.add(idle);
+		
+		for(int i = 0; i < 2; i++) {
+			Clothing c = Game.clothing.getRandom();
+			outfit.add(c);
+		}
 	}
 	
 	public void update(double delta) {

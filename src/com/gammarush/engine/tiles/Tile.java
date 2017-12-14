@@ -53,13 +53,13 @@ public class Tile {
 		
 	}
 	
-	public void render(ArrayList<Vector3f> positions, Renderer renderer) {
+	public void render(ArrayList<Vector3f> positions) {
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.getNormalMap().bind(NORMAL_MAP_LOCATION);
 		
 		for(Vector3f p : positions) {
-			prepare(p, renderer);
+			prepare(p);
 			model.draw();
 		}
 		
@@ -68,7 +68,7 @@ public class Tile {
 		model.getNormalMap().unbind(NORMAL_MAP_LOCATION);
 	}
 	
-	public void render(ArrayList<Vector3f> positions, ArrayList<BlendData> blendDatas, Renderer renderer) {
+	public void render(ArrayList<Vector3f> positions, ArrayList<BlendData> blendDatas) {
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.getBlendMap().bind(BLEND_MAP_MASK_LOCATION);
@@ -89,7 +89,7 @@ public class Tile {
 		model.getBlendMap().unbind(BLEND_MAP_MASK_LOCATION);
 	}
 	
-	public void prepare(Vector3f position, Renderer renderer) {
+	public void prepare(Vector3f position) {
 		Renderer.TILE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0))));
 	}
 	

@@ -3,11 +3,29 @@
 	"clothing":[
 
 		{
-
 			"id":0,
+			"name":"hair",
+			"type":"hair",
+			"pool":"rare",
+			"texture":"res/entities/mobs/human/clothing/hair.png"
+		},
+		{
+
+			"id":1,
 			"name":"suit",
-			"layer":1,
+			"type":"body",
+			"pool":"common",
 			"texture":"res/entities/mobs/human/clothing/suit.png"
+
+		}
+,
+		{
+
+			"id":2,
+			"name":"hat",
+			"type":"head",
+			"pool":"rare",
+			"texture":"res/entities/mobs/human/clothing/hat.png"
 
 		}
 

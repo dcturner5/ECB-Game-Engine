@@ -22,10 +22,10 @@ public class Player {
 		game.renderer.camera.follow(mob);
 	}
 
-	public void render() {
+	public void render(Renderer renderer) {
 		Renderer.MOB.enable();
 		mob.prepare();
-		mob.render();
+		mob.render(renderer);
 		Renderer.MOB.disable();
 	}
 	

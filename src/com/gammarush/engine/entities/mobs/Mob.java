@@ -10,8 +10,10 @@ import com.gammarush.engine.Game;
 import com.gammarush.engine.astar.AStar;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.interactives.Interactive;
+import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
-import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.mobs.human.clothing.ClothingOutfit;
+import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.input.KeyCallback;
@@ -36,23 +38,19 @@ public class Mob extends Entity {
 	
 	public float speed = 4;
 	public int direction = 2;
-	
 	public boolean moving = true;
-	
+
 	public Vehicle vehicle = null;
-	
 	public AStar astar;
-	
 	public Behavior idle;
-	
-	public int animationIndex = 0;
-	public int animationFrame = 0;
-	public int animationMaxFrame = 8;
-	public int animationWidth = 4;
+	public ClothingOutfit outfit;
+	public AnimationData animation;
 
 	public Mob(Vector3f position, int width, int height, Model model, Game game) {
 		super(position, width, height, model, game);
 		astar = new AStar(game.world);
+		outfit = new ClothingOutfit(this);
+		animation = new AnimationData();
 	}
 	
 	@Override
@@ -63,9 +61,10 @@ public class Mob extends Entity {
 	}
 	
 	@Override
-	public void render() {
+	public void render(Renderer renderer) {
 		if(!isRidingVehicle()) {
-			super.render();
+			super.render(renderer);
+			outfit.render(renderer);
 		}
 	}
 	
@@ -74,7 +73,7 @@ public class Mob extends Entity {
 		if(!isRidingVehicle()) {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 					.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
-			Renderer.MOB.setUniform1i("sprite_index", animationIndex + direction * animationWidth);
+			Renderer.MOB.setUniform1i("sprite_index", animation.index + direction * animation.width);
 		}
 	}
 	
@@ -141,20 +140,21 @@ public class Mob extends Entity {
 	
 	public void updateAnimation() {
 		if(moving) {
-			if(animationFrame < animationMaxFrame) {
-                animationFrame += 1;
+			if(animation.frame < animation.maxFrame) {
+                animation.frame += 1;
             } else {
-                animationFrame = 0;
-                if(animationIndex < animationWidth - 1) {
-                    animationIndex += 1;
+                animation.frame = 0;
+                if(animation.index < animation.width - 1) {
+                    animation.index += 1;
                 } else {
-                    animationIndex = 0;
+                    animation.index = 0;
                 }
             }
 		} else {
-			animationFrame = 0;
-            animationIndex = 0;
+			animation.frame = 0;
+            animation.index = 0;
 		}
+		animation.direction = direction;
 	}
 	
 	public Interactive getInteractive() {

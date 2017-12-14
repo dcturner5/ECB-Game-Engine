@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.vehicles;
+package com.gammarush.engine.entities.interactives.vehicles;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -94,7 +94,7 @@ public class Vehicle extends Interactive {
 	}
 	
 	@Override
-	public void render() {
+	public void render(Renderer renderer) {
 		//CAR
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
@@ -141,7 +141,7 @@ public class Vehicle extends Interactive {
 				Matrix4f.translate(position.add(offset.x * Renderer.SCALE, offset.y * Renderer.SCALE, -.0001f))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(mob.width / mob.model.WIDTH, mob.height / mob.model.HEIGHT, 0))));
-		Renderer.VEHICLE.setUniform1i("sprite_index", direction * mob.animationWidth);
+		Renderer.VEHICLE.setUniform1i("sprite_index", direction * mob.animation.width);
 	}
 	
 	@Override

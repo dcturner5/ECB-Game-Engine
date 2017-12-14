@@ -52,7 +52,7 @@ public class Entity {
 		
 	}
 	
-	public void render() {
+	public void render(Renderer renderer) {
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.draw();

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
-import com.gammarush.engine.entities.interactives.Door;
 import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.interactives.Tree;
 import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.human.Human;
-import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
@@ -39,14 +38,19 @@ public class World {
 	private int[] structureTopArray;
 	private ArrayList<Biome> biomes = new ArrayList<Biome>();
 	
+	
+	//1st tier
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-	public ArrayList<Human> humans = new ArrayList<Human>();
+	
+	//2nd tier
+	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
 	public ArrayList<Item> items = new ArrayList<Item>();
+	public ArrayList<Mob> mobs = new ArrayList<Mob>();
 	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	
-	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
-	public ArrayList<Door> doors = new ArrayList<Door>();
-	public ArrayList<Tree> trees = new ArrayList<Tree>();
+	//3rd tier
+	public ArrayList<Human> humans = new ArrayList<Human>();
+	
 	
 	public GlobalLight global;
 	public AmbientLight ambient;
@@ -91,8 +95,11 @@ public class World {
 		interactives.clear();
 		interactives.addAll(vehicles);
 		
+		mobs.clear();
+		mobs.addAll(humans);
+		
 		entities.clear();
-		entities.addAll(humans);
+		entities.addAll(mobs);
 		entities.addAll(items);
 		entities.addAll(interactives);
 		
@@ -237,8 +244,8 @@ public class World {
 		}
 		for(TileBatch b : batches) {
 			Tile tile = Game.tiles.get(b.id);
-			if(b.blend) tile.render(b.positions, b.blendDatas, renderer);
-			else tile.render(b.positions, renderer);
+			if(b.blend) tile.render(b.positions, b.blendDatas);
+			else tile.render(b.positions);
 		}
 		Renderer.TILE.disable();
 	}
@@ -247,30 +254,26 @@ public class World {
 		Renderer.DEFAULT.enable();
 		for(Item e : items) {
 			e.prepare();
-			e.render();
+			e.render(renderer);
 		}
 		Renderer.DEFAULT.disable();
 		
 		Renderer.MOB.enable();
-		Human.MODEL.getMesh().bind();
-		Human.MODEL.getTexture().bind(Human.TEXTURE_LOCATION);
 		for(Human e : humans) {
 			e.prepare();
-			Human.MODEL.draw();
+			e.render(renderer);
 		}
-		Human.MODEL.getMesh().unbind();
-		Human.MODEL.getTexture().unbind(Human.TEXTURE_LOCATION);
 		
 		for(Interactive e : interactives) {
 			e.prepare();
-			e.render();
+			e.render(renderer);
 		}
 		Renderer.MOB.disable();
 		
 		Renderer.VEHICLE.enable();
 		for(Vehicle e : vehicles) {
 			e.prepare();
-			e.render();
+			e.render(renderer);
 		}
 		Renderer.VEHICLE.disable();
 	}

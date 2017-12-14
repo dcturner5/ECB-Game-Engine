@@ -61,6 +61,7 @@ public class JSONLoader {
 	}
 	
 	private static Object parseValue(String string) {
+		string = string.trim();
 		char first = string.charAt(0);
 		if(first == '{') {
 			//object

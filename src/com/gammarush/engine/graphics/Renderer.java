@@ -5,7 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.mobs.human.clothing.ClothingBatchManager;
+import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -13,13 +14,6 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.Tile;
 
 public class Renderer {
-	
-	private Game game;
-	public Camera camera;
-	public int width;
-	public int height;
-	
-	public Font font = new Font();
 	
 	public static int screenWidth;
 	public static int screenHeight;
@@ -39,6 +33,13 @@ public class Renderer {
 	public static final int GUI_LAYER = 7;
 	
 	public static final int SCALE = 4;
+	
+	private Game game;
+	public Camera camera;
+	public int width;
+	public int height;
+	public Font font = new Font();
+	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
 	
 	public Renderer(int width, int height, Game game) {
 		this.game = game;
@@ -115,7 +116,8 @@ public class Renderer {
 	
 	public void render() {
 		game.world.render(this);
-		game.player.render();
+		game.player.render(this);
+		clothingBatchManager.render(this);
 		game.gui.render(this);
 	}
 	

@@ -1,7 +1,7 @@
 package com.gammarush.engine.graphics;
 
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;

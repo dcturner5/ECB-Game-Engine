@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.vehicles;
+package com.gammarush.engine.entities.interactives.vehicles;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.graphics.Renderer;
