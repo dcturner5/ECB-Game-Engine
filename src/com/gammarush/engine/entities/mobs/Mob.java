@@ -20,6 +20,7 @@ import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
@@ -45,6 +46,9 @@ public class Mob extends Entity {
 	public Behavior idle;
 	public ClothingOutfit outfit;
 	public AnimationData animation;
+	
+	public Vector4f[] color = new Vector4f[] {new Vector4f(), new Vector4f()};
+	public Vector4f[] hairColor = new Vector4f[] {new Vector4f(), new Vector4f()};
 
 	public Mob(Vector3f position, int width, int height, Model model, Game game) {
 		super(position, width, height, model, game);
@@ -74,6 +78,8 @@ public class Mob extends Entity {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 					.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
 			Renderer.MOB.setUniform1i("sprite_index", animation.index + direction * animation.width);
+			Renderer.MOB.setUniform4f("primary_color", color[0]);
+			Renderer.MOB.setUniform4f("secondary_color", color[1]);
 		}
 	}
 	

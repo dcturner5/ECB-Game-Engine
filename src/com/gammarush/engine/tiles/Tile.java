@@ -35,8 +35,8 @@ public class Tile {
 	private int blendType;
 	private Vector2i blendWeight;
 	
-	public Tile(JSON json) {
-		this.id = (int) json.getJSON("id");
+	public Tile(int id, JSON json) {
+		this.id = id;
 		this.name = (String) json.getJSON("name");
 		this.solid = (boolean) json.getJSON("solid");
 		

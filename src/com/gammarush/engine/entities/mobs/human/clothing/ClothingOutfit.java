@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.math.vector.Vector4f;
 
 public class ClothingOutfit {
 	
@@ -16,15 +17,14 @@ public class ClothingOutfit {
 	
 	public void render(Renderer renderer) {
 		for(Clothing c : array) {
-			renderer.clothingBatchManager.add(c, mob.position, mob.animation);
+			renderer.clothingBatchManager.add(c, mob.position, mob.animation, 
+					c.getType() == Clothing.CLOTHING_TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
 		}
 	}
 	
 	public boolean add(Clothing clothing) {
-		System.out.println(clothing.getType());
 		for(Clothing c : array) {
 			if(c.getType() == clothing.getType()) {
-				//array.remove(c);
 				return false;
 			}
 		}

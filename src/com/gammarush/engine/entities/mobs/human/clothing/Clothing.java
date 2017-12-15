@@ -9,6 +9,7 @@ import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.utils.json.JSON;
 
 public class Clothing {
@@ -31,8 +32,8 @@ public class Clothing {
 	
 	public Model model;
 	
-	public Clothing(JSON json) {
-		this.id = (int) json.getJSON("id");
+	public Clothing(int id, JSON json) {
+		this.id = id;
 		this.name = (String) json.getJSON("name");
 		
 		String rawType = (String) json.getJSON("type");
@@ -59,17 +60,19 @@ public class Clothing {
 		model.getMesh().bind();
 		model.getTexture().bind(Mob.TEXTURE_LOCATION);
 		for(int i = 0; i < batch.positions.size(); i++) {
-			prepare(batch.positions.get(i), batch.animations.get(i));
+			prepare(batch.positions.get(i), batch.animations.get(i), batch.colors.get(i));
 			model.draw();
 		}
 		model.getMesh().unbind();
 		model.getTexture().unbind(Mob.TEXTURE_LOCATION);
 	}
 	
-	public void prepare(Vector3f position, AnimationData animation) {
+	public void prepare(Vector3f position, AnimationData animation, Vector4f[] color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, layer * .0001f + .0001f)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(WIDTH / model.WIDTH, HEIGHT / model.HEIGHT, 0))));
 		Renderer.MOB.setUniform1i("sprite_index", animation.index + animation.direction * animation.width);
+		Renderer.MOB.setUniform4f("primary_color", color[0]);
+		Renderer.MOB.setUniform4f("secondary_color", color[1]);
 	}
 	
 	public int getId() {

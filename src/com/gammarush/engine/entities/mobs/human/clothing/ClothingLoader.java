@@ -13,8 +13,9 @@ public class ClothingLoader {
 		
 		@SuppressWarnings("unchecked")
 		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("clothing");
-		for(JSON element : array) {
-			result.put(new Clothing(element));
+		for(int i = 0; i < array.size(); i++) {
+			JSON element = array.get(i);
+			result.put(new Clothing(i, element));
 		}
 		
 		return result;

@@ -3,9 +3,7 @@
 layout(location = 0) out vec4 color;
 
 uniform mat4 pr_matrix;
-
 uniform sampler2DArray sprite;
-
 uniform int sprite_index;
 
 in DATA

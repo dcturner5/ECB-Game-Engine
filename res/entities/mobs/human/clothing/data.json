@@ -3,7 +3,6 @@
 	"clothing":[
 
 		{
-			"id":0,
 			"name":"hair",
 			"type":"hair",
 			"pool":"rare",
@@ -11,7 +10,6 @@
 		},
 		{
 
-			"id":1,
 			"name":"suit",
 			"type":"body",
 			"pool":"common",
@@ -20,15 +18,11 @@
 		}
 ,
 		{
-
-			"id":2,
 			"name":"hat",
 			"type":"head",
-			"pool":"rare",
+			"pool":"common",
 			"texture":"res/entities/mobs/human/clothing/hat.png"
-
 		}
-
 	]
 
 }

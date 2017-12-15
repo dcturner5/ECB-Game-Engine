@@ -1,5 +1,8 @@
 package com.gammarush.engine.entities.mobs.human;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
@@ -12,6 +15,7 @@ import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.tiles.Tile;
 
 public class Human extends Mob {
@@ -19,6 +23,16 @@ public class Human extends Mob {
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
 	public static final Model MODEL = new Model(WIDTH, HEIGHT, new TextureArray("res/entities/mobs/human/human.png", 16));
+	
+	public static final Vector4f[] BODY_COLOR_BLACK = new Vector4f[] {new Vector4f(.31f, .14f, .03f, 1), new Vector4f(.26f, .12f, .02f, 1)};
+	public static final Vector4f[] BODY_COLOR_BROWN = new Vector4f[] {new Vector4f(.65f, .40f, .13f, 1), new Vector4f(.61f, .32f, .12f, 1)};
+	public static final Vector4f[] BODY_COLOR_WHITE = new Vector4f[] {new Vector4f(1, .67f, .38f, 1), new Vector4f(.91f, .60f, .35f, 1)};
+	public static final ArrayList<Vector4f[]> BODY_COLORS = new ArrayList<Vector4f[]>(Arrays.asList(BODY_COLOR_BLACK, BODY_COLOR_BROWN, BODY_COLOR_WHITE, BODY_COLOR_WHITE, BODY_COLOR_WHITE, BODY_COLOR_WHITE));
+	
+	public static final Vector4f[] HAIR_COLOR_BLACK = new Vector4f[] {new Vector4f(.09f, .09f, .09f, 1), new Vector4f(.05f, .05f, .05f, 1)};
+	public static final Vector4f[] HAIR_COLOR_BLONDE = new Vector4f[] {new Vector4f(.61f, .54f, .19f, 1), new Vector4f(.55f, .49f, .17f, 1)};
+	public static final Vector4f[] HAIR_COLOR_BROWN = new Vector4f[] {new Vector4f(.22f, .09f, 0, 1), new Vector4f(.17f, .07f, 0, 1)};
+	public static final ArrayList<Vector4f[]> HAIR_COLORS = new ArrayList<Vector4f[]>(Arrays.asList(HAIR_COLOR_BLACK, HAIR_COLOR_BLONDE, HAIR_COLOR_BROWN));
 	
 	protected Behavior travel, lumber;
 
@@ -28,10 +42,17 @@ public class Human extends Mob {
 		idle = new IdleBehavior(this);
 		behaviors.add(idle);
 		
-		for(int i = 0; i < 2; i++) {
-			Clothing c = Game.clothing.getRandom();
-			outfit.add(c);
-		}
+		//race and hair
+		color = BODY_COLORS.get((int) (Math.random() * BODY_COLORS.size()));
+		hairColor = HAIR_COLORS.get((int) (Math.random() * HAIR_COLORS.size()));
+		
+		//hair
+		outfit.add(Game.clothing.getRandomByType(Clothing.CLOTHING_TYPE_HAIR));
+		//head
+		if(Math.random() < .25) outfit.add(Game.clothing.getRandomByType(Clothing.CLOTHING_TYPE_HEAD));
+		//body
+		if(Math.random() < .75) outfit.add(Game.clothing.getRandomByType(Clothing.CLOTHING_TYPE_BODY));
+		
 	}
 	
 	public void update(double delta) {

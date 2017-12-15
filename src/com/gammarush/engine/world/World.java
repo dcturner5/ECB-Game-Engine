@@ -264,10 +264,10 @@ public class World {
 			e.render(renderer);
 		}
 		
-		for(Interactive e : interactives) {
+		/*for(Interactive e : interactives) {
 			e.prepare();
 			e.render(renderer);
-		}
+		}*/
 		Renderer.MOB.disable();
 		
 		Renderer.VEHICLE.enable();

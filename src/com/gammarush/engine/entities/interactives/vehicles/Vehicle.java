@@ -109,10 +109,11 @@ public class Vehicle extends Interactive {
 		interiorModel.getMesh().unbind();
 		interiorModel.getTexture().unbind(TEXTURE_LOCATION);
 		//MOBS
-		for(int i = 0; i < mobs.size(); i++) {
+		/*for(int i = 0; i < mobs.size(); i++) {
 			Mob e = mobs.get(i);
 			Vector2f position = mobPositions.get(i + direction * occupancy);
 			if(position == null) continue;
+			e.position = new Vector3f(position.x + this.position.x, position.y + this.position.y, e.position.z);
 			
 			prepareMob(e, position);
 			e.model.getMesh().bind();
@@ -120,7 +121,8 @@ public class Vehicle extends Interactive {
 			e.model.draw();
 			e.model.getMesh().unbind();
 			e.model.getTexture().unbind(TEXTURE_LOCATION);
-		}
+			e.outfit.render(renderer);
+		}*/
 	}
 	
 	@Override

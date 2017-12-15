@@ -13,8 +13,9 @@ public class TileLoader {
 		
 		@SuppressWarnings("unchecked")
 		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("tiles");
-		for(JSON element : array) {
-			result.put(new Tile(element));
+		for(int i = 0; i < array.size(); i++) {
+			JSON element = array.get(i);
+			result.put(new Tile(i, element));
 		}
 		
 		return result;

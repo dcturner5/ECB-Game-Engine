@@ -1,4 +1,4 @@
-package com.gammarush.engine.gui;
+package com.gammarush.engine.graphics;
 
 import com.gammarush.engine.math.vector.Vector4f;
 

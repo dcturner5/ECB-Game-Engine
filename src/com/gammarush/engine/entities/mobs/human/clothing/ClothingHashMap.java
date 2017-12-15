@@ -44,7 +44,7 @@ public class ClothingHashMap {
 		return poolArray.get((int) (Math.random() * poolArray.size()));
 	}
 	
-	public Clothing getRandomFromType(int type) {
+	public Clothing getRandomByType(int type) {
 		ArrayList<Clothing> poolArray = new ArrayList<Clothing>();
 		for(Clothing c : array) {
 			if(c.getType() == type) poolArray.add(c);
@@ -52,7 +52,7 @@ public class ClothingHashMap {
 		return poolArray.get((int) (Math.random() * poolArray.size()));
 	}
 	
-	public Clothing getRandomFromPool(int pool) {
+	public Clothing getRandomByPool(int pool) {
 		ArrayList<Clothing> poolArray = new ArrayList<Clothing>();
 		for(Clothing c : array) {
 			if(c.getPool() == pool) poolArray.add(c);

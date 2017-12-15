@@ -6,12 +6,13 @@ import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.math.vector.Vector4f;
 
 public class ClothingBatchManager {
 	
 	public ArrayList<ClothingBatch> batches = new ArrayList<ClothingBatch>();
 	
-	public void add(Clothing clothing, Vector3f position, AnimationData animation) {
+	public void add(Clothing clothing, Vector3f position, AnimationData animation, Vector4f[] color) {
 		ClothingBatch batch = null;
 		boolean exists = false;
 		for(ClothingBatch b : batches) {
@@ -25,7 +26,7 @@ public class ClothingBatchManager {
 			batches.add(batch);
 		}
 		
-		batch.add(position, animation);
+		batch.add(position, animation, color);
 	}
 	
 	public void render(Renderer renderer) {
