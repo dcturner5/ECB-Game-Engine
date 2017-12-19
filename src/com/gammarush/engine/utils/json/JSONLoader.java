@@ -57,11 +57,24 @@ public class JSONLoader {
 		for(int i = 0; i < elements.length; i++) {
 			result.add(parseValue(elements[i]));
 		}
+		
+		//prevent array with only null values
+		//return empty array instead
+		boolean empty = true;
+		for(Object e : result) {
+			if(e != null) empty = false;
+		}
+		if(empty) {
+			result.clear();
+		}
+		
 		return result;
 	}
 	
 	private static Object parseValue(String string) {
 		string = string.trim();
+		if(string.length() == 0) return null;
+		
 		char first = string.charAt(0);
 		if(first == '{') {
 			//object
@@ -92,7 +105,13 @@ public class JSONLoader {
 			}
 			else {
 				//integer
-				return Integer.parseInt(string);
+				try {
+					return Integer.parseInt(string);
+				}
+				//null
+				catch(NumberFormatException e) {
+					return null;
+				}
 			}
 		}
 	}

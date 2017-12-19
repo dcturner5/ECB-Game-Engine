@@ -98,10 +98,10 @@ public class Game implements Runnable {
 		System.out.println("OpenGL: " + glGetString(GL_VERSION));
 		
 		renderer = new Renderer(width, height, this);
-		renderer.setClearColor(0xff0000);
+		renderer.setClearColor(0x000000);
 		
 		tiles = TileLoader.load("res/tiles/data.json");
-		clothings = ClothingLoader.load("res/entities/mobs/human/clothing/data.json");
+		clothings = ClothingLoader.load("res/entities/items/clothings/data.json");
 		
 		world = new World(128, 128, this);
 		world.generate((int)(Math.random() * 10000));

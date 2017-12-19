@@ -23,17 +23,11 @@ public class Vehicle extends Interactive {
 	public Model wheelModel;
 	
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
-	public ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>(Arrays.asList(
-			null, new Vector2f(0, 1),
-			new Vector2f(0, -3), null,
-			new Vector2f(1, 0), new Vector2f(14, 0),
-			new Vector2f(-1, 0), new Vector2f(-14, 0)
-			));
+	public ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
 	
-	public ArrayList<Vector2f> wheelPositions = new ArrayList<Vector2f>(Arrays.asList(new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()));
+	public ArrayList<Vector2f> wheelPositions = new ArrayList<Vector2f>();
 	
-	
-	protected int occupancy = 2;
+	protected int occupancy;
 	
 	public float acceleration = .2f;
 	public int direction = 2;
@@ -46,9 +40,11 @@ public class Vehicle extends Interactive {
 	protected int animationMaxFrame = 8;
 	protected int animationWidth = 2;
 
-	public Vehicle(Vector3f position, int width, int height, Model model, Model interiorModel, Game game) {
+	public Vehicle(Vector3f position, int width, int height, Model model, Model interiorModel, Model wheelModel, Game game) {
 		super(position, width, height, model, game);
 		this.interiorModel = interiorModel;
+		this.wheelModel = wheelModel;
+		
 		setSolid(true);
 		setCollisionBox(new AABB(0, 0, width, height));
 	}
@@ -140,8 +136,13 @@ public class Vehicle extends Interactive {
 	
 	private void prepareInterior() {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(width / interiorModel.WIDTH, height / interiorModel.HEIGHT, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", direction);
+	}
+	
+	private void prepareWheel() {
+		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(.5f).add(new Vector3f(width / 2, height / 2, 0)))
+				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
 	}
 	
 	/*private void prepareMob(Mob mob, Vector2f offset) {

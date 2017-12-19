@@ -178,13 +178,13 @@ public class World {
 	}
 	
 	public void renderEntities() {
-		//int count = 0;
+		int count = 0;
 		Renderer.DEFAULT.enable();
 		for(WorldItem e : items) {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
-			//count++;
+			count++;
 		}
 		Renderer.DEFAULT.disable();
 		
@@ -193,7 +193,7 @@ public class World {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
-			//count++;
+			count++;
 		}
 		Renderer.VEHICLE.disable();
 		
@@ -202,7 +202,7 @@ public class World {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
-			//count++;
+			count++;
 		}
 		game.player.render();
 		clothingBatchManager.render();

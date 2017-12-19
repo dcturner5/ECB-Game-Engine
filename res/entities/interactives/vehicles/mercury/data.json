@@ -1,0 +1,24 @@
+{
+
+	"data":{
+		"name":"mercury",
+		"width":48,
+		"height":32,
+		"textures":{
+			"exterior":"res/entities/interactives/vehicles/mercury/exterior.png",
+			"interior":"res/entities/interactives/vehicles/mercury/interior.png",
+			"wheel":"res/entities/interactives/vehicles/mercury/wheel.png"
+		},
+		"mobPositions":[
+			null,{"x":0,"y":1},
+			{"x":0,"y":-3},null,
+			{"x":1,"y":0},{"x":14,"y":0},
+			{"x":-1,"y":0},{"x":-14,"y":0}
+		],
+		"wheel": {
+			"width":10,
+			"height":10,
+			"positions":[]
+		}
+	}
+}
