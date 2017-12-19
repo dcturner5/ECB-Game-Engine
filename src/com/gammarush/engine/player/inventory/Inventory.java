@@ -2,7 +2,7 @@ package com.gammarush.engine.player.inventory;
 
 import java.util.HashMap;
 
-import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.items.ItemBlueprint;
 import com.gammarush.engine.graphics.model.Model;
 
 public class Inventory {
@@ -10,7 +10,7 @@ public class Inventory {
 	private HashMap<Integer, InventorySlot> slots = new HashMap<Integer, InventorySlot>();
 	
 	public Inventory() {
-		slots.put(Item.WOOD, new InventorySlot(Item.WOOD));
+		slots.put(ItemBlueprint.WOOD, new InventorySlot(ItemBlueprint.WOOD));
 	}
 	
 	public Model getModel(int type) {

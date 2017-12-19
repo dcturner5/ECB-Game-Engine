@@ -42,14 +42,14 @@ public class UIContainer {
 		updateAnimations();
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		MODEL.bind();
 		MODEL.draw();
 		MODEL.unbind();
 		for(UIComponent c : components) {
 			if(c.visible) {
 				c.prepare();
-				c.render(renderer);
+				c.render();
 			}
 		}
 	}

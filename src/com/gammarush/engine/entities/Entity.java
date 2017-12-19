@@ -52,7 +52,7 @@ public class Entity {
 		
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.draw();
@@ -63,6 +63,12 @@ public class Entity {
 	public void prepare() {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
+	}
+	
+	public boolean getScreenPresence() {
+		AABB screen = new AABB(-game.renderer.camera.position.x, -game.renderer.camera.position.y, game.renderer.width / game.renderer.camera.getZoom(), game.renderer.height / game.renderer.camera.getZoom());
+		AABB entity = new AABB(position.x, position.y, width, height);
+		return Physics.getCollision(screen, entity);
 	}
 	
 	public World getWorld() {

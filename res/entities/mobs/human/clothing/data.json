@@ -3,10 +3,16 @@
 	"clothing":[
 
 		{
-			"name":"hair",
+			"name":"hair01",
 			"type":"hair",
 			"pool":"rare",
-			"texture":"res/entities/mobs/human/clothing/hair.png"
+			"texture":"res/entities/mobs/human/clothing/hair01.png"
+		},
+		{
+			"name":"hair02",
+			"type":"hair",
+			"pool":"rare",
+			"texture":"res/entities/mobs/human/clothing/hair02.png"
 		},
 		{
 
@@ -14,6 +20,15 @@
 			"type":"body",
 			"pool":"common",
 			"texture":"res/entities/mobs/human/clothing/suit.png"
+
+		}
+,
+		{
+
+			"name":"overalls",
+			"type":"body",
+			"pool":"common",
+			"texture":"res/entities/mobs/human/clothing/overalls.png"
 
 		}
 ,

@@ -27,7 +27,7 @@ public class Font {
 		}
 	}
 	
-	public void drawString(String string, Vector3f position, int size, Vector4f color, Vector4f border, Renderer renderer) {
+	public void drawString(String string, Vector3f position, int size, Vector4f color, Vector4f border) {
 		Renderer.FONT.enable();
 		Renderer.FONT.setUniform1i("texture_width", TEXTURE_ATLAS.width);
 		Renderer.FONT.setUniform1i("texture_height", TEXTURE_ATLAS.height);

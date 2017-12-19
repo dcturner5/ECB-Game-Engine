@@ -93,10 +93,6 @@ public class AStar {
 	}
 	
 	private boolean walkable(int x, int y, int layer) {
-		if(layer > 0) {
-			if(x == 4 && y == 1) System.out.println(world.getStructureTop(x, y));
-			return world.getStructureTop(x, y) == layer;
-		}
 		return !(world.checkSolid(x, y) || world.getEntityCollision(x, y));
 	}
 	

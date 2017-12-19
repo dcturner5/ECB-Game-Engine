@@ -1,51 +1,50 @@
 package com.gammarush.engine.entities.items;
 
-import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
-import com.gammarush.engine.math.matrix.Matrix4f;
-import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.graphics.model.Texture;
+import com.gammarush.engine.utils.json.JSON;
 
-public class Item extends Entity {
+public class Item {
 	
-	public static final int WOOD = 1;
-	public static final int STONE = 2;
+	public static final int POOL_COMMON = 0;
+	public static final int POOL_RARE = 1;
 	
-	public int id;
-	private float time = 0;
-	private float offset = 0;
-
-	public Item(int id, Vector3f position, int width, int height, Model model, Game game) {
-		super(position, width, height, model, game);
-		position.z = Renderer.ENTITY_LAYER + getTilePosition().y / game.world.height;
-		
+	public static final int WIDTH = 16 * Renderer.SCALE;
+	public static final int HEIGHT = 16 * Renderer.SCALE;
+	
+	private int id;
+	private String name;
+	private int pool;
+	
+	public Model model;
+	
+	public Item(int id, JSON json) {
 		this.id = id;
-	}
-	
-	@Override
-	public void update(double delta) {
-		time += .05;
-		if(time >= 6.28) time = 0;
-		offset = (float) Math.abs(Math.sin(time) * 4);
-	}
-	
-	@Override
-	public void prepare() {
-		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, offset, 0)).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
-	}
-	
-	public static ItemData getItemData(int type) {
-		Model model = null;
+		this.name = (String) json.getJSON("name");
 		
-		switch(type) {
-		case WOOD:
-			model = Wood.MODEL;
-			break;
+		String pool = (String) json.getJSON("pool");
+		if(pool.equals("common")) {
+			this.pool = POOL_COMMON;
+		}
+		else if(pool.equals("rare")) {
+			this.pool = POOL_RARE;
 		}
 		
-		return new ItemData(model);
+		Texture texture = new Texture((String) json.getJSON("texture"));
+		this.model = new Model(WIDTH, HEIGHT, texture);
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getPool() {
+		return pool;
 	}
 
 }

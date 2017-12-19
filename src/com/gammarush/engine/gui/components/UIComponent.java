@@ -69,7 +69,7 @@ public class UIComponent {
 		});
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		MODEL.bind();
 		MODEL.draw();
 		MODEL.unbind();

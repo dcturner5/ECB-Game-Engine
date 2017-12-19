@@ -1,7 +1,7 @@
 package com.gammarush.engine.player.inventory;
 
-import com.gammarush.engine.entities.items.Item;
-import com.gammarush.engine.entities.items.ItemData;
+import com.gammarush.engine.entities.items.ItemBlueprint;
+import com.gammarush.engine.entities.items.ItemBatch;
 import com.gammarush.engine.graphics.model.Model;
 
 public class InventorySlot {
@@ -11,7 +11,7 @@ public class InventorySlot {
 	private int amount = 0;
 	
 	public InventorySlot(int type) {
-		ItemData data = Item.getItemData(type);
+		ItemBatch data = ItemBlueprint.getItemData(type);
 		this.model = data.model;
 	}
 	

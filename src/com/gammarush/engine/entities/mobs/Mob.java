@@ -12,7 +12,6 @@ import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
-import com.gammarush.engine.entities.mobs.human.clothing.ClothingOutfit;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
@@ -65,10 +64,10 @@ public class Mob extends Entity {
 	}
 	
 	@Override
-	public void render(Renderer renderer) {
+	public void render() {
 		if(!isRidingVehicle()) {
-			super.render(renderer);
-			outfit.render(renderer);
+			super.render();
+			outfit.render();
 		}
 	}
 	

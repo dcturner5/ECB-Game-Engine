@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.mobs.human.clothing;
+package com.gammarush.engine.entities.items.clothing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,18 +18,15 @@ public class ClothingHashMap {
 	}
 	
 	public int getId(String name) {
-		Clothing clothing = nameMap.get(name);
-		if(clothing == null) {
-			return -1;
-		}
-		
-		return clothing.getId();
+		Clothing e = nameMap.get(name);
+		if(e == null) return -1;
+		return e.getId();
 	}
 	
-	public void put(Clothing clothing) {
-		idMap.put(clothing.getId(), clothing);
-		nameMap.put(clothing.getName(), clothing);
-		array.add(clothing);
+	public void put(Clothing e) {
+		idMap.put(e.getId(), e);
+		nameMap.put(e.getName(), e);
+		array.add(e);
 	}
 	
 	public Clothing getRandom() {

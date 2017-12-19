@@ -1,8 +1,8 @@
-package com.gammarush.engine.entities.mobs.human.clothing;
+package com.gammarush.engine.entities.items.clothing;
 
+import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
-import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
@@ -12,48 +12,39 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.utils.json.JSON;
 
-public class Clothing {
+public class Clothing extends Item {
 	
-	public static final int CLOTHING_TYPE_HAIR = 0;
-	public static final int CLOTHING_TYPE_HEAD = 1;
-	public static final int CLOTHING_TYPE_BODY = 2;
-	
-	public static final int CLOTHING_POOL_COMMON = 0;
-	public static final int CLOTHING_POOL_RARE = 1;
+	public static final int TYPE_HAIR = 0;
+	public static final int TYPE_HEAD = 1;
+	public static final int TYPE_BODY = 2;
 	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
 	
-	private int id;
-	private String name;
 	private int type;
 	private int layer;
-	private int pool;
 	
 	public Model model;
 	
 	public Clothing(int id, JSON json) {
-		this.id = id;
-		this.name = (String) json.getJSON("name");
+		super(id, json);
 		
-		String rawType = (String) json.getJSON("type");
-		if(rawType.equals("hair")) {
-			this.type = CLOTHING_TYPE_HAIR;
+		String type = (String) json.getJSON("type");
+		if(type.equals("hair")) {
+			this.type = TYPE_HAIR;
 			layer = 0;
 		}
-		else if(rawType.equals("head")) {
-			this.type = CLOTHING_TYPE_HEAD;
+		else if(type.equals("head")) {
+			this.type = TYPE_HEAD;
 			layer = 1;
 		}
-		else if(rawType.equals("body")) {
-			this.type = CLOTHING_TYPE_BODY;
+		else if(type.equals("body")) {
+			this.type = TYPE_BODY;
 			layer = 2;
 		}
 		
-		this.pool = (String) json.getJSON("pool") == "common" ? CLOTHING_POOL_COMMON : CLOTHING_POOL_RARE;
-		
 		Texture texture = new TextureArray((String) json.getJSON("texture"), 16);
-		this.model = new Model(Human.WIDTH, Human.HEIGHT, texture);
+		this.model = new Model(WIDTH, HEIGHT, texture);
 	}
 	
 	public void render(ClothingBatch batch) {
@@ -75,20 +66,8 @@ public class Clothing {
 		Renderer.MOB.setUniform4f("secondary_color", color[1]);
 	}
 	
-	public int getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
 	public int getLayer() {
 		return layer;
-	}
-	
-	public int getPool() {
-		return pool;
 	}
 	
 	public int getType() {

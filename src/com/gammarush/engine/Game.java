@@ -9,10 +9,11 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.entities.mobs.human.clothing.ClothingHashMap;
-import com.gammarush.engine.entities.mobs.human.clothing.ClothingLoader;
 import com.gammarush.engine.entities.interactives.vehicles.Mercury;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.items.ItemHashMap;
+import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
+import com.gammarush.engine.entities.items.clothing.ClothingLoader;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.Input;
@@ -46,9 +47,9 @@ public class Game implements Runnable {
 	public Player player;
 	public UIManager gui;
 	
+	public static ItemHashMap items;
+	public static ClothingHashMap clothings;
 	public static TileHashMap tiles;
-	public static ClothingHashMap clothing;
-	
 	
 	public void start() {
 		running = true;
@@ -97,12 +98,12 @@ public class Game implements Runnable {
 		System.out.println("OpenGL: " + glGetString(GL_VERSION));
 		
 		renderer = new Renderer(width, height, this);
-		renderer.setClearColor(0x000000);
+		renderer.setClearColor(0xff0000);
 		
 		tiles = TileLoader.load("res/tiles/data.json");
-		clothing = ClothingLoader.load("res/entities/mobs/human/clothing/data.json");
+		clothings = ClothingLoader.load("res/entities/mobs/human/clothing/data.json");
 		
-		world = new World(32, 32, this);
+		world = new World(128, 128, this);
 		world.generate((int)(Math.random() * 10000));
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);

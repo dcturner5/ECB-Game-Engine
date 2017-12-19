@@ -26,7 +26,7 @@ public class UIImage extends UIComponent {
 	}
 	
 	@Override
-	public void render(Renderer renderer) {
+	public void render() {
 		model.getMesh().bind();
 		model.getTexture().bind(UIManager.TEXTURE_LOCATION);
 		model.draw();

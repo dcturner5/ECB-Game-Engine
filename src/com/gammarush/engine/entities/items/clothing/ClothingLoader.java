@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.mobs.human.clothing;
+package com.gammarush.engine.entities.items.clothing;
 
 import java.util.ArrayList;
 

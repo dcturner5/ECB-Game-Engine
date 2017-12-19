@@ -20,6 +20,8 @@ import com.gammarush.engine.tiles.Tile;
 public class Vehicle extends Interactive {
 	
 	public Model interiorModel;
+	public Model wheelModel;
+	
 	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
 	public ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>(Arrays.asList(
 			null, new Vector2f(0, 1),
@@ -27,6 +29,10 @@ public class Vehicle extends Interactive {
 			new Vector2f(1, 0), new Vector2f(14, 0),
 			new Vector2f(-1, 0), new Vector2f(-14, 0)
 			));
+	
+	public ArrayList<Vector2f> wheelPositions = new ArrayList<Vector2f>(Arrays.asList(new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()));
+	
+	
 	protected int occupancy = 2;
 	
 	public float acceleration = .2f;
@@ -94,7 +100,7 @@ public class Vehicle extends Interactive {
 	}
 	
 	@Override
-	public void render(Renderer renderer) {
+	public void render() {
 		//CAR
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
@@ -109,20 +115,20 @@ public class Vehicle extends Interactive {
 		interiorModel.getMesh().unbind();
 		interiorModel.getTexture().unbind(TEXTURE_LOCATION);
 		//MOBS
-		/*for(int i = 0; i < mobs.size(); i++) {
-			Mob e = mobs.get(i);
+		for(int i = 0; i < mobs.size(); i++) {
+			//Mob e = mobs.get(i);
+			
 			Vector2f position = mobPositions.get(i + direction * occupancy);
 			if(position == null) continue;
-			e.position = new Vector3f(position.x + this.position.x, position.y + this.position.y, e.position.z);
 			
-			prepareMob(e, position);
+			/*prepareMob(e, position);
 			e.model.getMesh().bind();
 			e.model.getTexture().bind(TEXTURE_LOCATION);
 			e.model.draw();
 			e.model.getMesh().unbind();
 			e.model.getTexture().unbind(TEXTURE_LOCATION);
-			e.outfit.render(renderer);
-		}*/
+			e.outfit.render(renderer);*/
+		}
 	}
 	
 	@Override
@@ -138,13 +144,15 @@ public class Vehicle extends Interactive {
 		Renderer.VEHICLE.setUniform1i("sprite_index", direction);
 	}
 	
-	private void prepareMob(Mob mob, Vector2f offset) {
-		Renderer.VEHICLE.setUniformMat4f("ml_matrix", 
+	/*private void prepareMob(Mob mob, Vector2f offset) {
+		Renderer.MOB.setUniformMat4f("ml_matrix", 
 				Matrix4f.translate(position.add(offset.x * Renderer.SCALE, offset.y * Renderer.SCALE, -.0001f))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(mob.width / mob.model.WIDTH, mob.height / mob.model.HEIGHT, 0))));
-		Renderer.VEHICLE.setUniform1i("sprite_index", direction * mob.animation.width);
-	}
+		Renderer.MOB.setUniform1i("sprite_index", direction * mob.animation.width);
+		Renderer.MOB.setUniform4f("primary_color", mob.color[0]);
+		Renderer.MOB.setUniform4f("secondary_color", mob.color[1]);
+	}*/
 	
 	@Override
 	public void activate(Mob mob) {

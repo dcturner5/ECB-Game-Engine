@@ -5,12 +5,14 @@ import static org.lwjgl.opengl.GL11.*;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.human.clothing.ClothingBatchManager;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.fonts.Font;
+import com.gammarush.engine.lights.PointLight;
 import com.gammarush.engine.math.matrix.Matrix4f;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.tiles.Tile;
 
 public class Renderer {
@@ -39,7 +41,6 @@ public class Renderer {
 	public int width;
 	public int height;
 	public Font font = new Font();
-	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
 	
 	public Renderer(int width, int height, Game game) {
 		this.game = game;
@@ -115,10 +116,9 @@ public class Renderer {
 	}
 	
 	public void render() {
-		game.world.render(this);
-		game.player.render(this);
-		clothingBatchManager.render(this);
-		game.gui.render(this);
+		loadShaderUniforms();
+		game.world.render();
+		game.gui.render();
 	}
 	
 	public void clear() {
@@ -130,6 +130,46 @@ public class Renderer {
 	    int g = (color & 0xff00) >> 8;
 	    int b = (color & 0xff);
 		glClearColor(r, g, b, 1.0f);
+	}
+	
+	public void loadShaderUniforms() {
+		Matrix4f viewMatrix = Matrix4f.translate(camera.position);
+		
+		DEFAULT.enable();
+		DEFAULT.setUniformMat4f("vw_matrix", viewMatrix);
+		DEFAULT.setUniform2f("resolution", new Vector2f(Renderer.screenWidth, Renderer.screenHeight));
+		DEFAULT.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
+		DEFAULT.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
+		DEFAULT.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
+		for(int i = 0; i < game.world.lights.size(); i++) {
+			PointLight light = game.world.lights.get(i);
+			Renderer.DEFAULT.setUniform3f("point_position[" + i + "]", light.position);
+			Renderer.DEFAULT.setUniform1f("point_radius[" + i + "]", light.radius);
+			Renderer.DEFAULT.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+		}
+		Renderer.DEFAULT.disable();
+		
+		Renderer.MOB.enable();
+		Renderer.MOB.setUniformMat4f("vw_matrix", viewMatrix);
+		Renderer.MOB.disable();
+		
+		Renderer.TILE.enable();
+		Renderer.TILE.setUniformMat4f("vw_matrix", viewMatrix);
+		Renderer.TILE.setUniform2f("resolution", new Vector2f(Renderer.screenWidth, Renderer.screenHeight));
+		Renderer.TILE.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
+		Renderer.TILE.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
+		Renderer.TILE.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
+		for(int i = 0; i < game.world.lights.size(); i++) {
+			PointLight light = game.world.lights.get(i);
+			Renderer.TILE.setUniform3f("point_position[" + i + "]", light.position);
+			Renderer.TILE.setUniform1f("point_radius[" + i + "]", light.radius);
+			Renderer.TILE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+		}
+		Renderer.TILE.disable();
+		
+		Renderer.VEHICLE.enable();
+		Renderer.VEHICLE.setUniformMat4f("vw_matrix", viewMatrix);
+		Renderer.VEHICLE.disable();
 	}
 
 }

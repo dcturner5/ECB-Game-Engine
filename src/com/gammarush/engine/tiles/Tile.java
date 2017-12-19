@@ -12,6 +12,7 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.utils.json.JSON;
 
 public class Tile {
+	
 	public static final int BLEND_TYPE_NEUTRAL = 0;
 	public static final int BLEND_TYPE_RECESSIVE = 1;
 	public static final int BLEND_TYPE_DOMINANT = 2;
@@ -78,9 +79,9 @@ public class Tile {
 			BlendData blendData = blendDatas.get(i);
 			prepare(positions.get(i), blendData.indices);
 			if(blendData.tile == null) continue;
-			blendData.tile.model.getTexture().bind(BLEND_MAP_TEXTURE_LOCATION);
+			//blendData.tile.model.getTexture().bind(BLEND_MAP_TEXTURE_LOCATION);
 			model.draw();
-			blendData.tile.model.getTexture().unbind(BLEND_MAP_TEXTURE_LOCATION);
+			//blendData.tile.model.getTexture().unbind(BLEND_MAP_TEXTURE_LOCATION);
 		}
 		
 		model.getMesh().unbind();

@@ -47,12 +47,12 @@ public class UIManager {
 		}
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		Renderer.GUI.enable();
 		for(UIContainer c : containers) {
 			if(c.visible) {
 				c.prepare();
-				c.render(renderer);
+				c.render();
 			}
 		}
 		Renderer.GUI.disable();

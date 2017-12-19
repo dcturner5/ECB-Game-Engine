@@ -49,6 +49,7 @@ public class IdleBehavior extends Behavior {
 	
 	private Vector2i getRandomPosition() {
 		ArrayList<Vector2i> tiles = entity.getWorld().getNonSolidTiles((int)(origin.x / Tile.WIDTH), (int)(origin.y / Tile.HEIGHT), range);
+		if(tiles.size() == 0) return new Vector2i();
 		return tiles.get((int)(Math.random() * tiles.size()));
 	}
 	

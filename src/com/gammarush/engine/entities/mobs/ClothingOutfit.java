@@ -1,9 +1,8 @@
-package com.gammarush.engine.entities.mobs.human.clothing;
+package com.gammarush.engine.entities.mobs;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.entities.items.clothing.Clothing;
 import com.gammarush.engine.math.vector.Vector4f;
 
 public class ClothingOutfit {
@@ -15,10 +14,10 @@ public class ClothingOutfit {
 		this.mob = mob;
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		for(Clothing c : array) {
-			renderer.clothingBatchManager.add(c, mob.position, mob.animation, 
-					c.getType() == Clothing.CLOTHING_TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
+			mob.getWorld().clothingBatchManager.add(c, mob.position, mob.animation, 
+					c.getType() == Clothing.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
 		}
 	}
 	

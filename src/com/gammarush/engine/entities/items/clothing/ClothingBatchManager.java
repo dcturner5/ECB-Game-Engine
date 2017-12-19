@@ -1,10 +1,9 @@
-package com.gammarush.engine.entities.mobs.human.clothing;
+package com.gammarush.engine.entities.items.clothing;
 
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
-import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 
@@ -29,13 +28,11 @@ public class ClothingBatchManager {
 		batch.add(position, animation, color);
 	}
 	
-	public void render(Renderer renderer) {
-		Renderer.MOB.enable();
+	public void render() {
 		for(ClothingBatch b : batches) {
-			Clothing c = Game.clothing.get(b.id);
+			Clothing c = Game.clothings.get(b.id);
 			c.render(b);
 		}
-		Renderer.MOB.disable();
 		batches.clear();
 	}
 

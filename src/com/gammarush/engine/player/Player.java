@@ -3,7 +3,6 @@ package com.gammarush.engine.player;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.human.Human;
-import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector3f;
 
 public class Player {
@@ -14,6 +13,7 @@ public class Player {
 	public Player(Vector3f position, Game game) {
 		this.game = game;
 		setMob(new Human(position, game));
+		mob.setSolid(true);
 	}
 	
 	public void update(double delta) {
@@ -22,11 +22,9 @@ public class Player {
 		game.renderer.camera.follow(mob);
 	}
 
-	public void render(Renderer renderer) {
-		Renderer.MOB.enable();
+	public void render() {
 		mob.prepare();
-		mob.render(renderer);
-		Renderer.MOB.disable();
+		mob.render();
 	}
 	
 	public void prepare() {
