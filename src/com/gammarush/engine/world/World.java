@@ -8,7 +8,8 @@ import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
-import com.gammarush.engine.entities.items.WorldItem;
+import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.items.ItemBatchManager;
 import com.gammarush.engine.entities.items.clothing.ClothingBatchManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
@@ -35,7 +36,7 @@ public class World {
 	
 	//2nd tier
 	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
-	public ArrayList<WorldItem> items = new ArrayList<WorldItem>();
+	public ArrayList<Item> items = new ArrayList<Item>();
 	public ArrayList<Mob> mobs = new ArrayList<Mob>();
 	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	
@@ -46,6 +47,7 @@ public class World {
 	public AmbientLight ambient;
 	public ArrayList<PointLight> lights = new ArrayList<PointLight>();
 	
+	public ItemBatchManager itemBatchManager = new ItemBatchManager();
 	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
 	
 	public World(int width, int height, Game game) {
@@ -178,14 +180,15 @@ public class World {
 	}
 	
 	public void renderEntities() {
-		int count = 0;
 		Renderer.DEFAULT.enable();
-		for(WorldItem e : items) {
+		for(Item e : items) {
 			if(!e.getScreenPresence()) continue;
-			e.prepare();
 			e.render();
-			count++;
 		}
+		if(itemBatchManager.batches.size() > 0) {
+			System.out.println(itemBatchManager.batches.get(0).positions.size());
+		}
+		itemBatchManager.render();
 		Renderer.DEFAULT.disable();
 		
 		Renderer.VEHICLE.enable();
@@ -193,7 +196,6 @@ public class World {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
-			count++;
 		}
 		Renderer.VEHICLE.disable();
 		
@@ -202,7 +204,6 @@ public class World {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
-			count++;
 		}
 		game.player.render();
 		clothingBatchManager.render();

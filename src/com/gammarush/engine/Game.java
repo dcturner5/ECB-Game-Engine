@@ -12,6 +12,7 @@ import com.gammarush.engine.SystemManager;
 import com.gammarush.engine.entities.interactives.vehicles.Mercury;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.items.ItemHashMap;
+import com.gammarush.engine.entities.items.ItemLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
 import com.gammarush.engine.entities.items.clothing.ClothingLoader;
 import com.gammarush.engine.graphics.Renderer;
@@ -101,7 +102,8 @@ public class Game implements Runnable {
 		renderer.setClearColor(0x000000);
 		
 		tiles = TileLoader.load("res/tiles/data.json");
-		clothings = ClothingLoader.load("res/entities/items/clothings/data.json");
+		items = ItemLoader.load("res/entities/items/data.json");
+		clothings = ClothingLoader.load("res/entities/items/data.json");
 		
 		world = new World(128, 128, this);
 		world.generate((int)(Math.random() * 10000));

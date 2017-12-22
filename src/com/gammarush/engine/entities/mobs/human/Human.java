@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.items.clothing.Clothing;
+import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
@@ -16,6 +17,7 @@ import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
+import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
 
 public class Human extends Mob {
@@ -49,11 +51,11 @@ public class Human extends Mob {
 		else hairColor = HAIR_COLOR_BLACK;
 		
 		//hair
-		outfit.add(Game.clothings.getRandomByType(Clothing.TYPE_HAIR));
+		//outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_HAIR));
 		//head
-		if(Math.random() < .25) outfit.add(Game.clothings.getRandomByType(Clothing.TYPE_HEAD));
+		//if(Math.random() < .25) outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_HEAD));
 		//body
-		if(Math.random() < .75) outfit.add(Game.clothings.getRandomByType(Clothing.TYPE_BODY));
+		//if(Math.random() < .75) outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_BODY));
 		
 	}
 	
@@ -79,6 +81,18 @@ public class Human extends Mob {
 			position.y = position2D.y;
 			
 			velocity = initial;
+			
+			ArrayList<Item> removeQueue = new ArrayList<Item>();
+			for(Item e : getWorld().items) {
+				if(Physics.getCollision(getAABB(), e.getAABB())) {
+					ClothingTemplate t = Game.clothings.get(e.getTemplate().getName());
+					if(t != null) outfit.add(t);
+					removeQueue.add(e);
+				}
+			}
+			for(Item e : removeQueue) {
+				getWorld().items.remove(e);
+			}
 		}
 	}
 	

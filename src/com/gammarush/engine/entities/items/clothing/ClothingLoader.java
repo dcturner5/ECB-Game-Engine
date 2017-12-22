@@ -12,10 +12,12 @@ public class ClothingLoader {
 		JSON json = JSONLoader.load(path);
 		
 		@SuppressWarnings("unchecked")
-		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("clothing");
+		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("items");
 		for(int i = 0; i < array.size(); i++) {
 			JSON element = array.get(i);
-			result.put(new Clothing(i, element));
+			if(element.getJSON("clothing") != null) {
+				result.put(new ClothingTemplate(i, element));
+			}
 		}
 		
 		return result;

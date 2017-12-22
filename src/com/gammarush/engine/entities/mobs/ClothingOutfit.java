@@ -2,12 +2,12 @@ package com.gammarush.engine.entities.mobs;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.entities.items.clothing.Clothing;
+import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
 import com.gammarush.engine.math.vector.Vector4f;
 
 public class ClothingOutfit {
 	
-	private ArrayList<Clothing> array = new ArrayList<Clothing>();
+	private ArrayList<ClothingTemplate> array = new ArrayList<ClothingTemplate>();
 	private Mob mob;
 	
 	public ClothingOutfit(Mob mob) {
@@ -15,14 +15,14 @@ public class ClothingOutfit {
 	}
 	
 	public void render() {
-		for(Clothing c : array) {
+		for(ClothingTemplate c : array) {
 			mob.getWorld().clothingBatchManager.add(c, mob.position, mob.animation, 
-					c.getType() == Clothing.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
+					c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
 		}
 	}
 	
-	public boolean add(Clothing clothing) {
-		for(Clothing c : array) {
+	public boolean add(ClothingTemplate clothing) {
+		for(ClothingTemplate c : array) {
 			if(c.getType() == clothing.getType()) {
 				return false;
 			}
@@ -30,7 +30,7 @@ public class ClothingOutfit {
 		return array.add(clothing);
 	}
 	
-	public boolean remove(Clothing clothing) {
+	public boolean remove(ClothingTemplate clothing) {
 		return array.remove(clothing);
 	}
 	

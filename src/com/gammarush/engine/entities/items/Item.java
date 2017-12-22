@@ -1,50 +1,35 @@
 package com.gammarush.engine.entities.items;
 
-import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.graphics.model.Model;
-import com.gammarush.engine.graphics.model.Texture;
-import com.gammarush.engine.utils.json.JSON;
+import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.math.vector.Vector2f;
+import com.gammarush.engine.math.vector.Vector3f;
 
-public class Item {
+public class Item extends Entity {
 	
-	public static final int POOL_COMMON = 0;
-	public static final int POOL_RARE = 1;
-	
-	public static final int WIDTH = 16 * Renderer.SCALE;
-	public static final int HEIGHT = 16 * Renderer.SCALE;
-	
-	private int id;
-	private String name;
-	private int pool;
-	
-	public Model model;
-	
-	public Item(int id, JSON json) {
-		this.id = id;
-		this.name = (String) json.getJSON("name");
-		
-		String pool = (String) json.getJSON("pool");
-		if(pool.equals("common")) {
-			this.pool = POOL_COMMON;
-		}
-		else if(pool.equals("rare")) {
-			this.pool = POOL_RARE;
-		}
-		
-		Texture texture = new Texture((String) json.getJSON("texture"));
-		this.model = new Model(WIDTH, HEIGHT, texture);
+	private ItemTemplate template;
+	private float time = 0;
+	private Vector2f offset = new Vector2f();
+
+	public Item(ItemTemplate template, Vector3f position, Game game) {
+		super(position, ItemTemplate.WIDTH, ItemTemplate.HEIGHT, template.model, game);
+		this.template = template;
 	}
 	
-	public int getId() {
-		return id;
+	@Override
+	public void update(double delta) {
+		time += .05;
+		if(time >= 6.28) time = 0;
+		offset.y = (float) Math.abs(Math.sin(time) * 4);
 	}
 	
-	public String getName() {
-		return name;
+	@Override
+	public void render() {
+		getWorld().itemBatchManager.add(template, position, offset);
 	}
 	
-	public int getPool() {
-		return pool;
+	public ItemTemplate getTemplate() {
+		return template;
 	}
 
 }

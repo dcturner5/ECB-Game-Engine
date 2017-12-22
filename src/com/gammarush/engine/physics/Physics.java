@@ -52,6 +52,7 @@ public class Physics {
 		}
 		
 		for(Entity e : world.entities) {
+			//optimize this with collision test before adding groups
 			if(e.getSolid() && e.position.x != position.x && e.position.y != position.y && e.width != width && e.height != height) {
 				groups.add(e.getAABB());
 			}
@@ -59,11 +60,11 @@ public class Physics {
 		
 		//ITERATE THRU HITBOX GROUPS
 		for(int i = 0; i < groups.size(); i++) {
-			AABB group_box = groups.get(i);
+			AABB groupBox = groups.get(i);
 			//QUICK TEST FOR COLLISION OF HITBOXES
-			if(getCollision(box, group_box)) {
+			if(getCollision(box, groupBox)) {
 				//FIX THE COLLISION SO THE HITBOXES DONT OVERLAP AND STORE THIS OFFSET IN A VECTOR
-				Vector2f v = getTranslationVector(box, group_box);
+				Vector2f v = getTranslationVector(box, groupBox);
 				if(Math.abs(v.x) > Math.abs(mtv.x)) mtv.x = v.x;
 				if(Math.abs(v.y) > Math.abs(mtv.y)) mtv.y = v.y;
 			}

@@ -14,7 +14,7 @@ public class ItemLoader {
 		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("items");
 		for(int i = 0; i < array.size(); i++) {
 			JSON element = array.get(i);
-			result.put(new Item(i, element));
+			result.put(new ItemTemplate(i, element));
 		}
 		
 		return result;

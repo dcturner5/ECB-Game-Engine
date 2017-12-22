@@ -1,6 +1,6 @@
 package com.gammarush.engine.entities.items.clothing;
 
-import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.graphics.Renderer;
@@ -12,7 +12,7 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.utils.json.JSON;
 
-public class Clothing extends Item {
+public class ClothingTemplate extends ItemTemplate {
 	
 	public static final int TYPE_HAIR = 0;
 	public static final int TYPE_HEAD = 1;
@@ -26,10 +26,10 @@ public class Clothing extends Item {
 	
 	public Model model;
 	
-	public Clothing(int id, JSON json) {
+	public ClothingTemplate(int id, JSON json) {
 		super(id, json);
 		
-		String type = (String) json.getJSON("type");
+		String type = (String) json.getJSON("clothing.type");
 		if(type.equals("hair")) {
 			this.type = TYPE_HAIR;
 			layer = 0;
@@ -43,7 +43,7 @@ public class Clothing extends Item {
 			layer = 2;
 		}
 		
-		Texture texture = new TextureArray((String) json.getJSON("texture"), 16);
+		Texture texture = new TextureArray("res/entities/items/clothings/" + ((String) json.getJSON("name")) + ".png", 16);
 		this.model = new Model(WIDTH, HEIGHT, texture);
 	}
 	

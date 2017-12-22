@@ -5,31 +5,31 @@ import java.util.HashMap;
 
 public class ItemHashMap {
 	
-	private HashMap<Integer, Item> idMap = new HashMap<Integer, Item>();
-	private HashMap<String, Item> nameMap = new HashMap<String, Item>();
-	private ArrayList<Item> array = new ArrayList<Item>();
+	private HashMap<Integer, ItemTemplate> idMap = new HashMap<Integer, ItemTemplate>();
+	private HashMap<String, ItemTemplate> nameMap = new HashMap<String, ItemTemplate>();
+	private ArrayList<ItemTemplate> array = new ArrayList<ItemTemplate>();
 	
-	public Item get(int id) {
+	public ItemTemplate get(int id) {
 		return idMap.get(id);
 	}
 	
-	public Item get(String name) {
+	public ItemTemplate get(String name) {
 		return nameMap.get(name);
 	}
 	
 	public int getId(String name) {
-		Item e = nameMap.get(name);
+		ItemTemplate e = nameMap.get(name);
 		if(e == null) return -1;
 		return e.getId();
 	}
 	
-	public void put(Item e) {
+	public void put(ItemTemplate e) {
 		idMap.put(e.getId(), e);
 		nameMap.put(e.getName(), e);
 		array.add(e);
 	}
 	
-	public Item getRandom() {
+	public ItemTemplate getRandom() {
 		return array.get((int) (Math.random() * array.size()));
 	}
 

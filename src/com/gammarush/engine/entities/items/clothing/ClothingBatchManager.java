@@ -11,17 +11,17 @@ public class ClothingBatchManager {
 	
 	public ArrayList<ClothingBatch> batches = new ArrayList<ClothingBatch>();
 	
-	public void add(Clothing clothing, Vector3f position, AnimationData animation, Vector4f[] color) {
+	public void add(ClothingTemplate template, Vector3f position, AnimationData animation, Vector4f[] color) {
 		ClothingBatch batch = null;
 		boolean exists = false;
 		for(ClothingBatch b : batches) {
-			if(b.id == clothing.getId()) {
+			if(b.id == template.getId()) {
 				batch = b;
 				exists = true;
 			}
 		}
 		if(!exists) {
-			batch = new ClothingBatch(clothing.getId(), clothing.getLayer());
+			batch = new ClothingBatch(template.getId(), template.getLayer());
 			batches.add(batch);
 		}
 		
@@ -30,8 +30,8 @@ public class ClothingBatchManager {
 	
 	public void render() {
 		for(ClothingBatch b : batches) {
-			Clothing c = Game.clothings.get(b.id);
-			c.render(b);
+			ClothingTemplate t = Game.clothings.get(b.id);
+			t.render(b);
 		}
 		batches.clear();
 	}
