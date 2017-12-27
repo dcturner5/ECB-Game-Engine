@@ -20,6 +20,7 @@ public class VehicleTemplate extends EntityTemplate {
 	private float acceleration;
 	private int occupancy;
 	private int wheelSize;
+	private boolean wheelExposed;
 	
 	private Model exterior;
 	private Model interior;
@@ -52,6 +53,7 @@ public class VehicleTemplate extends EntityTemplate {
 		this.interior = new Model(width, height, interiorTexture);
 		
 		this.wheelSize = json.getInteger("wheel.size") * Renderer.SCALE;
+		this.wheelExposed = json.getBoolean("wheel.exposed");
 		
 		ArrayList<JSON> wheelPositions = json.getArray("wheel.positions");
 		for(JSON position : wheelPositions) {
@@ -91,7 +93,7 @@ public class VehicleTemplate extends EntityTemplate {
 	}
 	
 	public void prepareInterior(Vector3f position, AnimationData animation) {
-		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
+		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width / interior.WIDTH, height / interior.HEIGHT, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", animation.getDirection());
 	}
@@ -126,6 +128,10 @@ public class VehicleTemplate extends EntityTemplate {
 
 	public int getWheelSize() {
 		return wheelSize;
+	}
+
+	public boolean getWheelExposed() {
+		return wheelExposed;
 	}
 
 }

@@ -90,7 +90,7 @@ public class JSONLoader {
 		}
 		else if(first == 't' || first == 'f') {
 			//boolean
-			if(string == "true") {
+			if(string.equals("true")) {
 				return true;
 			}
 			else {

@@ -31,6 +31,12 @@ public class JSON extends HashMap<String, Object> {
 		return (ArrayList<JSON>) getJSON(string);
 	}
 	
+	public boolean getBoolean(String string) {
+		Object json = getJSON(string);
+		if(json == null) return false;
+		return (boolean) json;
+	}
+	
 	public float getFloat(String string) {
 		Object json = getJSON(string);
 		return json instanceof Float ? (float) json : (int) json * 1.0f;

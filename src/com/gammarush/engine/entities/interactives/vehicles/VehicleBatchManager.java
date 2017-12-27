@@ -25,22 +25,27 @@ public class VehicleBatchManager {
 		}
 		batch.add(vehicle.position, vehicle.animation);
 		
-		WheelBatch wheelBatch = null;
-		boolean wheelExists = false;
-		for(WheelBatch b : wheelBatches) {
-			if(b.getId() == vehicle.getWheelTemplate().getId()) {
-				wheelBatch = b;
-				wheelExists = true;
+		if(vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT || vehicle.animation.getDirection() == Vehicle.DIRECTION_RIGHT) {
+			WheelBatch wheelBatch = null;
+			boolean wheelExists = false;
+			for(WheelBatch b : wheelBatches) {
+				if(b.getId() == vehicle.getWheelTemplate().getId()) {
+					wheelBatch = b;
+					wheelExists = true;
+				}
 			}
-		}
-		if(!wheelExists) {
-			wheelBatch = new WheelBatch(vehicle.getWheelTemplate().getId());
-			wheelBatches.add(wheelBatch);
-		}
-		
-		ArrayList<Vector2f> wheelPositions = vehicle.getTemplate().getWheelPositions();
-		for(Vector2f position : wheelPositions) {
-			wheelBatch.add(vehicle.position.add(position.x, position.y, .00001f), vehicle.getTemplate().getWheelSize(), vehicle.wheelRotation);
+			if(!wheelExists) {
+				wheelBatch = new WheelBatch(vehicle.getWheelTemplate().getId());
+				wheelBatches.add(wheelBatch);
+			}
+			
+			ArrayList<Vector2f> wheelPositions = vehicle.getTemplate().getWheelPositions();
+			int start = vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT ? 0 : wheelPositions.size() / 2;
+			int end = vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT ? wheelPositions.size() / 2 : wheelPositions.size();
+			for(int i = start; i < end; i++) {
+				Vector2f position = wheelPositions.get(i);
+				wheelBatch.add(vehicle.position.add(position.x, position.y, vehicle.getTemplate().getWheelExposed() ? .0001f : -.0001f), vehicle.getTemplate().getWheelSize(), vehicle.wheelRotation);
+			}
 		}
 	}
 	
