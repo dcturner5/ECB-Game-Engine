@@ -8,6 +8,7 @@ import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.interactives.vehicles.VehicleBatchManager;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.items.ItemBatchManager;
 import com.gammarush.engine.entities.items.clothing.ClothingBatchManager;
@@ -49,6 +50,7 @@ public class World {
 	
 	public ItemBatchManager itemBatchManager = new ItemBatchManager();
 	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
+	public VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
 	
 	public World(int width, int height, Game game) {
 		this.game = game;
@@ -185,9 +187,6 @@ public class World {
 			if(!e.getScreenPresence()) continue;
 			e.render();
 		}
-		if(itemBatchManager.batches.size() > 0) {
-			System.out.println(itemBatchManager.batches.get(0).positions.size());
-		}
 		itemBatchManager.render();
 		Renderer.DEFAULT.disable();
 		
@@ -197,7 +196,12 @@ public class World {
 			e.prepare();
 			e.render();
 		}
+		vehicleBatchManager.render();
 		Renderer.VEHICLE.disable();
+		
+		Renderer.DEFAULT.enable();
+		vehicleBatchManager.renderWheels();
+		Renderer.DEFAULT.disable();
 		
 		Renderer.MOB.enable();
 		for(Human e : humans) {

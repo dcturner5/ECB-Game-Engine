@@ -3,33 +3,31 @@ package com.gammarush.engine.entities.items;
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.math.vector.Vector2f;
-import com.gammarush.engine.math.vector.Vector3f;
 
 public class ItemBatchManager {
 	
 	public ArrayList<ItemBatch> batches = new ArrayList<ItemBatch>();
 	
-	public void add(ItemTemplate template, Vector3f position, Vector2f offset) {
+	public void add(Item item) {
 		ItemBatch batch = null;
 		boolean exists = false;
 		for(ItemBatch b : batches) {
-			if(b.id == template.getId()) {
+			if(b.getId() == item.getTemplate().getId()) {
 				batch = b;
 				exists = true;
 			}
 		}
 		if(!exists) {
-			batch = new ItemBatch(template.getId());
+			batch = new ItemBatch(item.getTemplate().getId());
 			batches.add(batch);
 		}
 		
-		batch.add(position, offset);
+		batch.add(item.position, item.getOffset());
 	}
 	
 	public void render() {
 		for(ItemBatch b : batches) {
-			ItemTemplate t = Game.items.get(b.id);
+			ItemTemplate t = Game.items.get(b.getId());
 			t.render(b);
 		}
 		batches.clear();

@@ -53,13 +53,14 @@ public class Mob extends Entity {
 		super(position, width, height, model, game);
 		astar = new AStar(game.world);
 		outfit = new ClothingOutfit(this);
-		animation = new AnimationData();
+		animation = new AnimationData(4, 8);
 	}
 	
 	@Override
 	public void update(double delta) {
 		if(!isRidingVehicle()) {
-			updateAnimation();
+			animation.update(moving);
+			animation.setDirection(direction);
 		}
 	}
 	
@@ -76,7 +77,7 @@ public class Mob extends Entity {
 		if(!isRidingVehicle()) {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 					.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
-			Renderer.MOB.setUniform1i("sprite_index", animation.index + direction * animation.width);
+			Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
 			Renderer.MOB.setUniform4f("primary_color", color[0]);
 			Renderer.MOB.setUniform4f("secondary_color", color[1]);
 		}
@@ -141,25 +142,6 @@ public class Mob extends Entity {
 			if(!b.complete) b.update();
 			else behaviors.remove(b);
 		}
-	}
-	
-	public void updateAnimation() {
-		if(moving) {
-			if(animation.frame < animation.maxFrame) {
-                animation.frame += 1;
-            } else {
-                animation.frame = 0;
-                if(animation.index < animation.width - 1) {
-                    animation.index += 1;
-                } else {
-                    animation.index = 0;
-                }
-            }
-		} else {
-			animation.frame = 0;
-            animation.index = 0;
-		}
-		animation.direction = direction;
 	}
 	
 	public Interactive getInteractive() {

@@ -9,8 +9,9 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.entities.interactives.vehicles.Mercury;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.interactives.vehicles.VehicleHashMap;
+import com.gammarush.engine.entities.interactives.vehicles.VehicleLoader;
 import com.gammarush.engine.entities.items.ItemHashMap;
 import com.gammarush.engine.entities.items.ItemLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
@@ -50,6 +51,9 @@ public class Game implements Runnable {
 	
 	public static ItemHashMap items;
 	public static ClothingHashMap clothings;
+	
+	public static VehicleHashMap vehicles;
+	
 	public static TileHashMap tiles;
 	
 	public void start() {
@@ -104,13 +108,14 @@ public class Game implements Runnable {
 		tiles = TileLoader.load("res/tiles/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
+		vehicles = VehicleLoader.load("res/entities/interactives/vehicles/data.json");
 		
 		world = new World(128, 128, this);
 		world.generate((int)(Math.random() * 10000));
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		world.vehicles.add(new Mercury(new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
+		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
 	}

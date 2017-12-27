@@ -2,24 +2,25 @@ package com.gammarush.engine.entities.interactives.vehicles;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.graphics.model.Model;
-import com.gammarush.engine.math.vector.Vector2f;
+import com.gammarush.engine.graphics.Batch;
+import com.gammarush.engine.math.vector.Vector3f;
 
-public class WheelBatch {
+public class WheelBatch extends Batch {
 	
 	public int id;
-	public Model model;
 	
-	public ArrayList<Vector2f> positions = new ArrayList<Vector2f>();
-	public ArrayList<Vector2f> dimensions = new ArrayList<Vector2f>();
-	public ArrayList<Float> angles = new ArrayList<Float>();
+	public ArrayList<Vector3f> positions = new ArrayList<Vector3f>();
+	public ArrayList<Integer> sizes = new ArrayList<Integer>();
+	public ArrayList<Float> rotations = new ArrayList<Float>();
 	
-	public WheelBatch(Model model) {
-		
+	public WheelBatch(int id) {
+		super(id);
 	}
 	
-	public void add(Vector2f positions, int width, int height, float angle) {
-		
+	public void add(Vector3f position, int size, float rotation) {
+		positions.add(position);
+		sizes.add(size);
+		rotations.add(rotation);
 	}
 
 }

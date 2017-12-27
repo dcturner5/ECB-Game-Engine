@@ -17,7 +17,8 @@ public class Player {
 	}
 	
 	public void update(double delta) {
-		mob.updateAnimation();
+		mob.animation.update(mob.moving);
+		mob.animation.setDirection(mob.direction);
 		mob.control();
 		game.renderer.camera.follow(mob);
 	}

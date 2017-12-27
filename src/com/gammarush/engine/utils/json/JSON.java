@@ -25,5 +25,23 @@ public class JSON extends HashMap<String, Object> {
 		}
 		return map;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<JSON> getArray(String string) {
+		return (ArrayList<JSON>) getJSON(string);
+	}
+	
+	public float getFloat(String string) {
+		Object json = getJSON(string);
+		return json instanceof Float ? (float) json : (int) json * 1.0f;
+	}
+	
+	public int getInteger(String string) {
+		return (int) getJSON(string);
+	}
+	
+	public String getString(String string) {
+		return (String) getJSON(string);
+	}
 
 }

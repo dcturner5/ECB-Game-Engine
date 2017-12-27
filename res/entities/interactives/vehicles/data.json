@@ -1,0 +1,31 @@
+{
+
+	"vehicles":[
+		{
+			"name":"mercury",
+			"width":48,
+			"height":32,
+			"acceleration":.2,
+			"mobs":{
+				"positions":[
+					null,{"x":0,"y":1},
+					{"x":0,"y":-3},null,
+					{"x":1,"y":0},{"x":14,"y":0},
+					{"x":-1,"y":0},{"x":-14,"y":0}
+				]
+			},
+			"wheel":{
+				"size":10,
+				"exposed":true,
+				"positions":[
+					{"x":1,"y":22},{"x":36,"y":22}
+				]
+			}
+		}
+	],
+	"wheels":[
+		{
+			"name":"default"
+		}
+	]
+}

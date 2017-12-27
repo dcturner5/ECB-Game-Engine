@@ -3,15 +3,13 @@ package com.gammarush.engine.entities.interactives.vehicles;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.input.KeyCallback;
-import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
@@ -19,31 +17,30 @@ import com.gammarush.engine.tiles.Tile;
 
 public class Vehicle extends Interactive {
 	
-	public Model interiorModel;
-	public Model wheelModel;
+	private VehicleTemplate template;
+	private WheelTemplate wheelTemplate;
 	
-	protected ArrayList<Mob> mobs = new ArrayList<Mob>();
-	public ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
+	private float acceleration;
+	private int occupancy;
 	
-	public ArrayList<Vector2f> wheelPositions = new ArrayList<Vector2f>();
+	private ArrayList<Mob> mobs = new ArrayList<Mob>();
+	private ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
 	
-	protected int occupancy;
-	
-	public float acceleration = .2f;
-	public int direction = 2;
-	
+	public int direction;
 	public boolean moving = true;
 	public boolean braking = false;
 	
-	protected int animationIndex = 0;
-	protected int animationFrame = 0;
-	protected int animationMaxFrame = 8;
-	protected int animationWidth = 2;
+	public AnimationData animation = new AnimationData(2, 8);
+	public float wheelRotation = 0f;
 
-	public Vehicle(Vector3f position, int width, int height, Model model, Model interiorModel, Model wheelModel, Game game) {
-		super(position, width, height, model, game);
-		this.interiorModel = interiorModel;
-		this.wheelModel = wheelModel;
+	public Vehicle(VehicleTemplate template, Vector3f position, int direction, Game game) {
+		super(position, template.getWidth(), template.getHeight(), template.getModel(), game);
+		this.template = template;
+		this.wheelTemplate = Game.vehicles.getRandomWheel();
+		this.acceleration = template.getAcceleration();
+		this.occupancy = template.getOccupancy();
+		this.direction = direction;
+		this.mobPositions = template.getMobPositions();
 		
 		setSolid(true);
 		setCollisionBox(new AABB(0, 0, width, height));
@@ -54,7 +51,8 @@ public class Vehicle extends Interactive {
 		if(velocity.x != 0 || velocity.y != 0) moving = true;
 		else moving = false;
 		
-		updateAnimation();
+		animation.update(moving);
+		animation.setDirection(direction);
 		
 		float deceleration = acceleration / 2f;
 		if(braking) deceleration += .4f;
@@ -80,7 +78,8 @@ public class Vehicle extends Interactive {
 		//make wheels independent sprite in future and rotate them in opengl
 		float speed = velocity.magnitude();
 		if(speed != 0) {
-			animationMaxFrame = (int) ((1f / speed) * 4);
+			animation.setMaxFrame((int) ((1f / speed) * 4));
+			wheelRotation += velocity.x;
 		}
 		
 		Vector2f position2D = new Vector2f(position.x, position.y);
@@ -97,19 +96,7 @@ public class Vehicle extends Interactive {
 	
 	@Override
 	public void render() {
-		//CAR
-		model.getMesh().bind();
-		model.getTexture().bind(TEXTURE_LOCATION);
-		model.draw();
-		model.getMesh().unbind();
-		model.getTexture().unbind(TEXTURE_LOCATION);
-		//INTERIOR
-		prepareInterior();
-		interiorModel.getMesh().bind();
-		interiorModel.getTexture().bind(TEXTURE_LOCATION);
-		interiorModel.draw();
-		interiorModel.getMesh().unbind();
-		interiorModel.getTexture().unbind(TEXTURE_LOCATION);
+		getWorld().vehicleBatchManager.add(this);
 		//MOBS
 		for(int i = 0; i < mobs.size(); i++) {
 			//Mob e = mobs.get(i);
@@ -125,24 +112,6 @@ public class Vehicle extends Interactive {
 			e.model.getTexture().unbind(TEXTURE_LOCATION);
 			e.outfit.render(renderer);*/
 		}
-	}
-	
-	@Override
-	public void prepare() {
-		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
-		Renderer.VEHICLE.setUniform1i("sprite_index", animationIndex + direction * animationWidth);
-	}
-	
-	private void prepareInterior() {
-		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / interiorModel.WIDTH, height / interiorModel.HEIGHT, 0))));
-		Renderer.VEHICLE.setUniform1i("sprite_index", direction);
-	}
-	
-	private void prepareWheel() {
-		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(.5f).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
 	}
 	
 	/*private void prepareMob(Mob mob, Vector2f offset) {
@@ -216,22 +185,12 @@ public class Vehicle extends Interactive {
 		return mobs.contains(mob);
 	}
 	
-	public void updateAnimation() {
-		if(moving) {
-			if(animationFrame < animationMaxFrame) {
-                animationFrame += 1;
-            } else {
-                animationFrame = 0;
-                if(animationIndex < animationWidth - 1) {
-                    animationIndex += 1;
-                } else {
-                    animationIndex = 0;
-                }
-            }
-		} else {
-			animationFrame = 0;
-            animationIndex = 0;
-		}
+	public VehicleTemplate getTemplate() {
+		return template;
+	}
+	
+	public WheelTemplate getWheelTemplate() {
+		return wheelTemplate;
 	}
 
 }

@@ -25,11 +25,15 @@ public class Item extends Entity {
 	
 	@Override
 	public void render() {
-		getWorld().itemBatchManager.add(template, position, offset);
+		getWorld().itemBatchManager.add(this);
 	}
 	
 	public ItemTemplate getTemplate() {
 		return template;
+	}
+
+	public Vector2f getOffset() {
+		return offset;
 	}
 
 }
