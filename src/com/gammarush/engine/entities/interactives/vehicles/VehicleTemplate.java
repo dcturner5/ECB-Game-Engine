@@ -48,9 +48,9 @@ public class VehicleTemplate extends EntityTemplate {
 		this.occupancy = this.mobPositions.size() / 4;
 		
 		Texture exteriorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/exterior.png", 8);
-		this.exterior = new Model(width, height, exteriorTexture);
+		this.exterior = new Model(exteriorTexture);
 		Texture interiorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/interior.png", 4);
-		this.interior = new Model(width, height, interiorTexture);
+		this.interior = new Model(interiorTexture);
 		
 		this.wheelSize = json.getInteger("wheel.size") * Renderer.SCALE;
 		this.wheelExposed = json.getBoolean("wheel.exposed");
@@ -88,13 +88,13 @@ public class VehicleTemplate extends EntityTemplate {
 	
 	public void prepareExterior(Vector3f position, AnimationData animation) {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / exterior.WIDTH, height / exterior.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", animation.getIndex());
 	}
 	
 	public void prepareInterior(Vector3f position, AnimationData animation) {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / interior.WIDTH, height / interior.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", animation.getDirection());
 	}
 	

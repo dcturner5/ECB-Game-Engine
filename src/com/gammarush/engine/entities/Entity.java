@@ -62,7 +62,7 @@ public class Entity {
 	
 	public void prepare() {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 	}
 	
 	public boolean getScreenPresence() {

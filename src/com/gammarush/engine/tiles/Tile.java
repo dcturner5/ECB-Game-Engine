@@ -44,7 +44,7 @@ public class Tile {
 		Texture texture = new Texture((String) json.getJSON("texture"));
 		Texture normalMap = json.getJSON("normalMap") != null ? new Texture((String) json.getJSON("normalMap")) : DEFAULT_NORMAL_MAP;
 		TextureArray blendMap = json.getJSON("blendMap") != null ? new TextureArray((String) json.getJSON("blendMap"), 8) : DEFAULT_BLEND_MAP;
-		this.model = new Model(WIDTH, HEIGHT, texture, normalMap, blendMap);
+		this.model = new Model(texture, normalMap, blendMap);
 		
 		this.blendType = json.getJSON("blendType") != null ? (int) json.getJSON("blendType") : BLEND_TYPE_NEUTRAL;
 		this.blendWeight = json.getJSON("blendWeight") != null ? new Vector2i((int) json.getJSON("blendWeight.x"), (int) json.getJSON("blendWeight.y")) : null;
@@ -91,11 +91,13 @@ public class Tile {
 	}
 	
 	public void prepare(Vector3f position) {
-		Renderer.TILE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0))));
+		Renderer.TILE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
+				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
 	}
 	
 	public void prepare(Vector3f position, int[] blendIndices) {
-		Renderer.TILE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0))));
+		Renderer.TILE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
+				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
 		Renderer.TILE.setUniform1iv("blend_indices", blendIndices);
 	}
 	

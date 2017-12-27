@@ -46,7 +46,7 @@ public class UIImage extends UIComponent {
 		
 		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(container.position))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.GUI.setUniform1i("use_sprite", 1);
 		Renderer.GUI.setUniform1f("sprite_alpha", alpha);
 		Renderer.GUI.setUniform4f("cutoff", cutoff);

@@ -7,18 +7,12 @@ public class Model {
 	private Texture normalMap = null;
 	private TextureArray blendMap = null;
 	
-	public final float WIDTH;
-	public final float HEIGHT;
-	
 	public Model(float width, float height) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		
 		float[] vertices = new float[] {
-			-width / 2, -height / 2, 0f,
-			-width / 2, height / 2, 0f,
-			width / 2, height / 2, 0f,
-			width / 2, -height / 2, 0f
+			-.5f, -.5f, 0f,
+			-.5f, .5f, 0f,
+			.5f, .5f, 0f,
+			.5f, -.5f, 0f
 		};
 		
 		byte[] indices = new byte[] {
@@ -36,15 +30,12 @@ public class Model {
 		mesh = new Mesh(vertices, indices, textureCoordinates);
 	}
 	
-	public Model(float width, float height, Texture texture) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		
+	public Model(Texture texture) {
 		float[] vertices = new float[] {
-			-width / 2, -height / 2, 0f,
-			-width / 2, height / 2, 0f,
-			width / 2, height / 2, 0f,
-			width / 2, -height / 2, 0f
+			-.5f, -.5f, 0f,
+			-.5f, .5f, 0f,
+			.5f, .5f, 0f,
+			.5f, -.5f, 0f
 		};
 		
 		byte[] indices = new byte[] {
@@ -64,15 +55,12 @@ public class Model {
 		this.texture = texture;
 	}
 	
-	public Model(float width, float height, Texture texture, Texture normalMap) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		
+	public Model(Texture texture, Texture normalMap) {
 		float[] vertices = new float[] {
-			-width / 2, -height / 2, 0f,
-			-width / 2, height / 2, 0f,
-			width / 2, height / 2, 0f,
-			width / 2, -height / 2, 0f
+			-.5f, -.5f, 0f,
+			-.5f, .5f, 0f,
+			.5f, .5f, 0f,
+			.5f, -.5f, 0f
 		};
 		
 		byte[] indices = new byte[] {
@@ -93,15 +81,12 @@ public class Model {
 		this.normalMap = normalMap;
 	}
 	
-	public Model(float width, float height, Texture texture, Texture normalMap, TextureArray blendMap) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
-		
+	public Model(Texture texture, Texture normalMap, TextureArray blendMap) {
 		float[] vertices = new float[] {
-			-width / 2, -height / 2, 0f,
-			-width / 2, height / 2, 0f,
-			width / 2, height / 2, 0f,
-			width / 2, -height / 2, 0f
+			-.5f, -.5f, 0f,
+			-.5f, .5f, 0f,
+			.5f, .5f, 0f,
+			.5f, -.5f, 0f
 		};
 		
 		byte[] indices = new byte[] {

@@ -76,7 +76,7 @@ public class Mob extends Entity {
 	public void prepare() {
 		if(!isRidingVehicle()) {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-					.multiply(Matrix4f.scale(new Vector3f(width / model.WIDTH, height / model.HEIGHT, 0))));
+					.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 			Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
 			Renderer.MOB.setUniform4f("primary_color", color[0]);
 			Renderer.MOB.setUniform4f("secondary_color", color[1]);

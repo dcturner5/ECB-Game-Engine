@@ -34,7 +34,7 @@ public class ItemTemplate extends EntityTemplate {
 		}
 		
 		Texture texture = new Texture("res/entities/items/" + json.getString("name") + ".png");
-		this.model = new Model(WIDTH, HEIGHT, texture);
+		this.model = new Model(texture);
 	}
 	
 	public void render(ItemBatch batch) {
@@ -50,7 +50,7 @@ public class ItemTemplate extends EntityTemplate {
 	
 	public void prepare(Vector3f position, Vector2f offset) {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(offset.x, offset.y, 0)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(WIDTH / model.WIDTH, HEIGHT / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
 	}
 	
 	public int getPool() {

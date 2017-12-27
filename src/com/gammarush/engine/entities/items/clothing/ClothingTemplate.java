@@ -44,7 +44,7 @@ public class ClothingTemplate extends ItemTemplate {
 		}
 		
 		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 16);
-		this.model = new Model(WIDTH, HEIGHT, texture);
+		this.model = new Model(texture);
 	}
 	
 	public void render(ClothingBatch batch) {
@@ -60,7 +60,7 @@ public class ClothingTemplate extends ItemTemplate {
 	
 	public void prepare(Vector3f position, AnimationData animation, Vector4f[] color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, layer * .0001f + .0001f)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(WIDTH / model.WIDTH, HEIGHT / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
 		Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
 		Renderer.MOB.setUniform4f("primary_color", color[0]);
 		Renderer.MOB.setUniform4f("secondary_color", color[1]);

@@ -17,7 +17,7 @@ public class WheelTemplate extends EntityTemplate {
 		super(id, json);
 		
 		Texture texture = new Texture("res/entities/interactives/vehicles/wheels/" + json.getString("name") + ".png");
-		this.model = new Model(10, 10, texture);
+		this.model = new Model(texture);
 	}
 
 	public void render(WheelBatch batch) {
@@ -33,7 +33,7 @@ public class WheelTemplate extends EntityTemplate {
 	
 	public void prepare(Vector3f position, int size, float rotation) {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(size / 2, size / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(size / model.WIDTH, size / model.HEIGHT, 0))));
+				.multiply(Matrix4f.scale(new Vector3f(size, size, 0))));
 	}
 
 }
