@@ -20,6 +20,11 @@ public class Vector2f {
 		this.y = y;
 	}
 	
+	public Vector2f(Vector3f v) {
+		this.x = v.x;
+		this.y = v.y;
+	}
+	
 	public Vector2f add(Vector2f v) {
 		float x = this.x + v.x;
 		float y = this.y + v.y;
@@ -86,6 +91,10 @@ public class Vector2f {
 	
 	public float magnitude() {
 		return (float) Math.sqrt(x * x + y * y);
+	}
+	
+	public boolean isEmpty() {
+		return x == 0 && y == 0;
 	}
 	
 	public void print() {

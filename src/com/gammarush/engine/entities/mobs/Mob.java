@@ -1,7 +1,5 @@
 package com.gammarush.engine.entities.mobs;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,20 +7,18 @@ import java.util.Comparator;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.astar.AStar;
 import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
-import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
-import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
-import com.gammarush.engine.tiles.Tile;
 
 public class Mob extends Entity {
 	
@@ -36,7 +32,7 @@ public class Mob extends Entity {
 		}
 	};
 	
-	public float speed = 4;
+	public int speed = 4;
 	public int direction = 2;
 	public boolean moving = true;
 
@@ -51,6 +47,9 @@ public class Mob extends Entity {
 
 	public Mob(Vector3f position, int width, int height, Model model, Game game) {
 		super(position, width, height, model, game);
+		setSolid(false);
+		setPhysicsComponent(new PhysicsComponent(this, 4));
+		
 		astar = new AStar(game.world);
 		outfit = new ClothingOutfit(this);
 		animation = new AnimationData(4, 8);
@@ -58,6 +57,8 @@ public class Mob extends Entity {
 	
 	@Override
 	public void update(double delta) {
+		super.update(delta);
+		
 		if(!isRidingVehicle()) {
 			animation.update(moving);
 			animation.setDirection(direction);
@@ -80,58 +81,6 @@ public class Mob extends Entity {
 			Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
 			Renderer.MOB.setUniform4f("primary_color", color[0]);
 			Renderer.MOB.setUniform4f("secondary_color", color[1]);
-		}
-	}
-	
-	public void control() {
-		if(!isRidingVehicle()) {
-			Vector2f initial = new Vector2f(velocity);
-			
-			float alteredSpeed = speed;
-			if((KeyCallback.isKeyDown(GLFW_KEY_W) || KeyCallback.isKeyDown(GLFW_KEY_S)) && 
-					(KeyCallback.isKeyDown(GLFW_KEY_A) || KeyCallback.isKeyDown(GLFW_KEY_D))) {
-				alteredSpeed = alteredSpeed * 1.4f / 2f;
-			}
-			
-			if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
-				velocity.y -= alteredSpeed;
-				direction = Mob.DIRECTION_UP;
-			}
-			if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
-				velocity.y += alteredSpeed;
-				direction = DIRECTION_DOWN;
-			}
-			if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
-				velocity.x -= alteredSpeed;
-				direction = DIRECTION_LEFT;
-			}
-			if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
-				velocity.x += alteredSpeed;
-				direction = DIRECTION_RIGHT;
-			}
-			if(KeyCallback.isKeyDown(GLFW_KEY_E)) {
-				Interactive e = getInteractive();
-				if(e != null) e.activate(this);
-			}
-			
-			if(velocity.x != 0 || velocity.y != 0) moving = true;
-			else moving = false;
-			
-			Vector2f position2D = new Vector2f(position.x, position.y);
-			position2D = position2D.add(velocity);
-			
-			Vector2f translation = physics.collision(position2D);
-			position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
-			
-			position2D = position2D.add(translation);
-			
-			position.x = position2D.x;
-			position.y = position2D.y;
-			
-			velocity = initial;
-		}
-		else if(isDrivingVehicle()) {
-			vehicle.control(this);
 		}
 	}
 	

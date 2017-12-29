@@ -1,6 +1,12 @@
 package com.gammarush.engine.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.components.Component;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -28,6 +34,9 @@ public class Entity {
 	private boolean solid = false;
 	private AABB collisionBox;
 	
+	private ArrayList<Component> components = new ArrayList<Component>();
+	private PhysicsComponent physicsComponent;
+	
 	public static final int TEXTURE_LOCATION = 0;
 	public static final int NORMAL_MAP_LOCATION = 1;
 	
@@ -49,7 +58,9 @@ public class Entity {
 	}
 	
 	public void update(double delta) {
-		
+		for(Component c : components) {
+			c.update(delta);
+		}
 	}
 	
 	public void render() {
@@ -63,6 +74,27 @@ public class Entity {
 	public void prepare() {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
+	}
+	
+	public void addComponent(Component component) {
+		components.add(component);
+		Collections.sort(components, new Comparator<Component>() {
+			@Override
+			public int compare(Component c1, Component c2) {
+				if(c1.getPriority() < c2.getPriority()) return -1;
+				if(c1.getPriority() > c2.getPriority()) return 1;
+				return 0;
+			}
+		});
+	}
+	
+	public PhysicsComponent getPhysicsComponent() {
+		return physicsComponent;
+	}
+	
+	public void setPhysicsComponent(PhysicsComponent component) {
+		this.physicsComponent = component;
+		components.add(component);
 	}
 	
 	public boolean getScreenPresence() {
@@ -80,7 +112,7 @@ public class Entity {
 	}
 	
 	public Vector2i getTilePosition() {
-		return new Vector2i((int)(position.x / Tile.WIDTH), (int)(position.y) / Tile.HEIGHT);
+		return new Vector2i((int) (position.x / Tile.WIDTH), (int) (position.y / Tile.HEIGHT));
 	}
 	
 	public AABB getAABB() {

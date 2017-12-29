@@ -38,6 +38,12 @@ public class Vector3f {
 		return new Vector3f(x, y, z);
 	}
 	
+	public Vector3f add(Vector2f v) {
+		float x = this.x + v.x;
+		float y = this.y + v.y;
+		return new Vector3f(x, y, z);
+	}
+	
 	public Vector3f sub(Vector3f v) {
 		float x = this.x - v.x;
 		float y = this.y - v.y;
@@ -49,6 +55,12 @@ public class Vector3f {
 		x -= this.x;
 		y -= this.y;
 		z -= this.z;
+		return new Vector3f(x, y, z);
+	}
+	
+	public Vector3f sub(Vector2f v) {
+		float x = this.x - v.x;
+		float y = this.y - v.y;
 		return new Vector3f(x, y, z);
 	}
 	

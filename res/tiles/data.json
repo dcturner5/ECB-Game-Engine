@@ -9,6 +9,14 @@
 			"texture":"res/tiles/plains_ground.png"
 
 		}
+,
+		{
+
+			"name":"wall",
+			"solid":true,
+			"texture":"res/tiles/mountain.png"
+
+		}
 
 	]
 

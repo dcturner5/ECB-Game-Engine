@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.items.Item;
-import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
@@ -13,12 +11,9 @@ import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.TextureArray;
-import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
-import com.gammarush.engine.physics.Physics;
-import com.gammarush.engine.tiles.Tile;
 
 public class Human extends Mob {
 	
@@ -60,28 +55,9 @@ public class Human extends Mob {
 	}
 	
 	public void update(double delta) {
-		if(!isRidingVehicle()) {
-			super.update(delta);
-			Vector2f initial = new Vector2f(velocity);
-			
-			updateBehaviors();
-			
-			if(velocity.x != 0 || velocity.y != 0) moving = true;
-			else moving = false;
-			
-			Vector2f position2D = new Vector2f(position.x, position.y);
-			position2D = position2D.add(velocity);
-			
-			Vector2f translation = physics.collision(position2D);
-			position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
-			
-			position2D = position2D.add(translation);
-			
-			position.x = position2D.x;
-			position.y = position2D.y;
-			
-			velocity = initial;
-			
+		super.update(delta);
+		
+		/*
 			ArrayList<Item> removeQueue = new ArrayList<Item>();
 			for(Item e : getWorld().items) {
 				if(Physics.getCollision(getAABB(), e.getAABB())) {
@@ -93,7 +69,7 @@ public class Human extends Mob {
 			for(Item e : removeQueue) {
 				getWorld().items.remove(e);
 			}
-		}
+		}*/
 	}
 	
 	public void idle() {

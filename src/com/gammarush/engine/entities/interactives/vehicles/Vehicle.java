@@ -1,28 +1,20 @@
 package com.gammarush.engine.entities.interactives.vehicles;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
-import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.physics.AABB;
-import com.gammarush.engine.tiles.Tile;
 
 public class Vehicle extends Interactive {
 	
 	private VehicleTemplate template;
 	private WheelTemplate wheelTemplate;
-	
-	private float acceleration;
 	private int occupancy;
-	
 	private ArrayList<Mob> mobs = new ArrayList<Mob>();
 	private ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
 	
@@ -37,90 +29,52 @@ public class Vehicle extends Interactive {
 		super(position, template.getWidth(), template.getHeight(), template.getModel(), game);
 		this.template = template;
 		this.wheelTemplate = Game.vehicles.getRandomWheel();
-		this.acceleration = template.getAcceleration();
 		this.occupancy = template.getOccupancy();
 		this.direction = direction;
 		this.mobPositions = template.getMobPositions();
 		
 		setSolid(true);
-		setCollisionBox(new AABB(0, 0, width, height));
+		setPhysicsComponent(new PhysicsComponent(this, template.getAcceleration()));
 	}
 	
 	@Override
 	public void update(double delta) {
-		if(velocity.x != 0 || velocity.y != 0) moving = true;
+		super.update(delta);
+		
+		PhysicsComponent pc = getPhysicsComponent();
+		
+		if(pc.velocity.x != 0 || pc.velocity.y != 0) moving = true;
 		else moving = false;
 		
 		animation.update(moving);
 		animation.setDirection(direction);
 		
-		float deceleration = acceleration / 2f;
+		float deceleration = pc.acceleration / 2f;
 		if(braking) deceleration += .4f;
 		
-		if(velocity.x < 0) {
+		if(pc.velocity.x < 0) {
 			direction = DIRECTION_LEFT;
-			velocity.x = Math.min(velocity.x + deceleration, 0);
+			pc.velocity.x = Math.min(pc.velocity.x + deceleration, 0);
 		}
-		if(velocity.x > 0) {
+		if(pc.velocity.x > 0) {
 			direction = DIRECTION_RIGHT;
-			velocity.x = Math.max(velocity.x - deceleration, 0);
+			pc.velocity.x = Math.max(pc.velocity.x - deceleration, 0);
 		}
-		if(velocity.y < 0) {
+		if(pc.velocity.y < 0) {
 			direction = DIRECTION_UP;
-			velocity.y = Math.min(velocity.y + deceleration, 0);
+			pc.velocity.y = Math.min(pc.velocity.y + deceleration, 0);
 		}
-		if(velocity.y > 0) {
+		if(pc.velocity.y > 0) {
 			direction = DIRECTION_DOWN;
-			velocity.y = Math.max(velocity.y - deceleration, 0);
+			pc.velocity.y = Math.max(pc.velocity.y - deceleration, 0);
 		}
 		
-		float speed = velocity.magnitude();
+		float speed = pc.velocity.magnitude();
 		if(speed != 0) {
 			animation.setMaxFrame((int) ((1f / speed) * 4));
-			wheelRotation += velocity.x;
-		}
-		
-		Vector2f position2D = new Vector2f(position.x, position.y);
-		position2D = position2D.add(velocity);
-		
-		Vector2f translation = physics.collision(position2D);
-		position.z = Renderer.ENTITY_LAYER + (position.y / Tile.HEIGHT) / game.world.height;
-		
-		position2D = position2D.add(translation);
-		
-		position.x = position2D.x;
-		position.y = position2D.y;
-	}
-	
-	@Override
-	public void render() {
-		//getWorld().vehicleBatchManager.add(this);
-		//MOBS
-		for(int i = 0; i < mobs.size(); i++) {
-			//Mob e = mobs.get(i);
-			
-			Vector2f position = mobPositions.get(i + direction * occupancy);
-			if(position == null) continue;
-			
-			/*prepareMob(e, position);
-			e.model.getMesh().bind();
-			e.model.getTexture().bind(TEXTURE_LOCATION);
-			e.model.draw();
-			e.model.getMesh().unbind();
-			e.model.getTexture().unbind(TEXTURE_LOCATION);
-			e.outfit.render(renderer);*/
+			wheelRotation += pc.velocity.x;
 		}
 	}
-	
-	/*private void prepareMob(Mob mob, Vector2f offset) {
-		Renderer.MOB.setUniformMat4f("ml_matrix", 
-				Matrix4f.translate(position.add(offset.x * Renderer.SCALE, offset.y * Renderer.SCALE, -.0001f))
-				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(mob.width / mob.model.WIDTH, mob.height / mob.model.HEIGHT, 0))));
-		Renderer.MOB.setUniform1i("sprite_index", direction * mob.animation.width);
-		Renderer.MOB.setUniform4f("primary_color", mob.color[0]);
-		Renderer.MOB.setUniform4f("secondary_color", mob.color[1]);
-	}*/
 	
 	@Override
 	public void activate(Mob mob) {
@@ -129,29 +83,6 @@ public class Vehicle extends Interactive {
 		}
 		else {
 			addMob(mob);
-		}
-	}
-	
-	public void control(Mob mob) {
-		braking = false;
-		if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
-			if(velocity.x == 0) velocity.y -= acceleration;
-			else braking = true;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
-			if(velocity.x == 0) velocity.y += acceleration;
-			else braking = true;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
-			if(velocity.y == 0) velocity.x -= acceleration;
-			else braking = true;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
-			if(velocity.y == 0) velocity.x += acceleration;
-			else braking = true;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_Q)) {
-			activate(mob);
 		}
 	}
 	

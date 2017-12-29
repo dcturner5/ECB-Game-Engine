@@ -18,6 +18,8 @@ public class Item extends Entity {
 	
 	@Override
 	public void update(double delta) {
+		super.update(delta);
+		
 		time += .05;
 		if(time >= 6.28) time = 0;
 		offset.y = (float) Math.abs(Math.sin(time) * 4);
