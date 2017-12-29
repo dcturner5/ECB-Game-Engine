@@ -23,11 +23,6 @@ public class Item extends Entity {
 		offset.y = (float) Math.abs(Math.sin(time) * 4);
 	}
 	
-	@Override
-	public void render() {
-		getWorld().itemBatchManager.add(this);
-	}
-	
 	public ItemTemplate getTemplate() {
 		return template;
 	}

@@ -74,8 +74,6 @@ public class Vehicle extends Interactive {
 			velocity.y = Math.max(velocity.y - deceleration, 0);
 		}
 		
-		//temporary
-		//make wheels independent sprite in future and rotate them in opengl
 		float speed = velocity.magnitude();
 		if(speed != 0) {
 			animation.setMaxFrame((int) ((1f / speed) * 4));
@@ -96,7 +94,7 @@ public class Vehicle extends Interactive {
 	
 	@Override
 	public void render() {
-		getWorld().vehicleBatchManager.add(this);
+		//getWorld().vehicleBatchManager.add(this);
 		//MOBS
 		for(int i = 0; i < mobs.size(); i++) {
 			//Mob e = mobs.get(i);

@@ -61,7 +61,7 @@ public class VehicleTemplate extends EntityTemplate {
 				this.wheelPositions.add(null);
 			}
 			else {
-				this.wheelPositions.add(new Vector2f(position.getFloat("x") * Renderer.SCALE, position.getFloat("y") * Renderer.SCALE));
+				this.wheelPositions.add(new Vector2f(position.getFloat("x") * Renderer.SCALE - wheelSize / 2, position.getFloat("y") * Renderer.SCALE - wheelSize / 2));
 			}
 		}
 	}

@@ -183,25 +183,12 @@ public class World {
 	
 	public void renderEntities() {
 		Renderer.DEFAULT.enable();
-		for(Item e : items) {
-			if(!e.getScreenPresence()) continue;
-			e.render();
-		}
-		itemBatchManager.render();
+		itemBatchManager.render(items);
 		Renderer.DEFAULT.disable();
 		
 		Renderer.VEHICLE.enable();
-		for(Vehicle e : vehicles) {
-			if(!e.getScreenPresence()) continue;
-			e.prepare();
-			e.render();
-		}
-		vehicleBatchManager.render();
+		vehicleBatchManager.render(vehicles);
 		Renderer.VEHICLE.disable();
-		
-		Renderer.DEFAULT.enable();
-		vehicleBatchManager.renderWheels();
-		Renderer.DEFAULT.disable();
 		
 		Renderer.MOB.enable();
 		for(Human e : humans) {
@@ -212,8 +199,6 @@ public class World {
 		game.player.render();
 		clothingBatchManager.render();
 		Renderer.MOB.disable();
-		
-		//System.out.println(count);
 	}
 	
 	public boolean checkSolid(int x, int y) {
