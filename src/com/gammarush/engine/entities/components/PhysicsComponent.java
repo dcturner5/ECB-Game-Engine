@@ -18,6 +18,12 @@ public class PhysicsComponent extends Component {
 	public Vector2f velocity;
 	public float acceleration;
 
+	public PhysicsComponent(Entity entity) {
+		super(PRIORITY, entity);
+		this.velocity = new Vector2f();
+		this.acceleration = 0;
+	}
+	
 	public PhysicsComponent(Entity entity, float acceleration) {
 		super(PRIORITY, entity);
 		this.velocity = new Vector2f();

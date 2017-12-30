@@ -1,17 +1,17 @@
 package com.gammarush.engine.entities.mobs.behaviors;
 
-import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.SubBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.TravelSubBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.WaitSubBehavior;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.math.vector.Vector2i;
 
 public class TravelBehavior extends Behavior {
 	
 	public static final int PRIORITY = 2;
 
-	public TravelBehavior(Vector2i destination, Mob entity) {
-		super(entity, PRIORITY);
+	public TravelBehavior(Vector2i destination, AIComponent aiComponent) {
+		super(PRIORITY, aiComponent);
 		
 		//Use for traveling to interactives
 		/*
@@ -25,14 +25,14 @@ public class TravelBehavior extends Behavior {
 	}
 	
 	@Override
-	public void update() {
+	public void update(double delta) {
 		if(!queue.isEmpty()) {
 			SubBehavior b = queue.get(0);
-			if(!b.complete) b.update();
+			if(!b.getComplete()) b.update(delta);
 			else queue.remove(b);
 		}
 		else {
-			((IdleBehavior) entity.idle).setOrigin(entity.getPosition());
+			//((IdleBehavior) getAIComponent().idle).setOrigin(getMob().getPosition());
 			complete = true;
 		}
 	}

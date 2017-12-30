@@ -6,12 +6,9 @@ import java.util.Arrays;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
-import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
-import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.TextureArray;
-import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 
@@ -37,9 +34,6 @@ public class Human extends Mob {
 	public Human(Vector3f position, Game game) {
 		super(position, WIDTH, HEIGHT, MODEL, game);
 		
-		idle = new IdleBehavior(this);
-		behaviors.add(idle);
-		
 		//race and hair
 		color = BODY_COLORS.get((int) (Math.random() * BODY_COLORS.size()));
 		if(color.equals(BODY_COLOR_WHITE)) hairColor = HAIR_COLORS.get((int) (Math.random() * HAIR_COLORS.size()));
@@ -54,34 +48,12 @@ public class Human extends Mob {
 		
 	}
 	
-	public void update(double delta) {
-		super.update(delta);
-		
-		/*
-			ArrayList<Item> removeQueue = new ArrayList<Item>();
-			for(Item e : getWorld().items) {
-				if(Physics.getCollision(getAABB(), e.getAABB())) {
-					ClothingTemplate t = Game.clothings.get(e.getTemplate().getName());
-					if(t != null) outfit.add(t);
-					removeQueue.add(e);
-				}
-			}
-			for(Item e : removeQueue) {
-				getWorld().items.remove(e);
-			}
-		}*/
-	}
-	
-	public void idle() {
-		behaviors.remove(lumber);
-	}
-	
 	public void travel(int x, int y) {
-		idle.queue.clear();
+		/*idle.queue.clear();
 		
 		behaviors.remove(travel);
 		travel = new TravelBehavior(new Vector2i(x, y), this);
-		behaviors.add(travel);
+		behaviors.add(travel);*/
 	}
 
 }

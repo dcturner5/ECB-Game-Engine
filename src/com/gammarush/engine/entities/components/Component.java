@@ -14,6 +14,10 @@ public abstract class Component {
 	
 	public abstract void update(double delta);
 	
+	public void render() {
+		
+	}
+	
 	public int getPriority() {
 		return priority;
 	}

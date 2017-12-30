@@ -4,21 +4,37 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.SubBehavior;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
 
-public class Behavior {
+public abstract class Behavior {
 	
-	public Mob entity;
-	public ArrayList<SubBehavior> queue = new ArrayList<SubBehavior>();
-	public int priority;
-	public boolean complete = false;
+	private int priority;
 	
-	public Behavior(Mob entity, int priority) {
-		this.entity = entity;
+	private AIComponent aiComponent;
+	protected boolean complete = false;
+	protected ArrayList<SubBehavior> queue = new ArrayList<SubBehavior>();
+	
+	public Behavior(int priority, AIComponent aiComponent) {
 		this.priority = priority;
+		this.aiComponent = aiComponent;
 	}
 	
-	public void update() {
-		
+	public abstract void update(double delta);
+	
+	public int getPriority() {
+		return priority;
+	}
+	
+	public AIComponent getAIComponent() {
+		return aiComponent;
+	}
+	
+	public Mob getMob() {
+		return aiComponent.getMob();
+	}
+	
+	public boolean getComplete() {
+		return complete;
 	}
 	
 }

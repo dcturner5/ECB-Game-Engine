@@ -2,8 +2,10 @@ package com.gammarush.engine.entities.mobs.behaviors.subbehaviors;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
 
@@ -19,34 +21,41 @@ public class TravelSubBehavior extends SubBehavior {
 	}
 	
 	@Override
-	public void update() {
+	public void update(double delta) {
 		if(!path.isEmpty()) {
-			Vector2i waypoint = path.get(0);
-			//ADJUST LATER SO YOU CAN REFIND PATH ON TOP OF STRUCTURES
-			if(entity.getWorld().checkSolid(waypoint.x, waypoint.y)) {
+			Mob e = getMob();
+			PhysicsComponent pc = e.getPhysicsComponent();
+			Vector2f position = e.getPosition();
+			Vector2i waypoint = path.get(0).mult(Tile.WIDTH, Tile.HEIGHT);
+			
+			if(getMob().getWorld().checkSolid(waypoint.x, waypoint.y)) {
 				findPath();
 				//successful = false;
 				//complete = true;
 			}
 			
-			waypoint = waypoint.mult(Tile.WIDTH, Tile.HEIGHT);
-			if(entity.position.y > waypoint.y) {
-				entity.velocity.y -= entity.speed;
-				entity.direction = Mob.DIRECTION_UP;
+			Vector2f velocity = new Vector2f();
+			if(position.y > waypoint.y) {
+				velocity.y -= pc.acceleration;
+				e.direction = Mob.DIRECTION_UP;
 			}
-			if(entity.position.y < waypoint.y) {
-				entity.velocity.y += entity.speed;
-				entity.direction = Mob.DIRECTION_DOWN;
+			if(position.y < waypoint.y) {
+				velocity.y += pc.acceleration;
+				e.direction = Mob.DIRECTION_DOWN;
 			}
-			if(entity.position.x > waypoint.x) {
-				entity.velocity.x -= entity.speed;
-				entity.direction = Mob.DIRECTION_LEFT;
+			if(position.x > waypoint.x) {
+				velocity.x -= pc.acceleration;
+				e.direction = Mob.DIRECTION_LEFT;
 			}
-			if(entity.position.x < waypoint.x) {
-				entity.velocity.x += entity.speed;
-				entity.direction = Mob.DIRECTION_RIGHT;
+			if(position.x < waypoint.x) {
+				velocity.x += pc.acceleration;
+				e.direction = Mob.DIRECTION_RIGHT;
 			}
-			if(entity.position.x == waypoint.x && entity.position.y == waypoint.y && path.size() > 0) path.remove(0);
+			
+			e.position = e.position.add(velocity);
+			if(e.position.x == waypoint.x && e.position.y == waypoint.y && path.size() > 0) {
+				path.remove(0);
+			}
 		}
 		else {
 			complete = true;
@@ -54,7 +63,7 @@ public class TravelSubBehavior extends SubBehavior {
 	}
 	
 	private void findPath() {
-		path = entity.astar.findPath(entity.getTilePosition(), destination);
+		path = getAIComponent().getAStar().findPath(getMob().getTilePosition(), destination);
 	}
 
 }

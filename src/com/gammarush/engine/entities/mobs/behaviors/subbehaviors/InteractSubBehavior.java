@@ -10,10 +10,10 @@ public class InteractSubBehavior extends SubBehavior {
 	}
 	
 	@Override
-	public void update() {
-		Interactive e = entity.getInteractive();
+	public void update(double delta) {
+		Interactive e = getMob().getInteractive();
 		if(e != null) {
-			e.activate(entity);
+			e.activate(getMob());
 		}
 		else {
 			successful = false;

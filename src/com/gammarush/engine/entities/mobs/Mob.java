@@ -1,16 +1,12 @@
 package com.gammarush.engine.entities.mobs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import com.gammarush.engine.Game;
-import com.gammarush.engine.astar.AStar;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.animations.AnimationData;
-import com.gammarush.engine.entities.mobs.behaviors.Behavior;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
+import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
@@ -22,24 +18,13 @@ import com.gammarush.engine.physics.Physics;
 
 public class Mob extends Entity {
 	
-	protected ArrayList<Behavior> behaviors = new ArrayList<Behavior>();
-	private Comparator<Behavior> behaviorSorter = new Comparator<Behavior>() {
-		@Override
-		public int compare(Behavior b1, Behavior b2) {
-			if(b1.priority > b2.priority) return -1;
-			if(b1.priority < b2.priority) return 1;
-			return 0;
-		}
-	};
+	private AIComponent aiComponent;
 	
 	public int speed = 4;
 	public int direction = 2;
 	public boolean moving = true;
 
 	public Vehicle vehicle = null;
-	public AStar astar;
-	public Behavior idle;
-	public ClothingOutfit outfit;
 	public AnimationData animation;
 	
 	public Vector4f[] color = new Vector4f[] {new Vector4f(), new Vector4f()};
@@ -49,9 +34,9 @@ public class Mob extends Entity {
 		super(position, width, height, model, game);
 		setSolid(false);
 		setPhysicsComponent(new PhysicsComponent(this, 4));
+		setAIComponent(new AIComponent(this));
+		addComponent(new ClothingComponent(this));
 		
-		astar = new AStar(game.world);
-		outfit = new ClothingOutfit(this);
 		animation = new AnimationData(4, 8);
 	}
 	
@@ -69,7 +54,6 @@ public class Mob extends Entity {
 	public void render() {
 		if(!isRidingVehicle()) {
 			super.render();
-			outfit.render();
 		}
 	}
 	
@@ -81,15 +65,6 @@ public class Mob extends Entity {
 			Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
 			Renderer.MOB.setUniform4f("primary_color", color[0]);
 			Renderer.MOB.setUniform4f("secondary_color", color[1]);
-		}
-	}
-	
-	public void updateBehaviors() {
-		if(!behaviors.isEmpty()) {
-			Collections.sort(behaviors, behaviorSorter);
-			Behavior b = behaviors.get(0);
-			if(!b.complete) b.update();
-			else behaviors.remove(b);
 		}
 	}
 	
@@ -124,6 +99,15 @@ public class Mob extends Entity {
 	
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
+	}
+	
+	public AIComponent getAIComponent() {
+		return aiComponent;
+	}
+	
+	public void setAIComponent(AIComponent aiComponent) {
+		this.aiComponent = aiComponent;
+		addComponent(aiComponent);
 	}
 
 }

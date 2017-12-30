@@ -64,6 +64,10 @@ public class Entity {
 	}
 	
 	public void render() {
+		for(Component c : components) {
+			c.render();
+		}
+		
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.draw();
@@ -94,7 +98,7 @@ public class Entity {
 	
 	public void setPhysicsComponent(PhysicsComponent component) {
 		this.physicsComponent = component;
-		components.add(component);
+		addComponent(component);
 	}
 	
 	public boolean getScreenPresence() {

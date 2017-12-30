@@ -2,6 +2,7 @@ package com.gammarush.engine.entities.items;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 
@@ -14,6 +15,9 @@ public class Item extends Entity {
 	public Item(ItemTemplate template, Vector3f position, Game game) {
 		super(position, ItemTemplate.WIDTH, ItemTemplate.HEIGHT, template.model, game);
 		this.template = template;
+		
+		setSolid(false);
+		setPhysicsComponent(new PhysicsComponent(this));
 	}
 	
 	@Override

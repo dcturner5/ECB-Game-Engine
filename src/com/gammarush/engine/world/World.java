@@ -282,7 +282,7 @@ public class World {
 		System.out.println("WORLD GENERATED WITH SEED: " + seed);
 		
 		for(int i = 0; i < width * height; i++) {
-			array[i] = Math.random() < .99 ? Game.tiles.getId("grass") : Game.tiles.getId("wall");
+			array[i] = Math.random() < .9 ? Game.tiles.getId("grass") : Game.tiles.getId("wall");
 		}
 	}
 

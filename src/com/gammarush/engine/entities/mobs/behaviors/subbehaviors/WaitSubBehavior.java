@@ -13,7 +13,7 @@ public class WaitSubBehavior extends SubBehavior {
 	}
 	
 	@Override
-	public void update() {
+	public void update(double delta) {
 		timer.update();
 		if(timer.isReady()) {
 			complete = true;
