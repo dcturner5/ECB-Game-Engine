@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.items.clothing;
 
 import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.animations.AnimationData;
+import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
@@ -58,7 +58,7 @@ public class ClothingTemplate extends ItemTemplate {
 		model.getTexture().unbind(Mob.TEXTURE_LOCATION);
 	}
 	
-	public void prepare(Vector3f position, AnimationData animation, Vector4f[] color) {
+	public void prepare(Vector3f position, Animation animation, Vector4f[] color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, layer * .0001f + .0001f)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
 		Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());

@@ -13,19 +13,21 @@ import com.gammarush.engine.world.World;
 
 public class PhysicsComponent extends Component {
 	
+	public static final String NAME = "physics";
+	public static final String[] DEPENDENCIES = new String[]{};
 	public static final int PRIORITY = 3;
 	
 	public Vector2f velocity;
 	public float acceleration;
 
 	public PhysicsComponent(Entity entity) {
-		super(PRIORITY, entity);
+		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		this.velocity = new Vector2f();
 		this.acceleration = 0;
 	}
 	
 	public PhysicsComponent(Entity entity, float acceleration) {
-		super(PRIORITY, entity);
+		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		this.velocity = new Vector2f();
 		this.acceleration = acceleration;
 	}

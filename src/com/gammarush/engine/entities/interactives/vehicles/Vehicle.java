@@ -3,10 +3,12 @@ package com.gammarush.engine.entities.interactives.vehicles;
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.animations.AnimationData;
+import com.gammarush.engine.entities.animations.Animation;
+import com.gammarush.engine.entities.animations.AnimationHashMap;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 
@@ -22,7 +24,6 @@ public class Vehicle extends Interactive {
 	public boolean moving = true;
 	public boolean braking = false;
 	
-	public AnimationData animation = new AnimationData(2, 8);
 	public float wheelRotation = 0f;
 
 	public Vehicle(VehicleTemplate template, Vector3f position, int direction, Game game) {
@@ -34,20 +35,19 @@ public class Vehicle extends Interactive {
 		this.mobPositions = template.getMobPositions();
 		
 		setSolid(true);
-		setPhysicsComponent(new PhysicsComponent(this, template.getAcceleration()));
+		addComponent(new PhysicsComponent(this, template.getAcceleration()));
+		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 8, 2))));
+		((AnimationComponent) getComponent("animation")).start("run");
 	}
 	
 	@Override
 	public void update(double delta) {
 		super.update(delta);
 		
-		PhysicsComponent pc = getPhysicsComponent();
+		PhysicsComponent pc = (PhysicsComponent) getComponent("physics");
 		
 		if(pc.velocity.x != 0 || pc.velocity.y != 0) moving = true;
 		else moving = false;
-		
-		animation.update(moving);
-		animation.setDirection(direction);
 		
 		float deceleration = pc.acceleration / 2f;
 		if(braking) deceleration += .4f;
@@ -71,7 +71,8 @@ public class Vehicle extends Interactive {
 		
 		float speed = pc.velocity.magnitude();
 		if(speed != 0) {
-			animation.setMaxFrame((int) ((1f / speed) * 4));
+			AnimationComponent ac = (AnimationComponent) getComponent("animation");
+			ac.getAnimation().setMaxFrame((int) ((1f / speed) * 4));
 			wheelRotation += pc.velocity.x;
 		}
 	}

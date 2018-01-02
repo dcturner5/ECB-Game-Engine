@@ -17,10 +17,12 @@ import com.gammarush.engine.math.vector.Vector2f;
 
 public class ControllableComponent extends MobComponent {
 	
+	public static final String NAME = "controllable";
+	public static final String[] DEPENDENCIES = new String[]{"physics"};
 	public static final int PRIORITY = 0;
 
 	public ControllableComponent(Entity entity) {
-		super(PRIORITY, entity);
+		super(NAME, DEPENDENCIES, PRIORITY, entity);
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class ControllableComponent extends MobComponent {
 	
 	private void controlMob() {
 		Mob e = getMob();
-		PhysicsComponent pc = e.getPhysicsComponent();
+		PhysicsComponent pc = (PhysicsComponent) e.getComponent("physics");
 		
 		float acceleration = pc.acceleration;
 		if((KeyCallback.isKeyDown(GLFW_KEY_W) || KeyCallback.isKeyDown(GLFW_KEY_S)) && 
@@ -67,13 +69,14 @@ public class ControllableComponent extends MobComponent {
 			if(e1 != null) e1.activate(e);
 		}
 		
+		e.moving = !velocity.isEmpty();
 		e.position = e.position.add(velocity);
 	}
 	
 	private void controlVehicle() {
 		Mob e = getMob();
 		Vehicle v = e.getVehicle();
-		PhysicsComponent pc = v.getPhysicsComponent();
+		PhysicsComponent pc = (PhysicsComponent) v.getComponent("physics");
 		
 		v.braking = false;
 		if(KeyCallback.isKeyDown(GLFW_KEY_W)) {

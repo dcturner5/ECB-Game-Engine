@@ -1,12 +1,8 @@
 package com.gammarush.engine.entities;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.components.Component;
-import com.gammarush.engine.entities.components.PhysicsComponent;
+import com.gammarush.engine.entities.components.ComponentHashMap;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -34,8 +30,7 @@ public class Entity {
 	private boolean solid = false;
 	private AABB collisionBox;
 	
-	private ArrayList<Component> components = new ArrayList<Component>();
-	private PhysicsComponent physicsComponent;
+	private ComponentHashMap components = new ComponentHashMap();
 	
 	public static final int TEXTURE_LOCATION = 0;
 	public static final int NORMAL_MAP_LOCATION = 1;
@@ -58,13 +53,13 @@ public class Entity {
 	}
 	
 	public void update(double delta) {
-		for(Component c : components) {
+		for(Component c : components.getArray()) {
 			c.update(delta);
 		}
 	}
 	
 	public void render() {
-		for(Component c : components) {
+		for(Component c : components.getArray()) {
 			c.render();
 		}
 		
@@ -81,24 +76,15 @@ public class Entity {
 	}
 	
 	public void addComponent(Component component) {
-		components.add(component);
-		Collections.sort(components, new Comparator<Component>() {
-			@Override
-			public int compare(Component c1, Component c2) {
-				if(c1.getPriority() < c2.getPriority()) return -1;
-				if(c1.getPriority() > c2.getPriority()) return 1;
-				return 0;
-			}
-		});
+		components.put(component);
 	}
 	
-	public PhysicsComponent getPhysicsComponent() {
-		return physicsComponent;
+	public Component getComponent(String name) {
+		return components.get(name);
 	}
 	
-	public void setPhysicsComponent(PhysicsComponent component) {
-		this.physicsComponent = component;
-		addComponent(component);
+	public void removeComponent(String name) {
+		components.remove(name);
 	}
 	
 	public boolean getScreenPresence() {

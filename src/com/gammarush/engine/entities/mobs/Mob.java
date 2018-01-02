@@ -2,9 +2,11 @@ package com.gammarush.engine.entities.mobs;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.mobs.animations.AnimationData;
+import com.gammarush.engine.entities.animations.Animation;
+import com.gammarush.engine.entities.animations.AnimationHashMap;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
@@ -18,14 +20,9 @@ import com.gammarush.engine.physics.Physics;
 
 public class Mob extends Entity {
 	
-	private AIComponent aiComponent;
-	
-	public int speed = 4;
+	public boolean moving = false;
 	public int direction = 2;
-	public boolean moving = true;
-
 	public Vehicle vehicle = null;
-	public AnimationData animation;
 	
 	public Vector4f[] color = new Vector4f[] {new Vector4f(), new Vector4f()};
 	public Vector4f[] hairColor = new Vector4f[] {new Vector4f(), new Vector4f()};
@@ -33,23 +30,23 @@ public class Mob extends Entity {
 	public Mob(Vector3f position, int width, int height, Model model, Game game) {
 		super(position, width, height, model, game);
 		setSolid(false);
-		setPhysicsComponent(new PhysicsComponent(this, 4));
-		setAIComponent(new AIComponent(this));
-		addComponent(new ClothingComponent(this));
 		
-		animation = new AnimationData(4, 8);
+		addComponent(new PhysicsComponent(this, 4));
+		addComponent(new AIComponent(this));
+		addComponent(new ClothingComponent(this));
+		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 16, 8))));
+		((AnimationComponent) getComponent("animation")).start("run");
 	}
 	
 	@Override
 	public void update(double delta) {
 		super.update(delta);
 		
-		if(!isRidingVehicle()) {
-			animation.update(moving);
-			animation.setDirection(direction);
-		}
+		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
+		if(moving) ac.start("run");
+		else ac.stop();
 	}
-	
+
 	@Override
 	public void render() {
 		if(!isRidingVehicle()) {
@@ -62,7 +59,7 @@ public class Mob extends Entity {
 		if(!isRidingVehicle()) {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 					.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
-			Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
+			Renderer.MOB.setUniform1i("sprite_index", ((AnimationComponent) getComponent("animation")).getIndex());
 			Renderer.MOB.setUniform4f("primary_color", color[0]);
 			Renderer.MOB.setUniform4f("secondary_color", color[1]);
 		}
@@ -99,15 +96,6 @@ public class Mob extends Entity {
 	
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
-	}
-	
-	public AIComponent getAIComponent() {
-		return aiComponent;
-	}
-	
-	public void setAIComponent(AIComponent aiComponent) {
-		this.aiComponent = aiComponent;
-		addComponent(aiComponent);
 	}
 
 }

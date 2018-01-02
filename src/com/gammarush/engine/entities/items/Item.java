@@ -17,7 +17,7 @@ public class Item extends Entity {
 		this.template = template;
 		
 		setSolid(false);
-		setPhysicsComponent(new PhysicsComponent(this));
+		addComponent(new PhysicsComponent(this));
 	}
 	
 	@Override

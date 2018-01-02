@@ -11,13 +11,15 @@ import com.gammarush.engine.entities.mobs.behaviors.IdleBehavior;
 
 public class AIComponent extends MobComponent {
 	
+	public static final String NAME = "ai";
+	public static final String[] DEPENDENCIES = new String[]{"physics"};
 	public static final int PRIORITY = 0;
 	
 	private AStar astar;
 	private ArrayList<Behavior> behaviors = new ArrayList<Behavior>();
 
 	public AIComponent(Entity entity) {
-		super(PRIORITY, entity);
+		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		astar = new AStar(entity.getWorld());
 		addBehavior(new IdleBehavior(this));
 	}

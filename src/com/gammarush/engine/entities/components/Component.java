@@ -4,18 +4,28 @@ import com.gammarush.engine.entities.Entity;
 
 public abstract class Component {
 	
+	private String name;
+	private String[] dependencies;
 	private int priority;
 	private Entity entity;
 	
-	public Component(int priority, Entity entity) {
+	public Component(String name, String[] dependencies, int priority, Entity entity) {
+		this.name = name;
+		this.dependencies = dependencies;
 		this.priority = priority;
 		this.entity = entity;
 	}
 	
 	public abstract void update(double delta);
 	
-	public void render() {
-		
+	public void render() {}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String[] getDependencies() {
+		return dependencies;
 	}
 	
 	public int getPriority() {

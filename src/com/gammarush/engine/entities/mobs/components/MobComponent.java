@@ -8,8 +8,8 @@ public abstract class MobComponent extends Component {
 	
 	private Mob mob;
 
-	public MobComponent(int priority, Entity entity) {
-		super(priority, entity);
+	public MobComponent(String name, String[] dependencies, int priority, Entity entity) {
+		super(name, dependencies, priority, entity);
 		this.mob = (Mob) entity;
 	}
 	

@@ -12,12 +12,14 @@ import com.gammarush.engine.physics.Physics;
 
 public class ClothingComponent extends MobComponent {
 	
+	public static final String NAME = "clothing";
+	public static final String[] DEPENDENCIES = new String[]{};
 	public static final int PRIORITY = 1;
 	
 	public ClothingOutfit outfit;
 	
 	public ClothingComponent(Entity entity) {
-		super(PRIORITY, entity);
+		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		outfit = new ClothingOutfit(getMob());
 	}
 

@@ -3,6 +3,7 @@ package com.gammarush.engine.entities.interactives.vehicles;
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 
@@ -24,9 +25,11 @@ public class VehicleBatchManager {
 			batch = new VehicleBatch(vehicle.getTemplate().getId());
 			batches.add(batch);
 		}
-		batch.add(vehicle.position, vehicle.animation);
 		
-		if(vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT || vehicle.animation.getDirection() == Vehicle.DIRECTION_RIGHT) {
+		AnimationComponent ac = (AnimationComponent) vehicle.getComponent("animation");
+		batch.add(vehicle.position, ac.getAnimation());
+		
+		if(ac.getAnimation().getDirection() == Vehicle.DIRECTION_LEFT || ac.getAnimation().getDirection() == Vehicle.DIRECTION_RIGHT) {
 			WheelBatch wheelBatch = null;
 			boolean wheelExists = false;
 			for(WheelBatch b : wheelBatches) {
@@ -41,8 +44,8 @@ public class VehicleBatchManager {
 			}
 			
 			ArrayList<Vector2f> wheelPositions = vehicle.getTemplate().getWheelPositions();
-			int start = vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT ? 0 : wheelPositions.size() / 2;
-			int end = vehicle.animation.getDirection() == Vehicle.DIRECTION_LEFT ? wheelPositions.size() / 2 : wheelPositions.size();
+			int start = ac.getAnimation().getDirection() == Vehicle.DIRECTION_LEFT ? 0 : wheelPositions.size() / 2;
+			int end = ac.getAnimation().getDirection() == Vehicle.DIRECTION_LEFT ? wheelPositions.size() / 2 : wheelPositions.size();
 			for(int i = start; i < end; i++) {
 				Vector2f position = wheelPositions.get(i);
 				wheelBatch.add(vehicle.position.add(position.x, position.y, vehicle.getTemplate().getWheelExposed() ? .0001f : -.0001f), vehicle.getTemplate().getWheelSize(), vehicle.wheelRotation);

@@ -22,9 +22,9 @@ public class TravelSubBehavior extends SubBehavior {
 	
 	@Override
 	public void update(double delta) {
+		Mob e = getMob();
 		if(!path.isEmpty()) {
-			Mob e = getMob();
-			PhysicsComponent pc = e.getPhysicsComponent();
+			PhysicsComponent pc = (PhysicsComponent) e.getComponent("physics");
 			Vector2f position = e.getPosition();
 			Vector2i waypoint = path.get(0).mult(Tile.WIDTH, Tile.HEIGHT);
 			
@@ -52,12 +52,15 @@ public class TravelSubBehavior extends SubBehavior {
 				e.direction = Mob.DIRECTION_RIGHT;
 			}
 			
+			e.moving = !velocity.isEmpty();
 			e.position = e.position.add(velocity);
+			
 			if(e.position.x == waypoint.x && e.position.y == waypoint.y && path.size() > 0) {
 				path.remove(0);
 			}
 		}
 		else {
+			e.moving = false;
 			complete = true;
 		}
 	}

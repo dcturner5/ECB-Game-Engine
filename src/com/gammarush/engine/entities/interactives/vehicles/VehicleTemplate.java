@@ -3,7 +3,7 @@ package com.gammarush.engine.entities.interactives.vehicles;
 import java.util.ArrayList;
 
 import com.gammarush.engine.entities.EntityTemplate;
-import com.gammarush.engine.entities.mobs.animations.AnimationData;
+import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
@@ -86,13 +86,13 @@ public class VehicleTemplate extends EntityTemplate {
 		interior.getTexture().unbind(Vehicle.TEXTURE_LOCATION);
 	}
 	
-	public void prepareExterior(Vector3f position, AnimationData animation) {
+	public void prepareExterior(Vector3f position, Animation animation) {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", animation.getIndex());
 	}
 	
-	public void prepareInterior(Vector3f position, AnimationData animation) {
+	public void prepareInterior(Vector3f position, Animation animation) {
 		Renderer.VEHICLE.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, -.0002f)).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.VEHICLE.setUniform1i("sprite_index", animation.getDirection());

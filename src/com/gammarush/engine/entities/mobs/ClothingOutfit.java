@@ -2,6 +2,7 @@ package com.gammarush.engine.entities.mobs;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
 import com.gammarush.engine.math.vector.Vector4f;
 
@@ -16,7 +17,7 @@ public class ClothingOutfit {
 	
 	public void render() {
 		for(ClothingTemplate c : array) {
-			mob.getWorld().clothingBatchManager.add(c, mob.position, mob.animation, 
+			mob.getWorld().clothingBatchManager.add(c, mob.position, ((AnimationComponent) mob.getComponent("animation")).getAnimation(), 
 					c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
 		}
 	}

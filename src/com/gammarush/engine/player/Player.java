@@ -37,6 +37,7 @@ public class Player {
 	public void setMob(Mob mob) {
 		this.mob = mob;
 		this.mob.addComponent(new ControllableComponent(this.mob));
+		this.mob.removeComponent("ai");
 	}
 
 }
