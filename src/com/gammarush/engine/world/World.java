@@ -16,6 +16,7 @@ import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
 import com.gammarush.engine.lights.PointLight;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.BlendData;
@@ -60,9 +61,9 @@ public class World {
 		this.array = new int[width * height];
 		this.entityCollisionArray = new boolean[width * height];
 		
-		global = new GlobalLight(new Vector3f(0f, -.7f, 1f), new Vector3f(1f, 1f, 1f), .5f);
+		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
 		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .5f);
-		//lights.add(new PointLight(new Vector2f(Tile.WIDTH * 1, Tile.HEIGHT * 5), .5f, new Vector3f(1f, 1f, 1f), 0f));
+		lights.add(new PointLight(new Vector2f(Tile.WIDTH * 1, Tile.HEIGHT * 5), .5f, new Vector3f(1f, 1f, 1f), 0f));
 	}
 	
 	public void update(double delta) {
@@ -191,12 +192,14 @@ public class World {
 		Renderer.VEHICLE.disable();
 		
 		Renderer.MOB.enable();
+		
 		for(Human e : humans) {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();
 		}
 		game.player.render();
+		
 		clothingBatchManager.render();
 		Renderer.MOB.disable();
 	}

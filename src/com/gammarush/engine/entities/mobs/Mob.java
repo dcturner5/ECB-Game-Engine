@@ -12,6 +12,7 @@ import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
+import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
@@ -34,7 +35,7 @@ public class Mob extends Entity {
 		addComponent(new PhysicsComponent(this, 4));
 		addComponent(new AIComponent(this));
 		addComponent(new ClothingComponent(this));
-		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 16, 8))));
+		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 16, 8), new Animation("stab", false, 16, 24, 8))));
 		((AnimationComponent) getComponent("animation")).start("run");
 	}
 	
@@ -42,16 +43,14 @@ public class Mob extends Entity {
 	public void update(double delta) {
 		super.update(delta);
 		
-		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
-		if(moving) ac.start("run");
-		else ac.stop();
+		if(KeyCallback.isKeyDown(org.lwjgl.glfw.GLFW.GLFW_KEY_T)) {
+			((AnimationComponent) getComponent("animation")).start("stab");
+		}
 	}
 
 	@Override
 	public void render() {
-		if(!isRidingVehicle()) {
-			super.render();
-		}
+		super.render();
 	}
 	
 	@Override

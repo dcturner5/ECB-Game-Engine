@@ -64,6 +64,10 @@ public class Animation {
 		return name;
 	}
 	
+	public boolean isRunning() {
+		return running;
+	}
+	
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}

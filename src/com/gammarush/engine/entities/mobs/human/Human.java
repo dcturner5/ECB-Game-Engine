@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 import com.gammarush.engine.graphics.Renderer;
@@ -16,7 +17,7 @@ public class Human extends Mob {
 	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
-	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 16));
+	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 24));
 	
 	public static final Vector4f[] BODY_COLOR_BLACK = new Vector4f[] {new Vector4f(.31f, .14f, .03f, 1), new Vector4f(.26f, .12f, .02f, 1)};
 	public static final Vector4f[] BODY_COLOR_BROWN = new Vector4f[] {new Vector4f(.65f, .40f, .13f, 1), new Vector4f(.61f, .32f, .12f, 1)};
@@ -44,8 +45,16 @@ public class Human extends Mob {
 		//head
 		//if(Math.random() < .25) outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_HEAD));
 		//body
-		//if(Math.random() < .75) outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_BODY));
+		//if(Math.random() < .75) outfit.add(Game.clothings.getRandomByType(ClothingTemplate.TYPE_BODY))
+	}
+	
+	@Override
+	public void update(double delta) {
+		super.update(delta);
 		
+		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
+		if(moving) ac.start2("run");
+		else ac.stop("run");
 	}
 	
 	public void travel(int x, int y) {

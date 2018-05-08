@@ -1,43 +1,34 @@
 {
-
-	"clothing":[
-
+	"clothing": [
 		{
-			"name":"hair01",
-			"type":"hair",
-			"pool":"rare",
-			"texture":"res/entities/items/clothings/hair01.png"
+			"name": "hair01",
+			"type": "hair",
+			"pool": "rare",
+			"texture": "res/entities/items/clothings/hair01.png"
 		},
 		{
-			"name":"hair02",
-			"type":"hair",
-			"pool":"rare",
-			"texture":"res/entities/items/clothings/hair02.png"
+			"name": "hair02",
+			"type": "hair",
+			"pool": "rare",
+			"texture": "res/entities/items/clothings/hair02.png"
 		},
 		{
-
-			"name":"suit",
-			"type":"body",
-			"pool":"common",
-			"texture":"res/entities/items/clothings/suit.png"
-
-		}
-,
+			"name": "suit",
+			"type": "body",
+			"pool": "common",
+			"texture": "res/entities/items/clothings/suit.png"
+		},
 		{
-
-			"name":"overalls",
-			"type":"body",
-			"pool":"common",
-			"texture":"res/entities/items/clothings/overalls.png"
-
-		}
-,
+			"name": "overalls",
+			"type": "body",
+			"pool": "common",
+			"texture": "res/entities/items/clothings/overalls.png"
+		},
 		{
-			"name":"hat",
-			"type":"head",
-			"pool":"common",
-			"texture":"res/entities/items/clothings/hat.png"
+			"name": "hat",
+			"type": "head",
+			"pool": "common",
+			"texture": "res/entities/items/clothings/hat.png"
 		}
 	]
-
 }

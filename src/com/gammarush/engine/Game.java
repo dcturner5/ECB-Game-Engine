@@ -136,17 +136,20 @@ public class Game implements Runnable {
 			lastTime = now;
 			if(delta >= 1.0) {
 				update(delta);
+				//System.out.println(delta);
 				updates++;
 				delta--;
 			}
 			render();
 			frames++;
+			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				glfwSetWindowTitle(window, system.MemInfo() + "        UPS: " + updates + ", FPS: " + frames);
 				updates = 0;
 				frames = 0;
 			}
+			
 			if(glfwWindowShouldClose(window)) {
 				running = false;
 			}

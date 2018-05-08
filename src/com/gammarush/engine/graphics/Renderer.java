@@ -84,7 +84,6 @@ public class Renderer {
 		TILE = new Shader("shaders/tile.vert", "shaders/tile.frag");
 		TILE.enable();
 		TILE.setUniform1i("sprite", Tile.TEXTURE_LOCATION);
-		TILE.setUniform1i("normal_map", Tile.NORMAL_MAP_LOCATION);
 		TILE.setUniform1i("blend_map", Tile.BLEND_MAP_MASK_LOCATION);
 		TILE.setUniform1i("blend_sprite", Tile.BLEND_MAP_TEXTURE_LOCATION);
 		TILE.disable();
@@ -137,39 +136,59 @@ public class Renderer {
 		
 		DEFAULT.enable();
 		DEFAULT.setUniformMat4f("vw_matrix", viewMatrix);
-		DEFAULT.setUniform2f("resolution", new Vector2f(Renderer.screenWidth, Renderer.screenHeight));
+		DEFAULT.setUniform2f("resolution", new Vector2f(screenWidth, screenHeight));
 		DEFAULT.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
 		DEFAULT.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
 		DEFAULT.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
 		for(int i = 0; i < game.world.lights.size(); i++) {
 			PointLight light = game.world.lights.get(i);
-			Renderer.DEFAULT.setUniform3f("point_position[" + i + "]", light.position);
-			Renderer.DEFAULT.setUniform1f("point_radius[" + i + "]", light.radius);
-			Renderer.DEFAULT.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+			DEFAULT.setUniform3f("point_position[" + i + "]", light.position);
+			DEFAULT.setUniform1f("point_radius[" + i + "]", light.radius);
+			DEFAULT.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
 		}
-		Renderer.DEFAULT.disable();
+		DEFAULT.disable();
 		
-		Renderer.MOB.enable();
-		Renderer.MOB.setUniformMat4f("vw_matrix", viewMatrix);
-		Renderer.MOB.disable();
-		
-		Renderer.TILE.enable();
-		Renderer.TILE.setUniformMat4f("vw_matrix", viewMatrix);
-		Renderer.TILE.setUniform2f("resolution", new Vector2f(Renderer.screenWidth, Renderer.screenHeight));
-		Renderer.TILE.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
-		Renderer.TILE.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
-		Renderer.TILE.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
+		MOB.enable();
+		MOB.setUniformMat4f("vw_matrix", viewMatrix);
+		MOB.setUniform2f("resolution", new Vector2f(screenWidth, screenHeight));
+		MOB.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
+		MOB.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
+		MOB.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
 		for(int i = 0; i < game.world.lights.size(); i++) {
 			PointLight light = game.world.lights.get(i);
-			Renderer.TILE.setUniform3f("point_position[" + i + "]", light.position);
-			Renderer.TILE.setUniform1f("point_radius[" + i + "]", light.radius);
-			Renderer.TILE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+			MOB.setUniform3f("point_position[" + i + "]", light.position);
+			MOB.setUniform1f("point_radius[" + i + "]", light.radius);
+			MOB.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
 		}
-		Renderer.TILE.disable();
+		MOB.disable();
 		
-		Renderer.VEHICLE.enable();
-		Renderer.VEHICLE.setUniformMat4f("vw_matrix", viewMatrix);
-		Renderer.VEHICLE.disable();
+		TILE.enable();
+		TILE.setUniformMat4f("vw_matrix", viewMatrix);
+		TILE.setUniform2f("resolution", new Vector2f(screenWidth, screenHeight));
+		TILE.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
+		TILE.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
+		TILE.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
+		for(int i = 0; i < game.world.lights.size(); i++) {
+			PointLight light = game.world.lights.get(i);
+			TILE.setUniform3f("point_position[" + i + "]", light.position);
+			TILE.setUniform1f("point_radius[" + i + "]", light.radius);
+			TILE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+		}
+		TILE.disable();
+		
+		VEHICLE.enable();
+		VEHICLE.setUniformMat4f("vw_matrix", viewMatrix);
+		VEHICLE.setUniform2f("resolution", new Vector2f(screenWidth, screenHeight));
+		VEHICLE.setUniform4f("global_color", new Vector4f(game.world.global.color.x, game.world.global.color.y, game.world.global.color.z, game.world.global.intensity));
+		VEHICLE.setUniform3f("global_direction", new Vector3f(game.world.global.direction.x, game.world.global.direction.y, game.world.global.direction.z));
+		VEHICLE.setUniform4f("ambient_color", new Vector4f(game.world.ambient.color.x, game.world.ambient.color.y, game.world.ambient.color.z, game.world.ambient.intensity));
+		for(int i = 0; i < game.world.lights.size(); i++) {
+			PointLight light = game.world.lights.get(i);
+			VEHICLE.setUniform3f("point_position[" + i + "]", light.position);
+			VEHICLE.setUniform1f("point_radius[" + i + "]", light.radius);
+			VEHICLE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
+		}
+		VEHICLE.disable();
 	}
 
 }

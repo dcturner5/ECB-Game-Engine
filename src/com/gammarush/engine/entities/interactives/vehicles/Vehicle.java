@@ -75,6 +75,15 @@ public class Vehicle extends Interactive {
 			ac.getAnimation().setMaxFrame((int) ((1f / speed) * 4));
 			wheelRotation += pc.velocity.x;
 		}
+		
+		for(int i = 0; i < mobs.size(); i++) {
+			Mob e = mobs.get(i);
+			Vector2f position = mobPositions.get(i + direction * occupancy);
+			if(position != null) {
+				e.position.x = this.position.x + position.x;
+				e.position.y = this.position.y + position.y;
+			}
+		}
 	}
 	
 	@Override

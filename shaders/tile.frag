@@ -43,7 +43,7 @@ void main()
 	}
 	else {
 		diffuse_color = texture(sprite, fs_in.tc);
-		normal = texture(normal_map, fs_in.tc).rgb * 2.0 - 1.0;
+		normal = vec3(0, 0, -1);
 	}
 	
 	vec3 ambient = ambient_color.rgb * ambient_color.a;

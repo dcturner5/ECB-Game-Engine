@@ -5,6 +5,7 @@ layout(location = 0) out vec4 color;
 uniform mat4 pr_matrix;
 
 uniform sampler2D sprite;
+uniform sampler2D normal_map;
 
 const int MAX_LIGHTS = 8;
 uniform float point_radius[MAX_LIGHTS];
@@ -13,7 +14,6 @@ uniform vec4 ambient_color;
 uniform vec3 global_direction;
 uniform vec4 global_color;
 uniform vec2 resolution;
-uniform sampler2D normal_map;
 
 in DATA
 {

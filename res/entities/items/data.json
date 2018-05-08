@@ -1,46 +1,39 @@
 {
-
-	"items":[
-
+	"items": [
 		{
-			"name":"hair01",
-			"pool":"common",
-			"clothing":{
-				"type":"hair"
+			"name": "hair01",
+			"pool": "common",
+			"clothing": {
+				"type": "hair"
 			}
 		},
 		{
-			"name":"hair02",
-			"pool":"rare",
-			"clothing":{
-				"type":"hair"
+			"name": "hair02",
+			"pool": "rare",
+			"clothing": {
+				"type": "hair"
 			}
 		},
 		{
-
-			"name":"suit",
-			"pool":"common",
-			"clothing":{
-				"type":"body"
+			"name": "suit",
+			"pool": "common",
+			"clothing": {
+				"type": "body"
 			}
-		}
-,
+		},
 		{
-
-			"name":"overalls",
-			"pool":"common",
-			"clothing":{
-				"type":"body"
+			"name": "overalls",
+			"pool": "common",
+			"clothing": {
+				"type": "body"
 			}
-		}
-,
+		},
 		{
-			"name":"hat",
-			"pool":"common",
-			"clothing":{
-				"type":"head"
+			"name": "hat",
+			"pool": "common",
+			"clothing": {
+				"type": "head"
 			}
 		}
 	]
-
 }

@@ -43,6 +43,13 @@ public class AnimationComponent extends Component {
 		animations.put(animation);
 	}
 	
+	public void start2(String name) {
+		if(active == null || !active.isRunning()) {
+			active = animations.get(name);
+			active.start();
+		}
+	}
+	
 	public void start(String name) {
 		if(active != null) active.stop();
 		active = animations.get(name);
@@ -51,6 +58,10 @@ public class AnimationComponent extends Component {
 	
 	public void stop() {
 		active.stop();
+	}
+	
+	public void stop(String name) {
+		animations.get(name).stop();
 	}
 	
 	public Animation getAnimation() {
