@@ -3,6 +3,9 @@ package com.gammarush.engine.utils.json;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.gammarush.engine.entities.animations.Animation;
+import com.gammarush.engine.entities.animations.AnimationHashMap;
+
 public class JSON extends HashMap<String, Object> {
 	
 	private static final long serialVersionUID = 494413607983759569L;
@@ -24,6 +27,15 @@ public class JSON extends HashMap<String, Object> {
 			}
 		}
 		return map;
+	}
+	
+	public AnimationHashMap getAnimationHashMap(String string) {
+		AnimationHashMap result = new AnimationHashMap();
+		ArrayList<JSON> array = getArray(string);
+		for(JSON element : array) {
+			result.put(new Animation(element));
+		}
+		return result;
 	}
 	
 	@SuppressWarnings("unchecked")

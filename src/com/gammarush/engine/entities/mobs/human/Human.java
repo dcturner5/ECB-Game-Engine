@@ -18,7 +18,7 @@ public class Human extends Mob {
 	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
-	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 40));
+	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 64));
 	
 	public static final Vector4f[] BODY_COLOR_BLACK = new Vector4f[] {new Vector4f(.31f, .14f, .03f, 1), new Vector4f(.26f, .12f, .02f, 1)};
 	public static final Vector4f[] BODY_COLOR_BROWN = new Vector4f[] {new Vector4f(.65f, .40f, .13f, 1), new Vector4f(.61f, .32f, .12f, 1)};

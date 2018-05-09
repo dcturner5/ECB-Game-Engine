@@ -63,10 +63,6 @@ public class Game implements Runnable {
 	}
 	
 	private void init() {
-		//JSON json = JSONLoader.load("res/test.json");
-		//System.out.println(json.getJSON("tiles[0].solid"));
-		
-		
 		GLFWErrorCallback.createPrint(System.err).set();
 		
 		if(!glfwInit()) {
@@ -115,7 +111,7 @@ public class Game implements Runnable {
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		//world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
+		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
 	}

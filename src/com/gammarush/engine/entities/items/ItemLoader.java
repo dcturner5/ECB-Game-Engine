@@ -10,8 +10,7 @@ public class ItemLoader {
 		ItemHashMap result = new ItemHashMap();
 		JSON json = JSONLoader.load(path);
 		
-		@SuppressWarnings("unchecked")
-		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("items");
+		ArrayList<JSON> array = json.getArray("items");
 		for(int i = 0; i < array.size(); i++) {
 			JSON element = array.get(i);
 			result.put(new ItemTemplate(i, element));

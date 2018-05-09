@@ -43,7 +43,7 @@ public class ClothingTemplate extends ItemTemplate {
 			layer = 2;
 		}
 		
-		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 16);
+		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 64);
 		this.model = new Model(texture);
 	}
 	

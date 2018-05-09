@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.entities.EntityTemplate;
 import com.gammarush.engine.entities.animations.Animation;
+import com.gammarush.engine.entities.animations.AnimationHashMap;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
@@ -28,6 +29,8 @@ public class VehicleTemplate extends EntityTemplate {
 	private ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
 	private ArrayList<Vector2f> wheelPositions = new ArrayList<Vector2f>();
 	
+	private AnimationHashMap animationHashMap;
+	
 	public VehicleTemplate(int id, JSON json) {
 		super(id, json);
 		
@@ -47,7 +50,7 @@ public class VehicleTemplate extends EntityTemplate {
 		
 		this.occupancy = this.mobPositions.size() / 4;
 		
-		Texture exteriorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/exterior.png", 8);
+		Texture exteriorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/exterior.png", 6);
 		this.exterior = new Model(exteriorTexture);
 		Texture interiorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/interior.png", 4);
 		this.interior = new Model(interiorTexture);
@@ -64,6 +67,8 @@ public class VehicleTemplate extends EntityTemplate {
 				this.wheelPositions.add(new Vector2f(position.getFloat("x") * Renderer.SCALE - wheelSize / 2, position.getFloat("y") * Renderer.SCALE - wheelSize / 2));
 			}
 		}
+		
+		animationHashMap = json.getAnimationHashMap("animations");
 	}
 	
 	public void render(VehicleBatch batch) {
@@ -116,6 +121,10 @@ public class VehicleTemplate extends EntityTemplate {
 	
 	public Model getModel() {
 		return exterior;
+	}
+	
+	public AnimationHashMap getAnimationHashMap() {
+		return animationHashMap;
 	}
 	
 	public ArrayList<Vector2f> getMobPositions() {

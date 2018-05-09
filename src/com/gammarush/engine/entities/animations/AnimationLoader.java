@@ -10,8 +10,7 @@ public class AnimationLoader {
 		AnimationHashMap result = new AnimationHashMap();
 		JSON json = JSONLoader.load(path);
 		
-		@SuppressWarnings("unchecked")
-		ArrayList<JSON> array = (ArrayList<JSON>) json.getJSON("animations");
+		ArrayList<JSON> array = json.getArray("animations");
 		for(int i = 0; i < array.size(); i++) {
 			JSON element = array.get(i);
 			result.put(new Animation(element));

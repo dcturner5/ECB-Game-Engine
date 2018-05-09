@@ -73,7 +73,10 @@ public class Animation {
 	}
 	
 	public void setDirection(int direction) {
+		if(this.direction == direction) return;
+		
 		this.direction = direction;
+		arrayIndex = 0;
 		index = indices.get(direction).get(arrayIndex);
 	}
 	

@@ -50,7 +50,14 @@ public class AnimationComponent extends Component {
 		active = animations.get(name);
 		active.start();
 		//prevents glitch when changed directions when animation is not active - cannot be updated
-		active.setDirection(((Mob) getEntity()).direction);
+		
+		Entity e = getEntity();
+		if(e instanceof Mob) {
+			active.setDirection(((Mob) e).direction);
+		}
+		if(e instanceof Vehicle) {
+			active.setDirection(((Vehicle) e).direction);
+		}
 	}
 	
 	public void stop() {

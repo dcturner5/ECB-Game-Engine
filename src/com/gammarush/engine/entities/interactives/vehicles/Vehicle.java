@@ -7,8 +7,6 @@ import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.animations.Animation;
-import com.gammarush.engine.entities.animations.AnimationHashMap;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 
@@ -36,7 +34,7 @@ public class Vehicle extends Interactive {
 		
 		setSolid(true);
 		addComponent(new PhysicsComponent(this, template.getAcceleration()));
-		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 8, 2))));
+		addComponent(new AnimationComponent(this, template.getAnimationHashMap()));
 		((AnimationComponent) getComponent("animation")).start("run");
 	}
 	
