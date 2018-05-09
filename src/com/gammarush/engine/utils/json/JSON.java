@@ -31,10 +31,25 @@ public class JSON extends HashMap<String, Object> {
 		return (ArrayList<JSON>) getJSON(string);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<JSON>> get2DArray(String string) {
+		return (ArrayList<ArrayList<JSON>>) getJSON(string);
+	}
+	
 	public boolean getBoolean(String string) {
 		Object json = getJSON(string);
 		if(json == null) return false;
 		return (boolean) json;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Boolean> getBooleanArray(String string) {
+		return (ArrayList<Boolean>) getJSON(string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<Boolean>> getBoolean2DArray(String string) {
+		return (ArrayList<ArrayList<Boolean>>) getJSON(string);
 	}
 	
 	public float getFloat(String string) {
@@ -42,12 +57,42 @@ public class JSON extends HashMap<String, Object> {
 		return json instanceof Float ? (float) json : (int) json * 1.0f;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Float> getFloatArray(String string) {
+		return (ArrayList<Float>) getJSON(string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<Float>> getFloat2DArray(String string) {
+		return (ArrayList<ArrayList<Float>>) getJSON(string);
+	}
+	
 	public int getInteger(String string) {
 		return (int) getJSON(string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Integer> getIntegerArray(String string) {
+		return (ArrayList<Integer>) getJSON(string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<Integer>> getInteger2DArray(String string) {
+		return (ArrayList<ArrayList<Integer>>) getJSON(string);
 	}
 	
 	public String getString(String string) {
 		return (String) getJSON(string);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getStringArray(String string) {
+		return (ArrayList<String>) getJSON(string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<String>> getString2DArray(String string) {
+		return (ArrayList<ArrayList<String>>) getJSON(string);
+	}
+	
 }

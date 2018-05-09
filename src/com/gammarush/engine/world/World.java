@@ -6,7 +6,6 @@ import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.interactives.vehicles.VehicleBatchManager;
 import com.gammarush.engine.entities.items.Item;
@@ -42,9 +41,6 @@ public class World {
 	public ArrayList<Mob> mobs = new ArrayList<Mob>();
 	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	
-	//3rd tier
-	public ArrayList<Human> humans = new ArrayList<Human>();
-	
 	public GlobalLight global;
 	public AmbientLight ambient;
 	public ArrayList<PointLight> lights = new ArrayList<PointLight>();
@@ -69,9 +65,6 @@ public class World {
 	public void update(double delta) {
 		interactives.clear();
 		interactives.addAll(vehicles);
-		
-		mobs.clear();
-		mobs.addAll(humans);
 		
 		entities.clear();
 		entities.addAll(mobs);
@@ -192,8 +185,7 @@ public class World {
 		Renderer.VEHICLE.disable();
 		
 		Renderer.MOB.enable();
-		
-		for(Human e : humans) {
+		for(Mob e : mobs) {
 			if(!e.getScreenPresence()) continue;
 			e.prepare();
 			e.render();

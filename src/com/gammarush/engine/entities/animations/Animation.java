@@ -1,26 +1,27 @@
 package com.gammarush.engine.entities.animations;
 
+import java.util.ArrayList;
+
+import com.gammarush.engine.utils.json.JSON;
+
 public class Animation {
 	
 	private String name;
 	private boolean loop;
-	private int startIndex;
-	private int endIndex;
-	private int width;
 	private int maxFrame;
+	private ArrayList<ArrayList<Integer>> indices;
 	
 	private int index = 0;
+	private int arrayIndex = 0;
 	private int frame = 0;
 	private int direction = 0;
 	private boolean running = false;
 	
-	public Animation(String name, boolean loop, int startIndex, int endIndex, int maxFrame) {
-		this.name = name;
-		this.loop = loop;
-		this.startIndex = startIndex;
-		this.width = (endIndex - startIndex) / 4;
-		this.endIndex = startIndex + width;
-		this.maxFrame = maxFrame;
+	public Animation(JSON json) {
+		this.name = json.getString("name");
+		this.loop = json.getBoolean("loop");
+		this.maxFrame = json.getInteger("maxFrame");
+		this.indices = json.getInteger2DArray("indices");
 	}
 	
 	public void update(double delta) {
@@ -29,23 +30,26 @@ public class Animation {
                 frame += 1;
             } else {
                 frame = 0;
-                if(index < endIndex - 1) {
-                    index += 1;
+                if(arrayIndex < indices.get(direction).size() - 1) {
+                    arrayIndex += 1;
                 } else {
-                    index = startIndex;
-                    if(!loop) {
-                    	stop();
-                    }
+                    arrayIndex = 0;
+                    if(!loop) stop();
                 }
+                index = indices.get(direction).get(arrayIndex);
             }
 		} else {
 			frame = 0;
-            index = startIndex;
+            index = indices.get(direction).get(0);
 		}
 	}
 	
 	public void start() {
-		running = true;
+		if(!running) {
+			running = true;
+			frame = 0;
+			index = indices.get(direction).get(0);
+		}
 	}
 	
 	public void stop() {
@@ -57,7 +61,7 @@ public class Animation {
 	}
 	
 	public int getIndex() {
-		return index + direction * width;
+		return index;
 	}
 	
 	public String getName() {
@@ -70,6 +74,7 @@ public class Animation {
 	
 	public void setDirection(int direction) {
 		this.direction = direction;
+		index = indices.get(direction).get(arrayIndex);
 	}
 	
 	public void setMaxFrame(int maxFrame) {

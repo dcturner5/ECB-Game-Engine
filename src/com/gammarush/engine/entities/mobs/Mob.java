@@ -5,8 +5,6 @@ import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.animations.Animation;
-import com.gammarush.engine.entities.animations.AnimationHashMap;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
@@ -35,8 +33,6 @@ public class Mob extends Entity {
 		addComponent(new PhysicsComponent(this, 4));
 		addComponent(new AIComponent(this));
 		addComponent(new ClothingComponent(this));
-		addComponent(new AnimationComponent(this, new AnimationHashMap(new Animation("run", true, 0, 16, 8), new Animation("stab", false, 16, 24, 8))));
-		((AnimationComponent) getComponent("animation")).start("run");
 	}
 	
 	@Override

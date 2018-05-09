@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.animations.AnimationLoader;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
@@ -17,7 +18,7 @@ public class Human extends Mob {
 	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
-	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 24));
+	public static final Model MODEL = new Model(new TextureArray("res/entities/mobs/human/human.png", 40));
 	
 	public static final Vector4f[] BODY_COLOR_BLACK = new Vector4f[] {new Vector4f(.31f, .14f, .03f, 1), new Vector4f(.26f, .12f, .02f, 1)};
 	public static final Vector4f[] BODY_COLOR_BROWN = new Vector4f[] {new Vector4f(.65f, .40f, .13f, 1), new Vector4f(.61f, .32f, .12f, 1)};
@@ -34,6 +35,8 @@ public class Human extends Mob {
 
 	public Human(Vector3f position, Game game) {
 		super(position, WIDTH, HEIGHT, MODEL, game);
+		
+		addComponent(new AnimationComponent(this, AnimationLoader.load("res/entities/mobs/human/data.json")));
 		
 		//race and hair
 		color = BODY_COLORS.get((int) (Math.random() * BODY_COLORS.size()));
@@ -53,8 +56,10 @@ public class Human extends Mob {
 		super.update(delta);
 		
 		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
-		if(moving) ac.start2("run");
+		if(moving) ac.start("run");
 		else ac.stop("run");
+
+		if(!ac.isRunning()) ac.start("idle");
 	}
 	
 	public void travel(int x, int y) {

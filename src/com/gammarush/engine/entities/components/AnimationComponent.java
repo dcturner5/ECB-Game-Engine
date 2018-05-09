@@ -43,17 +43,14 @@ public class AnimationComponent extends Component {
 		animations.put(animation);
 	}
 	
-	public void start2(String name) {
-		if(active == null || !active.isRunning()) {
-			active = animations.get(name);
-			active.start();
-		}
-	}
-	
 	public void start(String name) {
-		if(active != null) active.stop();
+		if(active != null && !active.equals(animations.get(name))) {
+			active.stop();
+		}
 		active = animations.get(name);
 		active.start();
+		//prevents glitch when changed directions when animation is not active - cannot be updated
+		active.setDirection(((Mob) getEntity()).direction);
 	}
 	
 	public void stop() {
@@ -69,7 +66,13 @@ public class AnimationComponent extends Component {
 	}
 	
 	public int getIndex() {
+		if(active == null) return 0;
 		return active.getIndex();
+	}
+	
+	public boolean isRunning() {
+		if(active != null && active.isRunning()) return true;
+		return false;
 	}
 
 }

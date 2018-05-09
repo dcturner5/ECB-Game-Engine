@@ -115,7 +115,7 @@ public class Game implements Runnable {
 		
 		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
 		
-		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
+		//world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
 	}

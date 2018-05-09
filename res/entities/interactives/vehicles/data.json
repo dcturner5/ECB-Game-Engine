@@ -1,35 +1,70 @@
 {
-
-	"vehicles":[
+	"vehicles": [
 		{
-			"name":"mercury",
-			"width":48,
-			"height":32,
-			"acceleration":.2,
-			"mobs":{
-				"positions":[
-					null,{"x":0,"y":1},
-					{"x":0,"y":-3},null,
-					{"x":1,"y":0},{"x":14,"y":0},
-					{"x":-1,"y":0},{"x":-14,"y":0}
+			"name": "mercury",
+			"width": 48,
+			"height": 32,
+			"acceleration": 0.2,
+			"mobs": {
+				"positions": [
+					null,
+					{
+						"x": 0,
+						"y": 1
+					},
+					{
+						"x": 0,
+						"y": -3
+					},
+					null,
+					{
+						"x": 1,
+						"y": 0
+					},
+					{
+						"x": 14,
+						"y": 0
+					},
+					{
+						"x": -1,
+						"y": 0
+					},
+					{
+						"x": -14,
+						"y": 0
+					}
 				]
 			},
-			"wheel":{
-				"size":10,
-				"exposed":true,
-				"positions":[
-					{"x":6,"y":27},{"x":41,"y":27},
-					{"x":7,"y":27},{"x":42,"y":27}
+			"wheel": {
+				"size": 10,
+				"exposed": true,
+				"positions": [
+					{
+						"x": 6,
+						"y": 27
+					},
+					{
+						"x": 41,
+						"y": 27
+					},
+					{
+						"x": 7,
+						"y": 27
+					},
+					{
+						"x": 42,
+						"y": 27
+					}
 				]
 			}
 		}
 	],
-	"wheels":[
+	"wheels": [
 		{
-			"name":"default"
+			"name": "default"
 		},
 		{
-			"name":"large"
+			"name": "large"
 		}
 	]
 }
