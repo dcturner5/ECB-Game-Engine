@@ -17,6 +17,7 @@ public class ClothingOutfit {
 	
 	public void render() {
 		for(ClothingTemplate c : array) {
+			//TODO ADD SIZE ATTRIBS SO CLOTHES SCALE WITH MOB
 			mob.getWorld().clothingBatchManager.add(c, mob.position, ((AnimationComponent) mob.getComponent("animation")).getAnimation(), 
 					c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
 		}

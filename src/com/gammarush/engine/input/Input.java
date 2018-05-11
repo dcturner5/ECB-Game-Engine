@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.items.Item;
-import com.gammarush.engine.entities.mobs.human.Human;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.gui.components.UIComponent;
 import com.gammarush.engine.gui.containers.UIContainer;
@@ -139,10 +139,10 @@ public class Input {
 		}
 		if(container == null || !container.solid) {
 			Vector2f mousePos = getMouseWorldPosition();
-			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH) + Tile.WIDTH / 2 - Human.WIDTH / 2;
-			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT) + Tile.HEIGHT / 2 - Human.HEIGHT / 2;
+			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH);
+			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
 			game.world.items.add(new Item(Game.items.getRandom(), new Vector3f(mousePos.x, mousePos.y, Renderer.ENTITY_LAYER), game));
-			game.world.mobs.add(new Human(new Vector3f(mousePos.x, mousePos.y + 256, Renderer.ENTITY_LAYER), game));
+			game.world.mobs.add(new Mob(Game.mobs.getRandom(), new Vector3f(mousePos.x, mousePos.y + 256, Renderer.ENTITY_LAYER), game));
 		}
 	}
 	

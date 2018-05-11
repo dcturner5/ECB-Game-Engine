@@ -6,6 +6,7 @@ import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.MobBatchManager;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.interactives.vehicles.VehicleBatchManager;
 import com.gammarush.engine.entities.items.Item;
@@ -15,7 +16,6 @@ import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
 import com.gammarush.engine.lights.PointLight;
-import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.BlendData;
@@ -45,6 +45,7 @@ public class World {
 	public AmbientLight ambient;
 	public ArrayList<PointLight> lights = new ArrayList<PointLight>();
 	
+	public MobBatchManager mobBatchManager = new MobBatchManager();
 	public ItemBatchManager itemBatchManager = new ItemBatchManager();
 	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
 	public VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
@@ -185,13 +186,8 @@ public class World {
 		Renderer.VEHICLE.disable();
 		
 		Renderer.MOB.enable();
-		for(Mob e : mobs) {
-			if(!e.getScreenPresence()) continue;
-			e.prepare();
-			e.render();
-		}
+		mobBatchManager.render(mobs);
 		game.player.render();
-		
 		clothingBatchManager.render();
 		Renderer.MOB.disable();
 	}
@@ -277,7 +273,7 @@ public class World {
 		System.out.println("WORLD GENERATED WITH SEED: " + seed);
 		
 		for(int i = 0; i < width * height; i++) {
-			array[i] = Math.random() < .9 ? Game.tiles.getId("grass") : Game.tiles.getId("wall");
+			array[i] = Math.random() < .99 ? Game.tiles.getId("grass") : Game.tiles.getId("wall");
 		}
 	}
 

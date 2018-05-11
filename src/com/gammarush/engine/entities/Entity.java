@@ -59,9 +59,7 @@ public class Entity {
 	}
 	
 	public void render() {
-		for(Component c : components.getArray()) {
-			c.render();
-		}
+		renderComponents();
 		
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
@@ -85,6 +83,12 @@ public class Entity {
 	
 	public void removeComponent(String name) {
 		components.remove(name);
+	}
+	
+	public void renderComponents() {
+		for(Component c : components.getArray()) {
+			c.render();
+		}
 	}
 	
 	public boolean getScreenPresence() {

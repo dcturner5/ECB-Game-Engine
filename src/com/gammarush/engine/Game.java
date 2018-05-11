@@ -104,7 +104,7 @@ public class Game implements Runnable {
 		renderer.setClearColor(0x000000);
 		
 		tiles = TileLoader.load("res/tiles/data.json");
-		//mobs = MobLoader.load("res/entities/mobs/data.json");
+		mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
 		vehicles = VehicleLoader.load("res/entities/interactives/vehicles/data.json");

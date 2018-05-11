@@ -3,7 +3,6 @@ package com.gammarush.engine.player;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
-import com.gammarush.engine.entities.mobs.human.Human;
 import com.gammarush.engine.math.vector.Vector3f;
 
 public class Player {
@@ -13,7 +12,7 @@ public class Player {
 	
 	public Player(Vector3f position, Game game) {
 		this.game = game;
-		setMob(new Human(position, game));
+		setMob(new Mob(Game.mobs.get("human"), position, game));
 	}
 	
 	public void update(double delta) {
@@ -27,7 +26,7 @@ public class Player {
 	}
 	
 	public void prepare() {
-		getMob().prepare();
+		mob.prepare();
 	}
 
 	public Mob getMob() {
