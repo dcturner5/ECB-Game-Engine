@@ -16,6 +16,8 @@ import com.gammarush.engine.entities.items.ItemHashMap;
 import com.gammarush.engine.entities.items.ItemLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
 import com.gammarush.engine.entities.items.clothing.ClothingLoader;
+import com.gammarush.engine.entities.mobs.MobHashMap;
+import com.gammarush.engine.entities.mobs.MobLoader;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.Input;
@@ -49,9 +51,9 @@ public class Game implements Runnable {
 	public Player player;
 	public UIManager gui;
 	
+	public static MobHashMap mobs;
 	public static ItemHashMap items;
 	public static ClothingHashMap clothings;
-	
 	public static VehicleHashMap vehicles;
 	
 	public static TileHashMap tiles;
@@ -102,6 +104,7 @@ public class Game implements Runnable {
 		renderer.setClearColor(0x000000);
 		
 		tiles = TileLoader.load("res/tiles/data.json");
+		//mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
 		vehicles = VehicleLoader.load("res/entities/interactives/vehicles/data.json");

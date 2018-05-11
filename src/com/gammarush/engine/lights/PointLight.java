@@ -11,19 +11,19 @@ public class PointLight {
 	public float intensity;
 	
 	public PointLight(Vector2f position, float radius, Vector3f color, float intensity) {
-		this.position = new Vector3f(position.x, position.y, radius / 2f);
+		this.position = new Vector3f(position.x, position.y, radius / -2f);
 		this.radius = radius;
 		this.color = color;
 		this.intensity = intensity;
 	}
 	
 	public void setPosition(Vector2f position) {
-		this.position = new Vector3f(position.x, position.y, radius / 2f);
+		this.position = new Vector3f(position.x, position.y, radius / -2f);
 	}
 	
 	public void setRadius(float radius) {
 		this.radius = radius;
-		this.position.z = radius / 2f;
+		this.position.z = radius / -2f;
 	}
 
 }

@@ -58,8 +58,8 @@ public class World {
 		this.entityCollisionArray = new boolean[width * height];
 		
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
-		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .5f);
-		lights.add(new PointLight(new Vector2f(Tile.WIDTH * 1, Tile.HEIGHT * 5), .5f, new Vector3f(1f, 1f, 1f), 0f));
+		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .7f);
+		//lights.add(new PointLight(new Vector2f(5 * Tile.WIDTH, 5 * Tile.HEIGHT), 1f, new Vector3f(1f, 1f, 1f), 0f));
 	}
 	
 	public void update(double delta) {

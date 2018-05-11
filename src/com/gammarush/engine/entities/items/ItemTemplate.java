@@ -20,7 +20,7 @@ public class ItemTemplate extends EntityTemplate {
 
 	private int pool;
 	
-	public Model model;
+	private Model model;
 	
 	public ItemTemplate(int id, JSON json) {
 		super(id, json);
@@ -51,6 +51,10 @@ public class ItemTemplate extends EntityTemplate {
 	public void prepare(Vector3f position, Vector2f offset) {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(offset.x, offset.y, 0)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
+	}
+	
+	public Model getModel() {
+		return model;
 	}
 	
 	public int getPool() {

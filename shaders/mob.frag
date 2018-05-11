@@ -39,7 +39,7 @@ void main()
 	vec3 global_diffuse = (global_color.rgb * global_color.a) * max(dot(normal, normalize(global_direction)), 0);
 	vec3 sum = diffuse_color.rgb * (global_diffuse + ambient);
 	
-	for(int i = 0; i < MAX_LIGHTS; i++) {
+	for(int i = 0; i < 1; i++) {
 		vec3 light_direction = vec3(fs_in.point_screen_position[i].xy - (gl_FragCoord.xy / (resolution.xy / 2)), fs_in.point_screen_position[i].z);
 		light_direction.x *= resolution.x / resolution.y;
 		float distance = length(light_direction);

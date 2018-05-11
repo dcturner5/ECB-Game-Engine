@@ -13,7 +13,7 @@ public class Item extends Entity {
 	private Vector2f offset = new Vector2f();
 
 	public Item(ItemTemplate template, Vector3f position, Game game) {
-		super(position, ItemTemplate.WIDTH, ItemTemplate.HEIGHT, template.model, game);
+		super(position, ItemTemplate.WIDTH, ItemTemplate.HEIGHT, template.getModel(), game);
 		this.template = template;
 		
 		setSolid(false);
