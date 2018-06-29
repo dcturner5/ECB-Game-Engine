@@ -20,6 +20,7 @@ public class Font {
 		for(int i = 32; i <= 126; i++) {
 			int width = 3;
 			if(i == 105 || i == 108) width = 1;
+			if(i == 106) width = 2;
 			if(i == 78 || i == 81 || i == 113 || i == 126) width = 4;
 			if(i == 35 || i == 36 || i == 64 || i == 77 || i == 87 || i == 109 || i == 119) width = 5;
 			characters.add(new Character(offset, width, height));
@@ -27,7 +28,7 @@ public class Font {
 		}
 	}
 	
-	public void drawString(String string, Vector3f position, int size, Vector4f color, Vector4f border) {
+	public void drawString(String string, Vector3f position, int scale, Vector4f color, Vector4f border) {
 		Renderer.FONT.enable();
 		Renderer.FONT.setUniform1i("texture_width", TEXTURE_ATLAS.width);
 		Renderer.FONT.setUniform1i("texture_height", TEXTURE_ATLAS.height);
@@ -41,7 +42,7 @@ public class Font {
 			
 			if(code == 10) {
 				position.x = startX;
-				position.y += 6 * size;
+				position.y += 6 * scale;
 			}
 			if(code < 32) continue;
 			
@@ -55,17 +56,17 @@ public class Font {
 				continue;
 			}
 			
-			cutoff.x = (border.x - position.x) / (character.width * size);
-			cutoff.y = (border.y - position.y) / (character.height * size);;
-			cutoff.z = (border.z - position.x) / (character.width * size);
-			cutoff.w = (border.w - position.y) / (character.height * size);
+			cutoff.x = (border.x - position.x) / (character.width * scale);
+			cutoff.y = (border.y - position.y) / (character.height * scale);;
+			cutoff.z = (border.z - position.x) / (character.width * scale);
+			cutoff.w = (border.w - position.y) / (character.height * scale);
 			
-			character.prepare(position, character.width * size, character.height * size, cutoff);
+			character.prepare(position, character.width * scale, character.height * scale, cutoff);
 			character.model.getMesh().bind();
 			character.model.draw();
 			character.model.getMesh().unbind();
 			
-			position.x += (int) Math.max(((character.width + .5f) * size), character.width + 1);
+			position.x += (int) Math.max(((character.width + .5f) * scale), character.width + 1);
 		}
 		Renderer.FONT.disable();
 	}

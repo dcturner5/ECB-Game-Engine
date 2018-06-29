@@ -47,7 +47,7 @@ public class UIContainer {
 		MODEL.draw();
 		MODEL.unbind();
 		for(UIComponent c : components) {
-			if(c.visible) {
+			if(c.getVisible()) {
 				c.prepare();
 				c.render();
 			}

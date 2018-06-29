@@ -27,17 +27,17 @@ public class UIComponent {
 	public UIContainer container;
 	private UIEventHandler eventhandler;
 	
-	public boolean leftClick = false;
-	public boolean rightClick = false;
-	public boolean focus = false;
-	public boolean hover = false;
+	private boolean leftClick = false;
+	private boolean rightClick = false;
+	private boolean focus = false;
+	private boolean hover = false;
 	
-	public boolean clickable = true;
-	public boolean focusable = false;
-	public boolean editable = false;
-	public boolean resizable = false;
+	private boolean clickable = true;
+	private boolean focusable = false;
+	private boolean editable = false;
+	private boolean resizable = false;
 	
-	public boolean visible = true;
+	private boolean visible = true;
 	
 	public UIComponent(Vector2f position, int width, int height, Vector4f color) {
 		this.position = new Vector3f(position.x, position.y, Z_OFFSET);
@@ -104,17 +104,83 @@ public class UIComponent {
 		eventhandler.keyInput(key);
 	}
 	
+	
+	
+	public boolean getCollision(float x, float y) {
+		if(x >= position.x + container.position.x + width || y >= position.y + container.position.y + height || x <= position.x + container.position.x || y <= position.y + container.position.y) return false;
+		return true;
+	}
+	
+	public Vector4f getContainerBounds() {
+		return new Vector4f(container.position.x, container.position.y, container.position.x + container.width, container.position.y + container.height);
+	}
+	
+	public boolean getClickable() {
+		return clickable;
+	}
+	
+	public boolean getEditable() {
+		return editable;
+	}
+	
+	public boolean getFocus() {
+		return focus;
+	}
+	
+	public boolean getFocusable() {
+		return focusable;
+	}
+	
+	public boolean getHover() {
+		return hover;
+	}
+	
+	public boolean getLeftClick() {
+		return leftClick;
+	}
+	
+	public boolean getRightClick() {
+		return rightClick;
+	}
+	
+	public boolean getVisible() {
+		return visible;
+	}
+	
 	public void setColor(Vector4f color) {
 		this.color = color;
+	}
+	
+	public boolean setClickable() {
+		return clickable;
+	}
+	
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 	
 	public void setEventHandler(UIEventHandler eventhandler) {
 		this.eventhandler = eventhandler;
 	}
 	
-	public boolean getCollision(float x, float y) {
-		if(x >= position.x + container.position.x + width || y >= position.y + container.position.y + height || x <= position.x + container.position.x || y <= position.y + container.position.y) return false;
-		return true;
+	public void setFocus(boolean focus) {
+		if(focusable) this.focus = focus;
+	}
+	
+	public void setFocusable(boolean focusable) {
+		this.focusable = focusable;
+	}
+
+	public void setHover(boolean hover) {
+		this.hover = hover;
+	}
+	
+	public void setLeftClick(boolean leftClick) {
+		this.leftClick = leftClick;
+	}
+	
+	public void setRightClick(boolean rightClick) {
+		this.rightClick = rightClick;
 	}
 
 }

@@ -102,12 +102,12 @@
 		},
 		{
 			"name": "mutant",
-			"width": 160,
-			"height": 160,
+			"width": 16,
+			"height": 16,
 			"components": [
 				{
 					"name": "physics",
-					"acceleration": 1
+					"acceleration": 8
 				},
 				{
 					"name": "ai"

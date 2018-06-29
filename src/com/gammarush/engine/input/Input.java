@@ -31,7 +31,7 @@ public class Input {
 		this.game = game;
 		 
 		glfwSetWindowSizeCallback(this.game.window, new WindowSizeCallback(this));
-		glfwSetKeyCallback(this.game.window, new KeyCallback());
+		glfwSetKeyCallback(this.game.window, new KeyCallback(this));
 		glfwSetMouseButtonCallback(this.game.window, new MouseButtonCallback(this));
 		glfwSetCursorPosCallback(this.game.window, new CursorPosCallback(this));
 		glfwSetScrollCallback(this.game.window, new ScrollCallback(this));
@@ -44,7 +44,7 @@ public class Input {
 	
 	public UIContainer getUIContainer(Vector2f position) {
 		UIContainer container = null;
-		for(UIContainer cont : game.gui.containers) {
+		for(UIContainer cont : game.gui.getContainers()) {
 			if(cont.visible && cont.getCollision(position.x, position.y) && (container == null || container.position.z < cont.position.z)) {
 				container = cont;
 			}
@@ -60,42 +60,42 @@ public class Input {
 					component = comp;
 				}
 				else {
-					if(comp.leftClick) {
-						comp.leftClick = false;
+					if(comp.getLeftClick()) {
+						comp.setLeftClick(false);
 						comp.activate(EventType.LEFTRELEASE);
 					}
-					if(comp.rightClick) {
-						comp.rightClick = false;
+					if(comp.getRightClick()) {
+						comp.setRightClick(false);
 						comp.activate(EventType.RIGHTRELEASE);
 					}
-					if(comp.focus && comp.focusable) {
-						comp.focus = false;
+					if(comp.getFocus()) {
+						comp.setFocus(false);
 					}
-					if(comp.hover) {
-						comp.hover = false;
+					if(comp.getHover()) {
+						comp.setHover(false);
 						comp.activate(EventType.HOVEREXIT);
 					}
 				}
 			}
 		}
 		else {
-			for(UIContainer cont : game.gui.containers) {
+			for(UIContainer cont : game.gui.getContainers()) {
 				if(cont.visible) {
 					for(UIComponent comp : cont.components) {
 						if(!comp.getCollision(mousePosition.x, mousePosition.y)) {
-							if(comp.leftClick) {
-								comp.leftClick = false;
+							if(comp.getLeftClick()) {
+								comp.setLeftClick(false);
 								comp.activate(EventType.LEFTRELEASE);
 							}
-							if(comp.rightClick) {
-								comp.rightClick = false;
+							if(comp.getRightClick()) {
+								comp.setRightClick(false);
 								comp.activate(EventType.RIGHTRELEASE);
 							}
-							if(comp.focus && comp.focusable) {
-								comp.focus = false;
+							if(comp.getFocus()) {
+								comp.setFocus(false);
 							}
-							if(comp.hover) {
-								comp.hover = false;
+							if(comp.getHover()) {
+								comp.setHover(false);
 								comp.activate(EventType.HOVEREXIT);
 							}
 						}
@@ -106,15 +106,30 @@ public class Input {
 		return component;
 	}
 	
+	public boolean keyInput(int key) {
+		boolean result = false;
+		for(UIContainer cont : game.gui.getContainers()) {
+			if(cont.visible) {
+				for(UIComponent comp : cont.components) {
+					if(comp.getFocus() && comp.getEditable()) {
+						comp.activate(EventType.KEYINPUT, key);
+						result = true;
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 	public void leftClick() {
 		leftMouseDown = true;
 		UIContainer container = getUIContainer(mousePosition);
 		if(container != null) {
 			UIComponent component = getUIComponent(mousePosition, container);
 			if(component != null) {
-				 if(component.clickable) {
-					if(!component.focus && component.focusable) component.focus = true;
-					component.leftClick = true;
+				 if(component.getClickable()) {
+					if(component.getFocusable()) component.setFocus(true);
+					component.setLeftClick(true);
 					component.activate(EventType.LEFTCLICK);
 				}
 			}
@@ -131,8 +146,8 @@ public class Input {
 		if(container != null) {
 			UIComponent component = getUIComponent(mousePosition, container);
 			if(component != null) {
-				if(component.clickable) {
-					component.rightClick = true;
+				if(component.getClickable()) {
+					component.setRightClick(true);
 					component.activate(EventType.RIGHTCLICK);
 				}
 			}
@@ -152,8 +167,8 @@ public class Input {
 		if(container != null) {
 			UIComponent component = getUIComponent(mousePosition, container);
 			if(component != null) {
-				if(component.leftClick) {
-					component.leftClick = false;
+				if(component.getLeftClick()) {
+					component.setLeftClick(false);
 					component.activate(EventType.LEFTRELEASE);
 				}
 			}
@@ -168,8 +183,8 @@ public class Input {
 		if(container != null) {
 			UIComponent component = getUIComponent(mousePosition, container);
 			if(component != null) {
-				if(component.rightClick) {
-					component.rightClick = false;
+				if(component.getRightClick()) {
+					component.setRightClick(false);
 					component.activate(EventType.RIGHTRELEASE);
 				}
 			}
@@ -186,8 +201,8 @@ public class Input {
 		UIContainer container = getUIContainer(mousePosition);
 		UIComponent component = getUIComponent(mousePosition, container);
 		if(component != null) {
-			if(!component.hover) {
-				component.hover = true;
+			if(!component.getHover()) {
+				component.setHover(true);
 				component.activate(EventType.HOVERENTER);
 			}
 		}

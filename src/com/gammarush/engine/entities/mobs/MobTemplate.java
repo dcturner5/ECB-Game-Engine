@@ -63,7 +63,8 @@ public class MobTemplate extends EntityTemplate {
 	public void prepare(Vector3f position, Animation animation, Vector4f[] color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
-		Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
+		//crashes from nullpointerexception sometimes
+		Renderer.MOB.setUniform1i("sprite_index", animation != null ? animation.getIndex() : 0);
 		Renderer.MOB.setUniform4f("primary_color", color[0]);
 		Renderer.MOB.setUniform4f("secondary_color", color[1]);
 	}

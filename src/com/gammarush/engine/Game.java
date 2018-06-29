@@ -23,6 +23,7 @@ import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.Input;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.player.Player;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
 import com.gammarush.engine.world.World;
@@ -50,6 +51,7 @@ public class Game implements Runnable {
 	public World world;
 	public Player player;
 	public UIManager gui;
+	public ScriptManager scriptManager;
 	
 	public static MobHashMap mobs;
 	public static ItemHashMap items;
@@ -112,11 +114,12 @@ public class Game implements Runnable {
 		world = new World(128, 128, this);
 		world.generate((int)(Math.random() * 10000));
 		
-		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), this);
+		player = new Player(new Vector3f(1024, 512, Renderer.ENTITY_LAYER), this);
 		
 		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
+		scriptManager = new ScriptManager();
 	}
 	
 	public void run() {

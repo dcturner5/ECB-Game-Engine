@@ -1,6 +1,7 @@
 package com.gammarush.engine.gui.components;
 
 import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.gui.event.UIEventHandler;
 import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -13,12 +14,51 @@ public class UITextBox extends UIComponent {
 	private int scale = 0;
 	private Vector4f fontColor = new Vector4f(0, 0, 0, 1);
 	
+	private UIEventHandler editEventHandler = new UIEventHandler() {
+		@Override
+		public void leftClick() {}
+		@Override
+		public void rightClick() {}
+		@Override
+		public void leftRelease() {}
+		@Override
+		public void rightRelease() {}
+		@Override
+		public void hoverEnter() {}
+		@Override
+		public void hoverExit() {}
+		@Override
+		public void keyInput(int key) {
+			int backspace = 259, enter = 257, leftShift = 340, rightShift = 344;
+			if(key == enter) string += '\n';
+			else if(key == backspace) backspace();
+			else if(key != leftShift && key != rightShift) addToString((char) key);
+		}
+	};
+	
 	public UITextBox(Vector2f position, int width, int height) {
 		super(position, width, height, new Vector4f(0, 0, 0, 0));
+		setFont(new Font());
 	}
 	
 	public UITextBox(Vector2f position, int width, int height, Vector4f color) {
 		super(position, width, height, color);
+		setFont(new Font());
+	}
+	
+	public UITextBox(Vector2f position, int width, int height, boolean editable) {
+		super(position, width, height, new Vector4f(0, 0, 0, 0));
+		setFont(new Font());
+		
+		if(editable) {
+			setFocusable(true);
+			setEditable(true);
+			setEventHandler(editEventHandler);
+		}
+	}
+	
+	public String getString() {
+		return string;
 	}
 	
 	public void setString(String string) {
@@ -37,8 +77,19 @@ public class UITextBox extends UIComponent {
 		this.fontColor = color;
 	}
 	
+	public void addToString(char c) {
+		string += c;
+	}
+	
+	public void backspace() {
+		string = string.substring(0, Math.max(0, string.length() - 1));
+	}
+	
 	@Override
 	public void render() {
+		String string1 = string;
+		if(Math.random() < .8f) string1 += "|";
+		
 		MODEL.bind();
 		MODEL.draw();
 		MODEL.unbind();
@@ -48,9 +99,9 @@ public class UITextBox extends UIComponent {
 		if(this.scale != 0) scale = this.scale;
 
 		Renderer.GUI.disable();
-		font.drawString(string, 
+		font.drawString(string1,
 				new Vector3f(position.x + container.position.x, position.y + container.position.y, position.z + container.position.z + Z_OFFSET),
-				scale, fontColor, new Vector4f(container.position.x, container.position.y, container.position.x + container.width, container.position.y + container.height));
+				scale, fontColor, getContainerBounds());
 		Renderer.GUI.enable();
 	}
 

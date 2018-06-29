@@ -1,0 +1,16 @@
+
+reference <entity id>
+//implement ai dependencies for entities
+
+equip <item id> <amount>;
+give <item id> <amount>;
+
+set_memory <memory id> getEntityReference
+
+attack get_memory 0;
+follow <entity id>;
+evade <entity id>;
+
+travel <location coordinate>;
+
+script <script id>;

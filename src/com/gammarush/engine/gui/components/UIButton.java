@@ -6,9 +6,6 @@ import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 
-//BUTTON COMPONENT
-//CAN BE CLICKED AND HOVERED OVER
-
 public class UIButton extends UIComponent {
 	
 	private String string = "";
@@ -40,20 +37,22 @@ public class UIButton extends UIComponent {
 		this.fontColor = color;
 	}
 	
-	public void render(Renderer renderer) {
+	public void render() {
 		MODEL.bind();
 		MODEL.draw();
 		MODEL.unbind();
 		
-		float stringWidth = string.length() * 3.2f;
-		float stringHeight = 5.0f;
+		float stringWidth = string.length() * 2.1f;
+		float stringHeight = 5.1f;
 		int scale = (int) (width / (stringWidth * 2.0f));
 		if(this.scale != 0) scale = this.scale;
 		stringWidth *= scale;
 		stringHeight *= scale;
 		
+		//System.out.println(stringWidth + " " + stringHeight);
+		
 		Renderer.GUI.disable();
-		font.drawString(string, 
+		font.drawString(string,
 				new Vector3f(position.x + container.position.x + width / 2 - stringWidth / 2,
 						position.y + container.position.y + height / 2 - stringHeight / 2,
 						position.z + container.position.z + Z_OFFSET),
