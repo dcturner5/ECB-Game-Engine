@@ -39,12 +39,12 @@ public class UIImage extends UIComponent {
 		if(container != null) {
 			cutoff.x = 0f;
 			cutoff.y = 0f;
-			cutoff.z = (container.width - position.x) / width;
-			cutoff.w = (container.height - position.y) / height;
+			cutoff.z = (container.getWidth() - position.x) / width;
+			cutoff.w = (container.getHeight() - position.y) / height;
 		}
 		else cutoff = new Vector4f(0f, 0f, 1f, 1f);
 		
-		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(container.position))
+		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(container.getPosition()))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.GUI.setUniform1i("use_sprite", 1);

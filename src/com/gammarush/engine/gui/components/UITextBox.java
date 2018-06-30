@@ -13,6 +13,7 @@ public class UITextBox extends UIComponent {
 	private Font font;
 	private int scale = 0;
 	private Vector4f fontColor = new Vector4f(0, 0, 0, 1);
+	private Alignment alignment = Alignment.LEFT;
 	
 	private UIEventHandler editEventHandler = new UIEventHandler() {
 		@Override
@@ -51,10 +52,13 @@ public class UITextBox extends UIComponent {
 		setFont(new Font());
 		
 		if(editable) {
-			setFocusable(true);
 			setEditable(true);
 			setEventHandler(editEventHandler);
 		}
+	}
+	
+	public Alignment getAlignment() {
+		return alignment;
 	}
 	
 	public String getString() {
@@ -63,6 +67,10 @@ public class UITextBox extends UIComponent {
 	
 	public void setString(String string) {
 		this.string = string;
+	}
+	
+	public void setAlignment(Alignment alignment) {
+		this.alignment = alignment;
 	}
 	
 	public void setScale(int scale) {
@@ -87,8 +95,8 @@ public class UITextBox extends UIComponent {
 	
 	@Override
 	public void render() {
-		String string1 = string;
-		if(Math.random() < .8f) string1 += "|";
+		//String string1 = string;
+		//if(Math.random() < .8f) string1 += "|";
 		
 		MODEL.bind();
 		MODEL.draw();
@@ -97,10 +105,19 @@ public class UITextBox extends UIComponent {
 		float stringWidth = string.length() * 3.2f;
 		int scale = Math.max((int) (width / stringWidth), 1);
 		if(this.scale != 0) scale = this.scale;
+		stringWidth *= scale;
+		
+		int offset = 0;
+		if(alignment == Alignment.CENTER) {
+			offset = (int) (width / 2 - stringWidth / 2);
+		}
+		else if(alignment == Alignment.RIGHT) {
+			
+		}
 
 		Renderer.GUI.disable();
-		font.drawString(string1,
-				new Vector3f(position.x + container.position.x, position.y + container.position.y, position.z + container.position.z + Z_OFFSET),
+		font.drawString(string,
+				new Vector3f(position.x + container.getPosition().x + offset, position.y + container.getPosition().y, position.z + container.getPosition().z + Z_OFFSET),
 				scale, fontColor, getContainerBounds());
 		Renderer.GUI.enable();
 	}

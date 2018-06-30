@@ -39,7 +39,7 @@ public class Game implements Runnable {
 
 	public int width = 1280;
 	public int height = 720;
-	public float scale = 1.5f;
+	public float scale = 2f;
 	
 	private Thread thread;
 	private boolean running = false;

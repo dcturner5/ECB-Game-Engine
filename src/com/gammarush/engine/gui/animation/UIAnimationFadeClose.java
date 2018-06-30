@@ -10,21 +10,21 @@ public class UIAnimationFadeClose extends UIAnimation {
 	
 	public UIAnimationFadeClose(UIContainer container, int time) {
 		super(container, time);
-		step = container.color.w / time;
+		step = container.getColor().w / time;
 	}
 	
 	public void update() {
 		if(!running) return;
 		if(frame >= max) stop();
 		else {
-			container.color.w -= step;
+			container.getColor().w -= step;
 			frame++;
 		}	
 	}
 
 	public void stop() {
 		super.stop();
-		container.visible = false;
+		container.setVisible(false);
 	}
 
 }

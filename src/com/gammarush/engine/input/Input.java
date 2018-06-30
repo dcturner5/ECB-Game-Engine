@@ -45,7 +45,7 @@ public class Input {
 	public UIContainer getUIContainer(Vector2f position) {
 		UIContainer container = null;
 		for(UIContainer cont : game.gui.getContainers()) {
-			if(cont.visible && cont.getCollision(position.x, position.y) && (container == null || container.position.z < cont.position.z)) {
+			if(cont.getVisible() && cont.getCollision(position.x, position.y) && (container == null || container.getPosition().z < cont.getPosition().z)) {
 				container = cont;
 			}
 		}
@@ -55,7 +55,7 @@ public class Input {
 	public UIComponent getUIComponent(Vector2f position, UIContainer container) {
 		UIComponent component = null;
 		if(container != null) {
-			for(UIComponent comp : container.components) {
+			for(UIComponent comp : container.getComponents()) {
 				if(comp.getCollision(mousePosition.x, mousePosition.y)) {
 					component = comp;
 				}
@@ -80,8 +80,8 @@ public class Input {
 		}
 		else {
 			for(UIContainer cont : game.gui.getContainers()) {
-				if(cont.visible) {
-					for(UIComponent comp : cont.components) {
+				if(cont.getVisible()) {
+					for(UIComponent comp : cont.getComponents()) {
 						if(!comp.getCollision(mousePosition.x, mousePosition.y)) {
 							if(comp.getLeftClick()) {
 								comp.setLeftClick(false);
@@ -91,7 +91,7 @@ public class Input {
 								comp.setRightClick(false);
 								comp.activate(EventType.RIGHTRELEASE);
 							}
-							if(comp.getFocus()) {
+							if(comp.getFocus() && comp.getFocusable()) {
 								comp.setFocus(false);
 							}
 							if(comp.getHover()) {
@@ -109,8 +109,8 @@ public class Input {
 	public boolean keyInput(int key) {
 		boolean result = false;
 		for(UIContainer cont : game.gui.getContainers()) {
-			if(cont.visible) {
-				for(UIComponent comp : cont.components) {
+			if(cont.getVisible()) {
+				for(UIComponent comp : cont.getComponents()) {
 					if(comp.getFocus() && comp.getEditable()) {
 						comp.activate(EventType.KEYINPUT, key);
 						result = true;
@@ -134,7 +134,7 @@ public class Input {
 				}
 			}
 		}
-		if(container == null || !container.solid) {
+		if(container == null || !container.getSolid()) {
 			
 		}
 		Vector2f mousePos = getMouseWorldPosition();
@@ -152,7 +152,7 @@ public class Input {
 				}
 			}
 		}
-		if(container == null || !container.solid) {
+		if(container == null || !container.getSolid()) {
 			Vector2f mousePos = getMouseWorldPosition();
 			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH);
 			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
@@ -173,7 +173,7 @@ public class Input {
 				}
 			}
 		}
-		if(container == null || !container.solid) {
+		if(container == null || !container.getSolid()) {
 			
 		}
 	}
@@ -189,7 +189,7 @@ public class Input {
 				}
 			}
 		}
-		if(container == null || !container.solid) {
+		if(container == null || !container.getSolid()) {
 			
 		}
 	}
@@ -207,7 +207,7 @@ public class Input {
 			}
 		}
 		
-		if(container == null || !container.solid) {
+		if(container == null || !container.getSolid()) {
 			if(leftMouseDown) leftDrag(x, y);
 		}
 	}

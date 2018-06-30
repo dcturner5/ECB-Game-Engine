@@ -5,16 +5,12 @@ import static org.lwjgl.glfw.GLFW.*;
 import java.util.ArrayList;
 
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.gui.components.UIButton;
-import com.gammarush.engine.gui.components.UITextBox;
+import com.gammarush.engine.gui.containers.UIConsole;
 import com.gammarush.engine.gui.containers.UIContainer;
-import com.gammarush.engine.gui.event.UIEventHandler;
-import com.gammarush.engine.gui.fonts.Font;
+import com.gammarush.engine.gui.containers.UIDialogue;
 import com.gammarush.engine.input.KeyCallback;
-import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
-import com.gammarush.axil.AxilScript;
 import com.gammarush.engine.Game;
 
 public class UIManager {
@@ -37,7 +33,8 @@ public class UIManager {
 	private Game game;
 	private ArrayList<UIContainer> containers = new ArrayList<UIContainer>();
 	
-	public UIContainer main;
+	public UIConsole console;
+	public UIDialogue dialogue;
 	
 	public UIManager(Game game) {
 		this.game = game;
@@ -46,18 +43,22 @@ public class UIManager {
 	
 	public void update(double delta) {
 		for(UIContainer c : containers) {
-			if(c.visible) c.update();
+			if(c.getVisible()) c.update();
 		}
 		
 		if(KeyCallback.isKeyDown(GLFW_KEY_ESCAPE)) {
 			
+		}
+		
+		if(KeyCallback.isKeyDown(GLFW_KEY_GRAVE_ACCENT)) {
+			console.toggle();
 		}
 	}
 	
 	public void render() {
 		Renderer.GUI.enable();
 		for(UIContainer c : containers) {
-			if(c.visible) {
+			if(c.getVisible()) {
 				c.prepare();
 				c.render();
 			}
@@ -66,39 +67,15 @@ public class UIManager {
 	}
 
 	public void init() {
-		main = new UIContainer(new Vector3f(8, 8, 8), 1000, 100, BASE_COLOR);
-		main.visible = true;
+		console = new UIConsole(new Vector3f(8, 8, Renderer.GUI_LAYER), 512, 128, game);
+		add(console);
 		
-		UITextBox consoleTextBox = new UITextBox(new Vector2f(), 1000, 100, true);
-		consoleTextBox.setFontColor(FONT_COLOR);
-		consoleTextBox.setScale(4);
-		consoleTextBox.setEventHandler(new UIEventHandler() {
-			@Override
-			public void leftClick() {}
-			@Override
-			public void rightClick() {}
-			@Override
-			public void leftRelease() {}
-			@Override
-			public void rightRelease() {}
-			@Override
-			public void hoverEnter() {}
-			@Override
-			public void hoverExit() {}
-			@Override
-			public void keyInput(int key) {
-				int backspace = 259, enter = 257, leftShift = 340, rightShift = 344;
-				if(key == enter) {
-					AxilScript script = game.scriptManager.getCompiler().compileString(consoleTextBox.getString());
-					script.run();
-				}
-				else if(key == backspace) consoleTextBox.backspace();
-				else if(key != leftShift && key != rightShift) consoleTextBox.addToString((char) key);
-			}
-		});
-		
-		main.add(consoleTextBox);
-		containers.add(main);
+		dialogue = new UIDialogue(new Vector3f(game.width / 2 - 720 / 2, game.height - 192 - 128, Renderer.GUI_LAYER), 720, 192);
+		add(dialogue);
+	}
+	
+	public void add(UIContainer container) {
+		containers.add(container);
 	}
 	
 	public ArrayList<UIContainer> getContainers() {

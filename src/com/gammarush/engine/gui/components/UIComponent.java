@@ -14,6 +14,10 @@ import com.gammarush.engine.math.vector.Vector4f;
 
 public class UIComponent {
 	
+	public enum Alignment {
+		LEFT, CENTER, RIGHT;
+	}
+	
 	public static final Quad MODEL = new Quad(1, 1);
 	public static final float Z_OFFSET = .00001f;
 	
@@ -35,7 +39,7 @@ public class UIComponent {
 	private boolean clickable = true;
 	private boolean focusable = false;
 	private boolean editable = false;
-	private boolean resizable = false;
+	//private boolean resizable = false;
 	
 	private boolean visible = true;
 	
@@ -79,12 +83,12 @@ public class UIComponent {
 		if(container != null) {
 			cutoff.x = Math.max(-position.x / width, 0);
 			cutoff.y = Math.max(-position.y / height, 0);
-			cutoff.z = (container.width - position.x) / width;
-			cutoff.w = (container.height - position.y) / height;
+			cutoff.z = (container.getWidth() - position.x) / width;
+			cutoff.w = (container.getHeight() - position.y) / height;
 		}
 		else cutoff = new Vector4f(0f, 0f, 1f, 1f);
 		
-		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(container.position))
+		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(container.getPosition()))
 				.multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		Renderer.GUI.setUniform4f("color", color);
@@ -104,15 +108,13 @@ public class UIComponent {
 		eventhandler.keyInput(key);
 	}
 	
-	
-	
 	public boolean getCollision(float x, float y) {
-		if(x >= position.x + container.position.x + width || y >= position.y + container.position.y + height || x <= position.x + container.position.x || y <= position.y + container.position.y) return false;
+		if(x >= position.x + container.getPosition().x + width || y >= position.y + container.getPosition().y + height || x <= position.x + container.getPosition().x || y <= position.y + container.getPosition().y) return false;
 		return true;
 	}
 	
 	public Vector4f getContainerBounds() {
-		return new Vector4f(container.position.x, container.position.y, container.position.x + container.width, container.position.y + container.height);
+		return new Vector4f(container.getPosition().x, container.getPosition().y, container.getPosition().x + container.getWidth(), container.getPosition().y + container.getHeight());
 	}
 	
 	public boolean getClickable() {
@@ -164,7 +166,7 @@ public class UIComponent {
 	}
 	
 	public void setFocus(boolean focus) {
-		if(focusable) this.focus = focus;
+		this.focus = focus;
 	}
 	
 	public void setFocusable(boolean focusable) {

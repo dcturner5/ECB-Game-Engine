@@ -22,17 +22,17 @@ public class UIAnimationSlideClose extends UIAnimation {
 		if(!running) return;
 		if(frame >= max) stop();
 		else {
-			container.width -= step.x;
-			container.height -= step.y;
-			if(type == AnimationType.DOWN) container.position.y += step.y;
-			if(type == AnimationType.RIGHT) container.position.x += step.x;
+			container.setWidth((int) (container.getWidth() - step.x));
+			container.setHeight((int) (container.getHeight() - step.y));
+			if(type == AnimationType.DOWN) container.getPosition().y += step.y;
+			if(type == AnimationType.RIGHT) container.getPosition().x += step.x;
 			frame++;
 		}
 	}
 	
 	public void stop() {
 		super.stop();
-		container.visible = false;
+		container.setVisible(false);
 	}
 	
 }

@@ -22,20 +22,20 @@ public class UIAnimationSlideOpen extends UIAnimation {
 		if(!running) return;
 		if(frame >= max) stop();
 		else {
-			container.width += step.x;
-			container.height += step.y;
-			if(type == AnimationType.UP) container.position.y -= step.y;
-			if(type == AnimationType.LEFT) container.position.x -= step.x;
+			container.setWidth((int) (container.getWidth() + step.x));
+			container.setHeight((int) (container.getHeight() + step.y));
+			if(type == AnimationType.UP) container.getPosition().y -= step.y;
+			if(type == AnimationType.LEFT) container.getPosition().x -= step.x;
 			frame++;
 		}
 	}
 	
 	public void start() {
 		super.start();
-		if(type == AnimationType.UP) container.position.y += height;
-		if(type == AnimationType.LEFT) container.position.x += width;
-		if(type == AnimationType.LEFT || type == AnimationType.RIGHT) container.width = 0;
-		if(type == AnimationType.UP || type == AnimationType.DOWN) container.height = 0;
+		if(type == AnimationType.UP) container.getPosition().y += height;
+		if(type == AnimationType.LEFT) container.getPosition().x += width;
+		if(type == AnimationType.LEFT || type == AnimationType.RIGHT) container.setWidth(0);
+		if(type == AnimationType.UP || type == AnimationType.DOWN) container.setHeight(0);
 	}
 
 }

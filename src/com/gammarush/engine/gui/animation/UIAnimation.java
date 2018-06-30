@@ -21,20 +21,20 @@ public class UIAnimation {
 	
 	public UIAnimation(UIContainer container) {
 		this.container = container;
-		position = new Vector3f(container.position);
-		width = container.width;
-		height = container.height;
-		color = new Vector4f(container.color);
+		position = new Vector3f(container.getPosition());
+		width = container.getWidth();
+		height = container.getHeight();
+		color = new Vector4f(container.getColor());
 		max = 0;
 		frame = 0;
 	}
 	
 	public UIAnimation(UIContainer container, int time) {
 		this.container = container;
-		position = new Vector3f(container.position);
-		width = container.width;
-		height = container.height;
-		color = new Vector4f(container.color);
+		position = new Vector3f(container.getPosition());
+		width = container.getWidth();
+		height = container.getHeight();
+		color = new Vector4f(container.getColor());
 		max = time;
 		frame = 0;
 	}
@@ -47,17 +47,17 @@ public class UIAnimation {
 		running = true;
 		complete = false;
 		frame = 0;
-		container.visible = true;
+		container.setVisible(true);
 	}
 	
 	public void stop() {
 		running = false;
 		complete = true;
 		frame = 0;
-		container.position = new Vector3f(position);
-		container.width = width;
-		container.height = height;
-		container.color = new Vector4f(color);
+		container.setPosition(new Vector3f(position));
+		container.setWidth(width);
+		container.setHeight(height);
+		container.setColor(new Vector4f(color));
 	}
 	
 }

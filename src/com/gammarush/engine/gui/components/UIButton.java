@@ -53,10 +53,10 @@ public class UIButton extends UIComponent {
 		
 		Renderer.GUI.disable();
 		font.drawString(string,
-				new Vector3f(position.x + container.position.x + width / 2 - stringWidth / 2,
-						position.y + container.position.y + height / 2 - stringHeight / 2,
-						position.z + container.position.z + Z_OFFSET),
-				scale, fontColor, new Vector4f(container.position.x, container.position.y, container.position.x + container.width, container.position.y + container.height));
+				new Vector3f(position.x + container.getPosition().x + width / 2 - stringWidth / 2,
+						position.y + container.getPosition().y + height / 2 - stringHeight / 2,
+						position.z + container.getPosition().z + Z_OFFSET),
+				scale, fontColor, new Vector4f(container.getPosition().x, container.getPosition().y, container.getPosition().x + container.getWidth(), container.getPosition().y + container.getHeight()));
 		Renderer.GUI.enable();
 	}
 

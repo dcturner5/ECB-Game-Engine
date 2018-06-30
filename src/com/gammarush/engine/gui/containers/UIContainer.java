@@ -16,26 +16,33 @@ public class UIContainer {
 	
 	public static final Quad MODEL = new Quad(1, 1);
 	
-	public Vector3f position;
-	public float rotation = 0.0f;
-	public int width;
-	public int height;
-	public Vector4f color;
+	private Vector3f position;
+	private float rotation = 0.0f;
+	private int width;
+	private int height;
+	private Vector4f color;
 	
-	public boolean visible = true;
-	public boolean solid = true;
-	public boolean ready = true;
+	private boolean visible = true;
+	private boolean solid = true;
+	//private boolean ready = true;
 	
-	public UIAnimation open;
-	public UIAnimation close;
+	private UIAnimation openAnimation;
+	private UIAnimation closeAnimation;
 	
-	public ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+	private ArrayList<UIComponent> components = new ArrayList<UIComponent>();
+	
+	public UIContainer(Vector3f position, int width, int height) {
+		setPosition(position);
+		setWidth(width);
+		setHeight(height);
+		setColor(new Vector4f(0, 0, 0, 0));
+	}
 	
 	public UIContainer(Vector3f position, int width, int height, Vector4f color) {
-		this.position = position;
-		this.width = width;
-		this.height = height;
-		this.color = color;
+		setPosition(position);
+		setWidth(width);
+		setHeight(height);
+		setColor(color);
 	}
 	
 	public void update() {
@@ -46,7 +53,7 @@ public class UIContainer {
 		MODEL.bind();
 		MODEL.draw();
 		MODEL.unbind();
-		for(UIComponent c : components) {
+		for(UIComponent c : getComponents()) {
 			if(c.getVisible()) {
 				c.prepare();
 				c.render();
@@ -55,21 +62,21 @@ public class UIContainer {
 	}
 	
 	public void prepare() {
-		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
-				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
-		Renderer.GUI.setUniform4f("color", color);
+		Renderer.GUI.setUniformMat4f("ml_matrix", Matrix4f.translate(getPosition()).multiply(Matrix4f.rotate(rotation).add(new Vector3f(getWidth() / 2, getHeight() / 2, 0)))
+				.multiply(Matrix4f.scale(new Vector3f(getWidth(), getHeight(), 0))));
+		Renderer.GUI.setUniform4f("color", getColor());
 		Renderer.GUI.setUniform1i("use_sprite", 0);
 		Renderer.GUI.setUniform4f("cutoff", new Vector4f(0f, 0f, 1f, 1f));
 	}
 	
 	public void add(UIComponent component) {
 		component.container = this;
-		components.add(component);
+		getComponents().add(component);
 	}
 	
 	public void open() {
-		if(open != null) {
-			if(!open.running && (close == null || !close.running)) open.start();
+		if(openAnimation != null) {
+			if(!openAnimation.running && (closeAnimation == null || !closeAnimation.running)) openAnimation.start();
 		}
 		else {
 			visible = true;
@@ -78,9 +85,9 @@ public class UIContainer {
 	
 	public void close() {
 		if(!visible) return;
-		if(close != null) {
-			if(!close.running && (open == null || !open.running)) {
-				close.start();
+		if(closeAnimation != null) {
+			if(!closeAnimation.running && (openAnimation == null || !openAnimation.running)) {
+				closeAnimation.start();
 			}
 		}
 		else {
@@ -89,38 +96,106 @@ public class UIContainer {
 	}
 	
 	public void toggle() {
-		if((open == null || !open.running) && (close == null || !close.running)) {
-			if(!visible) {
-				open();
-			}
-			else {
-				close();
-			}
+		if(!getOpenAnimationRunning() && !getCloseAnimationRunning()) {
+			if(!getVisible()) open();
+			else close();
 		}
 	}
 	
 	public void setOpenAnimation(UIAnimation animation) {
-		this.open = animation;
+		this.openAnimation = animation;
 	}
 	
 	public void setCloseAnimation(UIAnimation animation) {
-		this.close = animation;
+		this.closeAnimation = animation;
 	}
 	
-
-	
 	private void updateAnimations() {
-		if(open != null && open.running) {
-			open.update();
+		if(getOpenAnimationRunning()) {
+			openAnimation.update();
 		}
-		if(close != null && close.running) {
-			close.update();
+		if(getCloseAnimationRunning()) {
+			closeAnimation.update();
 		}
 	}
 	
 	public boolean getCollision(float x, float y) {
-		if(x >= position.x + width || y >= position.y + height || x <= position.x || y <= position.y) return false;
+		if(x >= getPosition().x + getWidth() || y >= getPosition().y + getHeight() || x <= getPosition().x || y <= getPosition().y) return false;
 		return true;
 	}
+	
+	public UIAnimation getCloseAnimation() {
+		return closeAnimation;
+	}
+	
+	public boolean getCloseAnimationRunning() {
+		return closeAnimation != null && closeAnimation.running;
+	}
+	
+	public UIAnimation getOpenAnimation() {
+		return openAnimation;
+	}
+	
+	public boolean getOpenAnimationRunning() {
+		return openAnimation != null && openAnimation.running;
+	}
+	
+	public boolean getSolid() {
+		return solid;
+	}
+	
+	public boolean getVisible() {
+		return visible;
+	}
+	
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public Vector3f getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public Vector4f getColor() {
+		return color;
+	}
+
+	public void setColor(Vector4f color) {
+		this.color = color;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public ArrayList<UIComponent> getComponents() {
+		return components;
+	}
+
+	public void setComponents(ArrayList<UIComponent> components) {
+		this.components = components;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+
+	
 
 }
