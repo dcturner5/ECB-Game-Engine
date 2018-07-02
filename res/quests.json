@@ -1,0 +1,25 @@
+{
+	"quests": [
+		{
+			"name": "main",
+			"script": "res/main",
+			"dialogues": [
+				{
+					"name": "main_001",
+					"text": "Hello. What's your name?",
+					"options": [
+						{"text": "Jim", "type": "progress", "link": "main_002"},
+						{"text": "Bob", "type": "progress", "link": "main_002"}
+					]
+				},
+				{
+					"name": "main_002",
+					"text": "Welcome...",
+					"options": [
+						{"text": "Bye", "type": "exit", "link": ""}
+					]
+				}
+			]
+		}
+	]
+}

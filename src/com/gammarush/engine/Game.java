@@ -23,6 +23,7 @@ import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.Input;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.player.Player;
+import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
@@ -51,6 +52,8 @@ public class Game implements Runnable {
 	public World world;
 	public Player player;
 	public UIManager gui;
+	
+	public QuestManager questManager;
 	public ScriptManager scriptManager;
 	
 	public static MobHashMap mobs;
@@ -119,7 +122,10 @@ public class Game implements Runnable {
 		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
 		
 		gui = new UIManager(this);
-		scriptManager = new ScriptManager();
+		
+		
+		scriptManager = new ScriptManager(gui);
+		questManager = new QuestManager(scriptManager);
 	}
 	
 	public void run() {
