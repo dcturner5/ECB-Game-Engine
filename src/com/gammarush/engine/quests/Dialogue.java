@@ -2,7 +2,6 @@ package com.gammarush.engine.quests;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.quests.DialogueOption.OptionType;
 import com.gammarush.engine.utils.json.JSON;
 
 public class Dialogue {
@@ -12,21 +11,13 @@ public class Dialogue {
 	private String text;
 	private ArrayList<DialogueOption> options = new ArrayList<DialogueOption>();
 	
-	public Dialogue(int id, JSON json) {
+	public Dialogue(int id, JSON json, QuestManager questManager) {
+		this.id = id;
 		name = json.getString("name");
 		text = json.getString("text");
 		ArrayList<JSON> optionArray = json.getArray("options");
-		for(JSON o : optionArray) {
-			OptionType optionType = OptionType.DEFAULT;
-			switch(o.getString("type")) {
-			case "progress":
-				optionType = OptionType.PROGRESS;
-				break;
-			case "exit":
-				optionType = OptionType.EXIT;
-				break;
-			}
-			options.add(new DialogueOption(o.getString("text"), optionType, o.getString("link")));
+		for(JSON optionJson : optionArray) {
+			options.add(new DialogueOption(optionJson, questManager));
 		}
 	}
 

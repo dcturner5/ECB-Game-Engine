@@ -1,19 +1,40 @@
 package com.gammarush.engine.quests;
 
+import com.gammarush.engine.utils.json.JSON;
+
 public class DialogueOption {
 	
 	public enum OptionType {
 		DEFAULT, PROGRESS, EXIT
 	}
 	
+	private String name;
 	private String text;
 	private OptionType type;
 	private String link;
 	
-	public DialogueOption(String text, OptionType type, String link) {
-		this.text = text;
+	private QuestManager questManager;
+	
+	public DialogueOption(JSON json, QuestManager questManager) {
+		OptionType type = OptionType.DEFAULT;
+		switch(json.getString("type")) {
+		case "progress":
+			type = OptionType.PROGRESS;
+			break;
+		case "exit":
+			type = OptionType.EXIT;
+			break;
+		}
+		
+		this.name = json.getString("name");
+		this.text = json.getString("text");
 		this.type = type;
-		this.link = link;
+		this.link = json.getString("link");
+		this.questManager = questManager;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public String getText() {
@@ -24,8 +45,13 @@ public class DialogueOption {
 		return type;
 	}
 	
-	public String getLink() {
-		return link;
+	public Dialogue getLink() {
+		if(link.equals("")) return null;
+		return questManager.getDialogue(link);
+	}
+
+	public QuestManager getQuestManager() {
+		return questManager;
 	}
 	
 }

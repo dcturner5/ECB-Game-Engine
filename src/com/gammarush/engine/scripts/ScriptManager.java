@@ -29,6 +29,12 @@ public class ScriptManager {
 		methods.put(name, argsLength, method);
 	}
 	
+	public void callMethod(String name, Object... parameters) {
+		for(AxilScript script : scripts.getArray()) {
+			script.call(name, parameters);
+		}
+	}
+	
 	public void compile() {
 		for(String path : compileQueue) {
 			compiler.compileFile(path + ".txt");

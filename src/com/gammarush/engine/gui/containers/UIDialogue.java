@@ -2,7 +2,6 @@ package com.gammarush.engine.gui.containers;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.components.UITextBox;
 import com.gammarush.engine.gui.event.UIEventHandler;
 import com.gammarush.engine.gui.components.UIComponent.Alignment;
@@ -11,10 +10,14 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.quests.Dialogue;
 import com.gammarush.engine.quests.DialogueOption;
+import com.gammarush.engine.quests.DialogueOption.OptionType;
 
 public class UIDialogue extends UIContainer {
 	
-	public static final Vector4f TEXTBOX_COLOR = new Vector4f(0, 0, 0, .3f);
+	private static final Vector4f BASE_COLOR = new Vector4f(0, 0, 0, .3f);
+	private static final Vector4f FONT_COLOR = new Vector4f(.9f, .9f, .9f, 1);
+	private static final Vector4f FONT_PROGRESS_COLOR = new Vector4f(1f, 1f, 0, 1);
+	private static final Vector4f FONT_EXIT_COLOR = new Vector4f(1f, 0, 0, 1);
 	
 	private UITextBox textbox;
 	private ArrayList<UITextBox> optionTextBoxes = new ArrayList<UITextBox>();
@@ -25,20 +28,18 @@ public class UIDialogue extends UIContainer {
 		setSolid(false);
 		//setVisible(false);
 		
-		textbox = new UITextBox(new Vector2f(0, height - 16), width, 16, TEXTBOX_COLOR);
+		textbox = new UITextBox(new Vector2f(0, height - 16), width, 16, BASE_COLOR);
 		textbox.setAlignment(Alignment.LEFT);
-		textbox.setFontColor(UIManager.FONT_COLOR);
+		textbox.setFontColor(FONT_COLOR);
 		textbox.setScale(3);
-		textbox.setString("Martin: Hello, this is a test sentence and shouldn't mean anything.");
 		add(textbox);
 	}
 	
 	public void set(Dialogue dialogue) {
 		textbox.setString(dialogue.getText());
-		setOptions(dialogue.getOptions());
-	}
-
-	public void setOptions(ArrayList<DialogueOption> options) {
+		
+		ArrayList<DialogueOption> options = dialogue.getOptions();
+		
 		for(UITextBox textbox : optionTextBoxes) {
 			getComponents().remove(textbox);
 		}
@@ -49,18 +50,27 @@ public class UIDialogue extends UIContainer {
 			int width = getWidth() / 2;
 			int height = 16;
 			int padding = 8;
-			UITextBox textbox = new UITextBox(new Vector2f(getWidth() - width, i * (height + padding)), width, height, TEXTBOX_COLOR);
-			textbox.setFontColor(UIManager.FONT_COLOR);
+			UITextBox textbox = new UITextBox(new Vector2f(getWidth() - width, i * (height + padding)), width, height, BASE_COLOR);
+			
+			if(option.getType() == OptionType.DEFAULT) textbox.setFontColor(FONT_COLOR);
+			else if(option.getType() == OptionType.PROGRESS) textbox.setFontColor(FONT_PROGRESS_COLOR);
+			else if(option.getType() == OptionType.EXIT) textbox.setFontColor(FONT_EXIT_COLOR);
+			
 			textbox.setScale(3);
 			textbox.setString(text);
 			textbox.setEventHandler(new UIEventHandler() {
 				@Override
-				public void leftClick() {}
+				public void leftClick() {
+					Dialogue link = option.getLink();
+					if(link != null) set(option.getLink());
+					else close();
+					
+					option.getQuestManager().getScriptManager().callMethod("event_dialogue", dialogue.getName(), option.getName());
+				}
 				@Override
 				public void rightClick() {}
 				@Override
-				public void leftRelease() {
-				}
+				public void leftRelease() {}
 				@Override
 				public void rightRelease() {}
 				@Override

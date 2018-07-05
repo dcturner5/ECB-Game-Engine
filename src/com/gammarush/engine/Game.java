@@ -40,7 +40,7 @@ public class Game implements Runnable {
 
 	public int width = 1280;
 	public int height = 720;
-	public float scale = 2f;
+	public float scale = 1f;
 	
 	private Thread thread;
 	private boolean running = false;
@@ -125,7 +125,7 @@ public class Game implements Runnable {
 		
 		
 		scriptManager = new ScriptManager(gui);
-		questManager = new QuestManager(scriptManager);
+		questManager = new QuestManager(scriptManager, this);
 	}
 	
 	public void run() {
