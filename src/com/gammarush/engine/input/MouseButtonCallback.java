@@ -9,9 +9,9 @@ import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 public class MouseButtonCallback extends GLFWMouseButtonCallback {
 	
-	private Input input;
+	private InputManager input;
 	
-	public MouseButtonCallback(Input input) {
+	public MouseButtonCallback(InputManager input) {
 		this.input = input;
 	}
 

@@ -2,6 +2,7 @@ package com.gammarush.engine.entities.items.clothing;
 
 import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
@@ -9,7 +10,6 @@ import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.utils.json.JSON;
 
 public class ClothingTemplate extends ItemTemplate {
@@ -58,12 +58,12 @@ public class ClothingTemplate extends ItemTemplate {
 		model.getTexture().unbind(Mob.TEXTURE_LOCATION);
 	}
 	
-	public void prepare(Vector3f position, Animation animation, Vector4f[] color) {
+	public void prepare(Vector3f position, Animation animation, Color color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position.add(0, 0, layer * .0001f + .0001f)).multiply(Matrix4f.rotate(0).add(new Vector3f(WIDTH / 2, HEIGHT / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(WIDTH, HEIGHT, 0))));
-		Renderer.MOB.setUniform1i("sprite_index", animation.getIndex());
-		Renderer.MOB.setUniform4f("primary_color", color[0]);
-		Renderer.MOB.setUniform4f("secondary_color", color[1]);
+		Renderer.MOB.setUniform1i("sprite_index", animation != null ? animation.getIndex() : 0);
+		Renderer.MOB.setUniform4f("primary_color", color.getPrimary());
+		Renderer.MOB.setUniform4f("secondary_color", color.getSecondary());
 	}
 	
 	public int getLayer() {

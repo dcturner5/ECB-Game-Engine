@@ -3,8 +3,8 @@ package com.gammarush.engine.entities.components;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.entities.animations.AnimationHashMap;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 
 public class AnimationComponent extends Component {
 	

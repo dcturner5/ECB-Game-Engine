@@ -1,24 +1,24 @@
 package com.gammarush.engine.entities.mobs;
 
-import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.Color;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.InventoryComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
-import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.utils.json.JSON;
 
-public class Mob extends Entity {
+public class Mob extends Interactive {
 	
 	private MobTemplate template;
 	
@@ -26,10 +26,10 @@ public class Mob extends Entity {
 	public int direction = 2;
 	public Vehicle vehicle = null;
 	
-	public Vector4f[] color = new Vector4f[] {new Vector4f(), new Vector4f()};
-	public Vector4f[] hairColor = new Vector4f[] {new Vector4f(), new Vector4f()};
+	public Color color;
+	public Color hairColor;
 
-	public Mob(MobTemplate template, Vector3f position) {
+	public Mob(MobTemplate template, Vector2f position) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		setSolid(false);
@@ -86,8 +86,13 @@ public class Mob extends Entity {
 			Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 					.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 			Renderer.MOB.setUniform1i("sprite_index", ((AnimationComponent) getComponent("animation")).getIndex());
-			Renderer.MOB.setUniform4f("primary_color", color[0]);
-			Renderer.MOB.setUniform4f("secondary_color", color[1]);
+			Renderer.MOB.setUniform4f("primary_color", color.getPrimary());
+			Renderer.MOB.setUniform4f("secondary_color", color.getSecondary());
+	}
+	
+	@Override
+	public void activate(Mob e) {
+		System.out.println("ACTIVATED");
 	}
 	
 	public Interactive getInteractive() {
@@ -96,6 +101,7 @@ public class Mob extends Entity {
 		AABB box = new AABB(position.x, position.y, width, height);
 		Interactive interactive = null;
 		for(Interactive e : getWorld().getInteractives()) {
+			if(e.equals(this)) continue;
 			AABB interactiveBox = e.getAABB();
 			interactiveBox.x -= padding;
 			interactiveBox.y -= padding;

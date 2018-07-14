@@ -1,14 +1,13 @@
-package com.gammarush.engine.entities.interactives.vehicles;
+package com.gammarush.engine.entities.vehicles;
 
 import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
-import com.gammarush.engine.entities.interactives.Interactive;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.math.vector.Vector2f;
-import com.gammarush.engine.math.vector.Vector3f;
 
 public class Vehicle extends Interactive {
 	
@@ -24,7 +23,7 @@ public class Vehicle extends Interactive {
 	
 	public float wheelRotation = 0f;
 	
-	public Vehicle(VehicleTemplate template, Vector3f position, int direction) {
+	public Vehicle(VehicleTemplate template, Vector2f position, int direction) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		this.wheelTemplate = Game.vehicles.getRandomWheel();

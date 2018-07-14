@@ -3,7 +3,6 @@ package com.gammarush.engine.entities.items;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.math.vector.Vector2f;
-import com.gammarush.engine.math.vector.Vector3f;
 
 public class Item extends Entity {
 	
@@ -11,7 +10,7 @@ public class Item extends Entity {
 	private float time = 0;
 	private Vector2f offset = new Vector2f();
 
-	public Item(ItemTemplate template, Vector3f position) {
+	public Item(ItemTemplate template, Vector2f position) {
 		super(position, ItemTemplate.WIDTH, ItemTemplate.HEIGHT, template.getModel());
 		this.template = template;
 		

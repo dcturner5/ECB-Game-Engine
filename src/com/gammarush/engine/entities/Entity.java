@@ -42,8 +42,8 @@ public class Entity {
 	public static final int DIRECTION_LEFT = 2;
 	public static final int DIRECTION_RIGHT = 3;
 	
-	public Entity(Vector3f position, int width, int height, Model model) {
-		this.position = position;
+	public Entity(Vector2f position, int width, int height, Model model) {
+		this.position = new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER);
 		this.width = width;
 		this.height = height;
 		this.model = model;

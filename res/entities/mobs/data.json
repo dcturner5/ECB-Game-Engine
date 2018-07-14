@@ -5,16 +5,9 @@
 			"width": 16,
 			"height": 16,
 			"components": [
-				{
-					"name": "physics",
-					"acceleration": 4
-				},
-				{
-					"name": "ai"
-				},
-				{
-					"name": "clothing"
-				},
+				{"name": "physics", "acceleration": 4},
+				{"name": "ai"},
+				{"name": "clothing"},
 				{
 					"name": "animation",
 					"animations": [
@@ -61,20 +54,17 @@
 				{
 					"name": "black",
 					"primary": {"r": 0.31, "g": 0.14, "b": 0.03},
-					"secondary": {"r": 0.26, "g": 0.12, "b": 0.02},
-					"hairs": ["*mobs.human.hairColors.black"]
+					"secondary": {"r": 0.26, "g": 0.12, "b": 0.02}
 				},
 				{
 					"name": "brown",
 					"primary": {"r": 0.65, "g": 0.40, "b": 0.13},
-					"secondary": {"r": 0.61, "g": 0.32, "b": 0.12},
-					"hairs": ["black"]
+					"secondary": {"r": 0.61, "g": 0.32, "b": 0.12}
 				},
 				{
 					"name": "white",
 					"primary": {"r": 1.00, "g": 0.67, "b": 0.38},
-					"secondary": {"r": 0.91, "g": 0.60, "b": 0.35},
-					"hairs": ["black", "blonde", "brown", "red"]
+					"secondary": {"r": 0.91, "g": 0.60, "b": 0.35}
 				}
 			],
 			"hairColors": [

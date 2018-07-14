@@ -1,14 +1,14 @@
 package com.gammarush.engine.world;
 
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.player.Player;
+import com.gammarush.engine.player.PlayerManager;
 
 public class WorldManager {
 	
 	private World world;
 	private WorldHashMap worlds = new WorldHashMap();
 	
-	private Player player;
+	private PlayerManager playerManager;
 	private Renderer renderer;
 	
 	public WorldManager() {
@@ -25,8 +25,8 @@ public class WorldManager {
 		getWorld().render();
 	}
 	
-	public Player getPlayer() {
-		return player;
+	public PlayerManager getPlayerManager() {
+		return playerManager;
 	}
 	
 	public Renderer getRenderer() {
@@ -37,8 +37,8 @@ public class WorldManager {
 		return world;
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setPlayerManager(PlayerManager playerManager) {
+		this.playerManager = playerManager;
 	}
 	
 	public void setRenderer(Renderer renderer) {

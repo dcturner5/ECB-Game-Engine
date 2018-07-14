@@ -4,9 +4,9 @@ import org.lwjgl.glfw.GLFWScrollCallback;
 
 public class ScrollCallback extends GLFWScrollCallback {
 	
-	private Input input;
+	private InputManager input;
 	
-	public ScrollCallback(Input input) {
+	public ScrollCallback(InputManager input) {
 		this.input = input;
 	}
 

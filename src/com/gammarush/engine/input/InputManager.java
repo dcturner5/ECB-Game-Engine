@@ -20,7 +20,7 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.world.WorldManager;
 
-public class Input {
+public class InputManager {
 	
 	private Renderer renderer;
 	private UIManager uiManager;
@@ -30,7 +30,7 @@ public class Input {
 	private Vector2f prevMouseWorldPosition = new Vector2f();
 	private boolean leftMouseDown = false;
 	
-	public Input(long window, Renderer renderer, UIManager uiManager, WorldManager worldManager) {
+	public InputManager(long window, Renderer renderer, UIManager uiManager, WorldManager worldManager) {
 		this.renderer = renderer;
 		this.uiManager = uiManager;
 		this.worldManager = worldManager;
@@ -164,7 +164,7 @@ public class Input {
 			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH);
 			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
 			
-			worldManager.getWorld().addItem(new Item(Game.items.getRandom(), new Vector3f(mousePos.x, mousePos.y, Renderer.ENTITY_LAYER)));
+			worldManager.getWorld().addItem(new Item(Game.items.getRandom(), mousePos));
 		}
 	}
 	

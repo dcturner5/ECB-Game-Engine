@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.interactives.vehicles;
+package com.gammarush.engine.entities.vehicles;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.interactives.vehicles;
+package com.gammarush.engine.entities.vehicles;
 
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.EntityTemplate;
@@ -16,7 +16,7 @@ public class WheelTemplate extends EntityTemplate {
 	public WheelTemplate(int id, JSON json) {
 		super(id, json);
 		
-		Texture texture = new Texture("res/entities/interactives/vehicles/wheels/" + json.getString("name") + ".png");
+		Texture texture = new Texture("res/entities/vehicles/wheels/" + json.getString("name") + ".png");
 		this.model = new Model(texture);
 	}
 

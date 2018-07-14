@@ -3,10 +3,10 @@ package com.gammarush.engine.entities.mobs.components;
 import static org.lwjgl.glfw.GLFW.*;
 
 import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.PhysicsComponent;
-import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.vector.Vector2f;
 

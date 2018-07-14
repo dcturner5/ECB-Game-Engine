@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.animations.Animation;
+import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.math.vector.Vector4f;
 
 public class ClothingBatchManager {
 	
 	public ArrayList<ClothingBatch> batches = new ArrayList<ClothingBatch>();
 	
-	public void add(ClothingTemplate template, Vector3f position, Animation animation, Vector4f[] color) {
+	public void add(ClothingTemplate template, Vector3f position, Animation animation, Color color) {
 		ClothingBatch batch = null;
 		boolean exists = false;
 		for(ClothingBatch b : batches) {

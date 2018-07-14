@@ -1,0 +1,28 @@
+{
+	"actors": [
+		{
+			"name": "Martín",
+			"type": "human",
+			"clothes": [
+				"hair02",
+				"suit"
+			],
+			"colors": {
+				"color": "white",
+				"hairColor": "black"
+			}
+		},
+		{
+			"name": "Dalton",
+			"type": "human",
+			"clothes": [
+				"hair01",
+				"overalls"
+			],
+			"colors": {
+				"color": "white",
+				"hairColor": "brown"
+			}
+		}
+	]
+}

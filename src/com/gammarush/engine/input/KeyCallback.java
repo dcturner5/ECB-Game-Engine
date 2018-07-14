@@ -13,9 +13,9 @@ public class KeyCallback extends GLFWKeyCallback {
 	
 	public static boolean[] keys = new boolean[65536];
 	
-	private Input input;
+	private InputManager input;
 	
-	public KeyCallback(Input input) {
+	public KeyCallback(InputManager input) {
 		this.input = input;
 	}
 	

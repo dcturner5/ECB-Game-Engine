@@ -37,6 +37,7 @@ public class ClothingComponent extends MobComponent {
 			}
 		}
 		for(Item e1 : removeQueue) {
+			//fix this
 			e.getWorld().getItems().remove(e1);
 		}
 	}

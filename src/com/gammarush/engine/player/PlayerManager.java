@@ -3,19 +3,19 @@ package com.gammarush.engine.player;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
-import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.world.WorldManager;
 
-public class Player {
+public class PlayerManager {
 	
 	private WorldManager worldManager;
 	private Mob mob;
 	
-	public Player(Vector3f position, WorldManager worldManager) {
+	public PlayerManager(WorldManager worldManager) {
 		this.worldManager = worldManager;
-		this.worldManager.setPlayer(this);
+		this.worldManager.setPlayerManager(this);
 		
-		setMob(new Mob(Game.mobs.get("human"), position));
+		setMob(Game.actors.get("Martín"));
+		this.worldManager.getWorld().addMob(mob);
 	}
 	
 	public void update(double delta) {

@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.matrix.Matrix4f;

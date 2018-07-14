@@ -4,9 +4,9 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class CursorPosCallback extends GLFWCursorPosCallback {
 
-	private Input input;
+	private InputManager input;
 	
-	public CursorPosCallback(Input input) {
+	public CursorPosCallback(InputManager input) {
 		this.input = input;
 	}
 	

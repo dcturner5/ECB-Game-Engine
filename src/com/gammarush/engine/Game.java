@@ -9,25 +9,26 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
-import com.gammarush.engine.entities.interactives.vehicles.VehicleHashMap;
-import com.gammarush.engine.entities.interactives.vehicles.VehicleLoader;
+import com.gammarush.engine.actors.ActorHashMap;
+import com.gammarush.engine.actors.ActorLoader;
 import com.gammarush.engine.entities.items.ItemHashMap;
 import com.gammarush.engine.entities.items.ItemLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
 import com.gammarush.engine.entities.items.clothing.ClothingLoader;
 import com.gammarush.engine.entities.mobs.MobHashMap;
 import com.gammarush.engine.entities.mobs.MobLoader;
+import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.vehicles.VehicleHashMap;
+import com.gammarush.engine.entities.vehicles.VehicleLoader;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.gui.UIManager;
-import com.gammarush.engine.input.Input;
-import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.player.Player;
+import com.gammarush.engine.input.InputManager;
+import com.gammarush.engine.math.vector.Vector2f;
+import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
-import com.gammarush.engine.world.World;
 import com.gammarush.engine.world.WorldManager;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -48,16 +49,16 @@ public class Game implements Runnable {
 	
 	public long window;
 	
-	public Input input;
-	public Renderer renderer;
-	public World world;
-	public Player player;
-	public UIManager uiManager;
+	public InputManager inputManager;
 	
+	public PlayerManager playerManager;
 	public QuestManager questManager;
+	public Renderer renderer;
 	public ScriptManager scriptManager;
+	public UIManager uiManager;
 	public WorldManager worldManager;
 	
+	public static ActorHashMap actors;
 	public static MobHashMap mobs;
 	public static ItemHashMap items;
 	public static ClothingHashMap clothings;
@@ -109,22 +110,22 @@ public class Game implements Runnable {
 		mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
-		vehicles = VehicleLoader.load("res/entities/interactives/vehicles/data.json");
+		vehicles = VehicleLoader.load("res/entities/vehicles/data.json");
+		actors = ActorLoader.load("res/actors/data.json");
 		
 		worldManager = new WorldManager();
 		uiManager = new UIManager(this);
+		playerManager = new PlayerManager(worldManager);
 		scriptManager = new ScriptManager(uiManager);
-		questManager = new QuestManager(scriptManager, worldManager);
+		questManager = new QuestManager(playerManager, scriptManager, worldManager);
 		
-		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), worldManager);
-		worldManager.getWorld().addMob(player.getMob());
-		
-		worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT));
+		worldManager.getWorld().addMob(actors.get("Dalton"));
+		worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
 		
 		renderer = new Renderer(width, height, uiManager, worldManager);
 		renderer.setScreenSize((int) (width * scale), (int) (height * scale));
 		
-		input = new Input(window, renderer, uiManager, worldManager);
+		inputManager = new InputManager(window, renderer, uiManager, worldManager);
 	}
 	
 	public void run() {
@@ -166,9 +167,9 @@ public class Game implements Runnable {
 	private void update(double delta) {
 		glfwPollEvents();
 		
-		player.update(delta);
-		worldManager.update(delta);
+		playerManager.update(delta);
 		uiManager.update(delta);
+		worldManager.update(delta);
 	}
 	
 	private void render() {

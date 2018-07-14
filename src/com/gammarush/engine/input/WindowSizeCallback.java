@@ -4,9 +4,9 @@ import org.lwjgl.glfw.GLFWWindowSizeCallback;
 
 public class WindowSizeCallback extends GLFWWindowSizeCallback {
 	
-	private Input input;
+	private InputManager input;
 	
-	public WindowSizeCallback(Input input) {
+	public WindowSizeCallback(InputManager input) {
 		this.input = input;
 	}
 

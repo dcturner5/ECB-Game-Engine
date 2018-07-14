@@ -1,4 +1,4 @@
-package com.gammarush.engine.entities.interactives.vehicles;
+package com.gammarush.engine.entities.vehicles;
 
 import java.util.ArrayList;
 
@@ -50,9 +50,9 @@ public class VehicleTemplate extends EntityTemplate {
 		
 		this.occupancy = this.mobPositions.size() / 4;
 		
-		Texture exteriorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/exterior.png", 6);
+		Texture exteriorTexture = new TextureArray("res/entities/vehicles/" + json.getString("name") + "/exterior.png", 6);
 		this.exterior = new Model(exteriorTexture);
-		Texture interiorTexture = new TextureArray("res/entities/interactives/vehicles/" + json.getString("name") + "/interior.png", 4);
+		Texture interiorTexture = new TextureArray("res/entities/vehicles/" + json.getString("name") + "/interior.png", 4);
 		this.interior = new Model(interiorTexture);
 		
 		this.wheelSize = json.getInteger("wheel.size") * Renderer.SCALE;

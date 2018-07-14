@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.gammarush.engine.entities.Entity;
-import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
-import com.gammarush.engine.entities.interactives.vehicles.VehicleBatchManager;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.items.ItemBatchManager;
 import com.gammarush.engine.entities.items.clothing.ClothingBatchManager;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.MobBatchManager;
+import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.vehicles.VehicleBatchManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
@@ -57,44 +57,13 @@ public class World {
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
 		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .9f);
 		//lights.add(new PointLight(new Vector2f(5 * Tile.WIDTH, 5 * Tile.HEIGHT), 1f, new Vector3f(1f, 1f, 1f), 0f));
-		
-		mainChunkPosition = new Vector2i(0, 0);
-		loadedChunks.add(getChunk(new Vector2i(0, 0)));
 	}
 	
 	public void update(double delta) {
-		
-		Mob e = worldManager.getPlayer().getMob();
-		Vector2i cp = e.getChunkPosition();
-		if(!cp.equals(mainChunkPosition)) {
-			
-			ArrayList<Vector2i> unloadQueue = new ArrayList<Vector2i>();
-			for(Chunk c : loadedChunks) {
-				if(Math.abs(cp.x - c.getPosition().x) > 1 || Math.abs(cp.y - c.getPosition().y) > 1) {
-					unloadQueue.add(c.getPosition());
-				}
-			}
-			for(Vector2i p : unloadQueue) {
-				unloadChunk(p);
-			}
-			
-			loadChunk(cp);
-			loadChunk(cp.add(-1, 0));
-			loadChunk(cp.add(0, -1));
-			loadChunk(cp.add(1, 0));
-			loadChunk(cp.add(0, 1));
-			loadChunk(cp.add(-1, -1));
-			loadChunk(cp.add(-1, 1));
-			loadChunk(cp.add(1, -1));
-			loadChunk(cp.add(1, 1));
-			
-			mainChunkPosition = cp;
-		}
-		
 		for(Chunk c : loadedChunks) {
 			c.update(delta);
 		}
-		
+		loadChunks(worldManager.getPlayerManager().getMob().getChunkPosition());
 		syncEntities();
 	}
 	
@@ -256,6 +225,29 @@ public class World {
 		}
 	}
 	
+	public void loadChunks(Vector2i position) {
+		if(!position.equals(mainChunkPosition)) {
+			ArrayList<Vector2i> unloadQueue = new ArrayList<Vector2i>();
+			for(Chunk c : loadedChunks) {
+				if(Math.abs(position.x - c.getPosition().x) > 1 || Math.abs(position.y - c.getPosition().y) > 1) {
+					unloadQueue.add(c.getPosition());
+				}
+			}
+			for(Vector2i p : unloadQueue) unloadChunk(p);
+			
+			loadChunk(position);
+			loadChunk(position.add(-1, 0));
+			loadChunk(position.add(0, -1));
+			loadChunk(position.add(1, 0));
+			loadChunk(position.add(0, 1));
+			loadChunk(position.add(-1, -1));
+			loadChunk(position.add(-1, 1));
+			loadChunk(position.add(1, -1));
+			loadChunk(position.add(1, 1));
+			mainChunkPosition = position;
+		}
+	}
+	
 	public void loadChunk(Vector2i position) {
 		Chunk c = getChunk(position);
 		if(c != null && !loadedChunks.contains(c)) loadedChunks.add(c);
@@ -336,7 +328,7 @@ public class World {
 	public void syncEntity(Entity entity) {
 		entitySyncQueue.add(entity);
 	}
-
+	
 	public void syncEntities() {
 		for(Entity e : entitySyncQueue) {
 			Vector2i cp = e.getChunkPosition();
@@ -344,21 +336,25 @@ public class World {
 			if(!cp.equals(lcp)) {
 				Chunk c = getChunk(cp);
 				Chunk lc = getChunk(lcp);
+				if(c == null) {
+					continue;
+				}
+				
+				if(e instanceof Mob) {
+					lc.getMobs().remove(e);
+					c.getMobs().add((Mob) e);
+				}
 				if(e instanceof Vehicle) {
 					lc.getVehicles().remove(e);
 					c.getVehicles().add((Vehicle) e);
-				}
-				else if(e instanceof Interactive) {
-					lc.getInteractives().remove(e);
-					c.getInteractives().add((Interactive) e);
 				}
 				else if(e instanceof Item) {
 					lc.getItems().remove(e);
 					c.getItems().add((Item) e);
 				}
-				else if(e instanceof Mob) {
-					lc.getMobs().remove(e);
-					c.getMobs().add((Mob) e);
+				else if(e instanceof Interactive) {
+					lc.getInteractives().remove(e);
+					c.getInteractives().add((Interactive) e);
 				}
 				e.setLastChunkPosition(cp);
 			}

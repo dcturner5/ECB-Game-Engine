@@ -121,6 +121,8 @@ public class Vector3f {
 	
 	@Override
 	public boolean equals(Object o) {
+		if(o == null) return false;
+		
 		Vector3f v = (Vector3f) o;
 		if(this.x == v.x && this.y == v.y && this.z == v.z) return true;
 		return false;

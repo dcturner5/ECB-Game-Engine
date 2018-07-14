@@ -2,6 +2,7 @@ package com.gammarush.engine.entities.mobs;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.EntityTemplate;
 import com.gammarush.engine.entities.animations.Animation;
@@ -10,7 +11,6 @@ import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.utils.json.JSON;
 
 public class MobTemplate extends EntityTemplate {
@@ -22,8 +22,8 @@ public class MobTemplate extends EntityTemplate {
 	
 	private ArrayList<JSON> components;
 	
-	public ArrayList<Vector4f[]> colors;
-	public ArrayList<Vector4f[]> hairColors;
+	public ArrayList<Color> colors;
+	public ArrayList<Color> hairColors;
 
 	public MobTemplate(int id, JSON json) {
 		super(id, json);
@@ -35,16 +35,16 @@ public class MobTemplate extends EntityTemplate {
 		
 		this.components = json.getArray("components");
 		
-		colors = new ArrayList<Vector4f[]>();
+		colors = new ArrayList<Color>();
 		ArrayList<JSON> colorsJSON = json.getArray("colors");
 		for(JSON color : colorsJSON) {
-			colors.add(new Vector4f[] {color.getColor("primary"), color.getColor("secondary")});
+			colors.add(new Color(color));
 		}
 		
-		hairColors = new ArrayList<Vector4f[]>();
+		hairColors = new ArrayList<Color>();
 		ArrayList<JSON> hairColorsJSON = json.getArray("hairColors");
 		for(JSON hairColor : hairColorsJSON) {
-			hairColors.add(new Vector4f[] {hairColor.getColor("primary"), hairColor.getColor("secondary")});
+			hairColors.add(new Color(hairColor));
 		}
 		
 	}
@@ -60,13 +60,13 @@ public class MobTemplate extends EntityTemplate {
 		model.getTexture().unbind(Entity.TEXTURE_LOCATION);
 	}
 	
-	public void prepare(Vector3f position, Animation animation, Vector4f[] color) {
+	public void prepare(Vector3f position, Animation animation, Color color) {
 		Renderer.MOB.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(0).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
 		//crashes from nullpointerexception sometimes
 		Renderer.MOB.setUniform1i("sprite_index", animation != null ? animation.getIndex() : 0);
-		Renderer.MOB.setUniform4f("primary_color", color[0]);
-		Renderer.MOB.setUniform4f("secondary_color", color[1]);
+		Renderer.MOB.setUniform4f("primary_color", color.getPrimary());
+		Renderer.MOB.setUniform4f("secondary_color", color.getSecondary());
 	}
 	
 	public int getWidth() {
@@ -83,6 +83,20 @@ public class MobTemplate extends EntityTemplate {
 	
 	public ArrayList<JSON> getComponents() {
 		return components;
+	}
+	
+	public Color getColor(String name) {
+		for(Color c : colors) {
+			if(c.getName().equals(name)) return c;
+		}
+		return null;
+	}
+	
+	public Color getHairColor(String name) {
+		for(Color c : hairColors) {
+			if(c.getName().equals(name)) return c;
+		}
+		return null;
 	}
 
 }

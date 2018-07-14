@@ -2,7 +2,7 @@
 	"quests": [
 		{
 			"name": "main",
-			"script": "res/main",
+			"script": "res/scripts/main",
 			"dialogues": [
 				{
 					"name": "main_001",

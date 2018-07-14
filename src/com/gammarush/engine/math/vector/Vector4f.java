@@ -83,6 +83,8 @@ public class Vector4f {
 	
 	@Override
 	public boolean equals(Object o) {
+		if(o == null) return false;
+		
 		Vector4f v = (Vector4f) o;
 		if(this.x == v.x && this.y == v.y && this.z == v.z && this.w == v.w) return true;
 		return false;

@@ -1,6 +1,6 @@
 package com.gammarush.engine.entities.mobs.behaviors.subbehaviors;
 
-import com.gammarush.engine.entities.interactives.Interactive;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.mobs.behaviors.Behavior;
 
 public class InteractSubBehavior extends SubBehavior {

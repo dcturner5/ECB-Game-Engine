@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
-import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.utils.json.JSON;
@@ -40,10 +40,10 @@ public class Chunk {
 	
 	public void update(double delta) {
 		interactives.clear();
+		interactives.addAll(mobs);
 		interactives.addAll(vehicles);
 		
 		entities.clear();
-		entities.addAll(mobs);
 		entities.addAll(items);
 		entities.addAll(interactives);
 		

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
-import com.gammarush.engine.math.vector.Vector4f;
+import com.gammarush.engine.entities.Color;
 
 public class ClothingOutfit {
 	
@@ -12,6 +12,7 @@ public class ClothingOutfit {
 	private Mob mob;
 	
 	public ClothingOutfit(Mob mob) {
+		
 		this.mob = mob;
 	}
 	
@@ -19,7 +20,7 @@ public class ClothingOutfit {
 		for(ClothingTemplate c : array) {
 			//TODO ADD SIZE ATTRIBS SO CLOTHES SCALE WITH MOB
 			mob.getWorld().getClothingBatchManager().add(c, mob.position, ((AnimationComponent) mob.getComponent("animation")).getAnimation(), 
-					c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Vector4f[] {new Vector4f(), new Vector4f()});
+					c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Color());
 		}
 	}
 	

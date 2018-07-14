@@ -99,6 +99,8 @@ public class Vector2f {
 	
 	@Override
 	public boolean equals(Object o) {
+		if(o == null) return false;
+		
 		Vector2f v = (Vector2f) o;
 		if(this.x == v.x && this.y == v.y) return true;
 		return false;

@@ -15,8 +15,7 @@ public class ScriptManager {
 	private AxilMethodMap methods = new AxilMethodMap();
 	
 	private ScriptHashMap scripts = new ScriptHashMap();
-	private ArrayList<String> compileQueue = new ArrayList<String>();
-	private ArrayList<String> loadQueue = new ArrayList<String>();
+	private ArrayList<String> queue = new ArrayList<String>();
 	
 	private UIManager uiManager;
 	
@@ -36,30 +35,26 @@ public class ScriptManager {
 	}
 	
 	public void compile() {
-		for(String path : compileQueue) {
+		for(String path : queue) {
 			compiler.compileFile(path + ".txt");
 			scripts.put(path + ".axil", AxilLoader.open(path + ".axil", methods));
 		}
-		compileQueue.clear();
+		queue.clear();
 	}
 	
 	public void load() {
-		for(String path : loadQueue) {
+		for(String path : queue) {
 			scripts.put(path + ".axil", AxilLoader.open(path + ".axil", methods));
 		}
-		compileQueue.clear();
+		queue.clear();
 	}
 	
 	public AxilCompiler getCompiler() {
 		return compiler;
 	}
 	
-	public ArrayList<String> getCompileQueue() {
-		return compileQueue;
-	}
-	
-	public ArrayList<String> getLoadQueue() {
-		return loadQueue;
+	public ArrayList<String> getQueue() {
+		return queue;
 	}
 	
 	public AxilScript getScript(String name) {
