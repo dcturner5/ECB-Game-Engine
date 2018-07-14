@@ -1,222 +1,278 @@
 package com.gammarush.engine.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.MobBatchManager;
 import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
 import com.gammarush.engine.entities.interactives.vehicles.VehicleBatchManager;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.items.ItemBatchManager;
 import com.gammarush.engine.entities.items.clothing.ClothingBatchManager;
+import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.MobBatchManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
-import com.gammarush.engine.lights.PointLight;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.tiles.BlendData;
 import com.gammarush.engine.tiles.Tile;
-import com.gammarush.engine.tiles.TileBatch;
+import com.gammarush.engine.tiles.TileBatchManager;
+import com.gammarush.engine.utils.json.JSON;
 
 public class World {
 	
-	private Game game;
+	private int id;
+	private String name;
 	
-	public int width;
-	public int height;
+	private Vector2i mainChunkPosition;
 	
-	private int[] array;
-	private boolean[] entityCollisionArray;
+	private GlobalLight global;
+	private AmbientLight ambient;
 	
-	//1st tier
-	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	private ArrayList<Chunk> loadedChunks = new ArrayList<Chunk>();
+	private HashMap<Vector2i, Chunk> chunks = new HashMap<Vector2i, Chunk>();
 	
-	//2nd tier
-	public ArrayList<Interactive> interactives = new ArrayList<Interactive>();
-	public ArrayList<Item> items = new ArrayList<Item>();
-	public ArrayList<Mob> mobs = new ArrayList<Mob>();
-	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	private WorldManager worldManager;
 	
-	public GlobalLight global;
-	public AmbientLight ambient;
-	public ArrayList<PointLight> lights = new ArrayList<PointLight>();
+	private ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
+	private ItemBatchManager itemBatchManager = new ItemBatchManager();
+	private MobBatchManager mobBatchManager = new MobBatchManager();
+	private TileBatchManager tileBatchManager = new TileBatchManager();
+	private VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
 	
-	public MobBatchManager mobBatchManager = new MobBatchManager();
-	public ItemBatchManager itemBatchManager = new ItemBatchManager();
-	public ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
-	public VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
-	
-	public World(int width, int height, Game game) {
-		this.game = game;
+	public World(int id, JSON json, WorldManager worldManager) {
+		this.id = id;
+		this.worldManager = worldManager;
 		
-		this.width = width;
-		this.height = height;
-		this.array = new int[width * height];
-		this.entityCollisionArray = new boolean[width * height];
+		name = json.getString("name");
+		ArrayList<JSON> chunksArray = json.getArray("chunks");
+		for(JSON chunkJson : chunksArray) {
+			Chunk c = new Chunk(chunkJson, this);
+			chunks.put(c.getPosition(), c);
+		}
 		
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
 		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .9f);
 		//lights.add(new PointLight(new Vector2f(5 * Tile.WIDTH, 5 * Tile.HEIGHT), 1f, new Vector3f(1f, 1f, 1f), 0f));
+		
+		mainChunkPosition = new Vector2i(0, 0);
+		loadedChunks.add(getChunk(new Vector2i(0, 0)));
 	}
 	
 	public void update(double delta) {
-		interactives.clear();
-		interactives.addAll(vehicles);
 		
-		entities.clear();
-		entities.addAll(mobs);
-		entities.addAll(items);
-		entities.addAll(interactives);
+		Mob e = worldManager.getPlayer().getMob();
+		Vector2i cp = e.getChunkPosition();
+		if(!cp.equals(mainChunkPosition)) {
+			
+			ArrayList<Vector2i> unloadQueue = new ArrayList<Vector2i>();
+			for(Chunk c : loadedChunks) {
+				if(Math.abs(cp.x - c.getPosition().x) > 1 || Math.abs(cp.y - c.getPosition().y) > 1) {
+					unloadQueue.add(c.getPosition());
+				}
+			}
+			for(Vector2i p : unloadQueue) {
+				unloadChunk(p);
+			}
+			
+			loadChunk(cp);
+			loadChunk(cp.add(-1, 0));
+			loadChunk(cp.add(0, -1));
+			loadChunk(cp.add(1, 0));
+			loadChunk(cp.add(0, 1));
+			loadChunk(cp.add(-1, -1));
+			loadChunk(cp.add(-1, 1));
+			loadChunk(cp.add(1, -1));
+			loadChunk(cp.add(1, 1));
+			
+			mainChunkPosition = cp;
+		}
 		
-		updateEntityCollisionArray();
-		for(Entity e : entities) {
-			if(!e.getScreenPresence()) continue;
-			e.update(delta);
+		
+		for(Chunk c : loadedChunks) {
+			c.update(delta);
 		}
 	}
 	
 	public void render() {
-		renderTiles();
-		renderEntities();
-	}
-	
-	public void renderTiles() {
+		for(Chunk c : loadedChunks) {
+			c.render();
+		}
+		
 		Renderer.TILE.enable();
-		ArrayList<TileBatch> batches = new ArrayList<TileBatch>();
-		int fx = (int) Math.max(Math.floor(-game.renderer.camera.position.x / Tile.WIDTH), 0);
-		int lx = Math.min(fx + (int)(game.renderer.width / game.renderer.camera.getZoom() / Tile.WIDTH) + 2, width);
-		int fy = (int) Math.max(Math.floor(-game.renderer.camera.position.y / Tile.HEIGHT), 0);
-		int ly = Math.min(fy + (int)(game.renderer.height / game.renderer.camera.getZoom() / Tile.HEIGHT) + 2, height);
-		for(int y = fy; y < ly; y++) {
-			for(int x = fx; x < lx; x++) {
-				int id = getTile(x, y);
-				
-				boolean blend = false;
-				int[] blendIndices = new int[8];
-				
-				Tile tile = Game.tiles.get(id), tilef = null;
-				
-				if(tile == null) continue;
-				
-				if(tile.getBlendWeight() == null) {
-					int[] ids = new int[8];
-					int[] idCount = new int[8];
-					
-					ids[0] = getTile(x - 1, y);
-					ids[1] = getTile(x, y - 1);
-					ids[2] = getTile(x + 1, y);
-					ids[3] = getTile(x, y + 1);
-					ids[4] = getTile(x - 1, y - 1);
-					ids[5] = getTile(x + 1, y - 1);
-					ids[6] = getTile(x + 1, y + 1);
-					ids[7] = getTile(x - 1, y + 1);
-					
-					ArrayList<Tile> tiles = new ArrayList<Tile>(8);
-					for(int i = 0; i < ids.length; i++) {
-						Tile neighborTile = Game.tiles.get(ids[i]);
-						if(neighborTile != null) tiles.add(neighborTile);
-						
-					}
-					
-					if(tile.getBlendType() == Tile.BLEND_TYPE_RECESSIVE) {
-						for(int i = 0; i < tiles.size(); i++) {
-							if(tiles.get(i).getBlendType() == Tile.BLEND_TYPE_DOMINANT) {
-								idCount[i] += 1;
-								blendIndices[i] = 1;
-							}
-						}
-					}
-					
-					int highestCountIndex = 0;
-					for(int i = 0; i < idCount.length; i++) {
-						if(idCount[i] >= idCount[highestCountIndex]) highestCountIndex = i;
-					}
-					
-					
-					if(idCount[highestCountIndex] > 0) {
-						blend = true;
-						tilef = tiles.get(highestCountIndex);
-					}
-				}
-				else {
-					if(tile.getBlendType() == Tile.BLEND_TYPE_RECESSIVE) {
-						blend = true;
-						blendIndices[0] = 1;
-						tilef = Game.tiles.get(getTile(x + tile.getBlendWeight().x, y + tile.getBlendWeight().y));
-					}
-				}
-				
-				TileBatch batch = null;
-				boolean exists = false;
-				for(TileBatch b : batches) {
-					if(b.id == id && b.blend == blend) {
-						batch = b;
-						exists = true;
-					}
-				}
-				if(!exists) {
-					batch = new TileBatch(id, blend);
-					batches.add(batch);
-				}
-				
-				batch.positions.add(new Vector3f(x * Tile.WIDTH, y * Tile.HEIGHT, Renderer.TILE_LAYER));
-				if(batch.blend) batch.blendDatas.add(new BlendData(tilef, blendIndices));
-				
-			}
-		}
-		for(TileBatch b : batches) {
-			Tile tile = Game.tiles.get(b.id);
-			if(b.blend) tile.render(b.positions, b.blendDatas);
-			else tile.render(b.positions);
-		}
+		getTileBatchManager().render();
 		Renderer.TILE.disable();
-	}
-	
-	public void renderEntities() {
+		
 		Renderer.DEFAULT.enable();
-		itemBatchManager.render(items);
+		getItemBatchManager().render();
 		Renderer.DEFAULT.disable();
 		
 		Renderer.VEHICLE.enable();
-		vehicleBatchManager.render(vehicles);
+		getVehicleBatchManager().render();
 		Renderer.VEHICLE.disable();
 		
 		Renderer.MOB.enable();
-		mobBatchManager.render(mobs);
-		game.player.render();
+		getMobBatchManager().render();
 		clothingBatchManager.render();
 		Renderer.MOB.disable();
 	}
 	
-	public boolean checkSolid(int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height) return true;
-		
-		Tile tile = Game.tiles.get(getTile(x, y));
-		return tile.getSolid();
+	public void addItem(Item e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			e.setWorld(this);
+			c.getItems().add(e);
+		}
+	}
+	
+	public void addMob(Mob e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			e.setWorld(this);
+			c.getMobs().add(e);
+		}
+	}
+	
+	public void addVehicle(Vehicle e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			e.setWorld(this);
+			c.getVehicles().add(e);
+		}
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public ArrayList<Entity> getEntities() {
+		ArrayList<Entity> result = new ArrayList<Entity>();
+		for(Chunk c : loadedChunks) {
+			result.addAll(c.getEntities());
+		}
+		return result;
+	}
+	
+	public ArrayList<Interactive> getInteractives() {
+		ArrayList<Interactive> result = new ArrayList<Interactive>();
+		for(Chunk c : loadedChunks) {
+			result.addAll(c.getInteractives());
+		}
+		return result;
+	}
+	
+	public ArrayList<Item> getItems() {
+		ArrayList<Item> result = new ArrayList<Item>();
+		for(Chunk c : loadedChunks) {
+			result.addAll(c.getItems());
+		}
+		return result;
+	}
+	
+	public AmbientLight getAmbientLight() {
+		return ambient;
+	}
+	
+	public GlobalLight getGlobalLight() {
+		return global;
+	}
+	
+	public Chunk getChunk(Vector2i position) {
+		if(chunks.containsKey(position)) {
+			return chunks.get(position);
+		}
+		return null;
+	}
+	
+	public Chunk getChunkFromTilePosition(int x, int y) {
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			return chunks.get(position);
+		}
+		return null;
+	}
+	
+	public Chunk getChunkFromWorldPosition(Vector3f v) {
+		Vector2i position = new Vector2i((int) Math.floor(v.x / Tile.WIDTH / Chunk.WIDTH), (int) Math.floor(v.y / Tile.HEIGHT / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			return chunks.get(position);
+		}
+		return null;
+	}
+	
+	public Renderer getRenderer() {
+		return getWorldManager().getRenderer();
 	}
 	
 	public int getTile(int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height) return 0;
-		return array[x + y * width];
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			Chunk c = chunks.get(position);
+			return c.getTile((int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	public void setTile(int id, int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height) return;
-		array[x + y * width] = id;
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			Chunk c = chunks.get(position);
+			c.setTile(id, (int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
+		}
+		else {
+			return;
+		}
+	}
+	
+	public boolean getSolid(int x, int y) {
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			Chunk c = chunks.get(position);
+			return c.getSolid((int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
+		}
+		else {
+			return true;
+		}
 	}
 	
 	public boolean getEntityCollision(int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height) return false;
-		return entityCollisionArray[x + y * width];
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			Chunk c = chunks.get(position);
+			return c.getEntityCollision((int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void loadChunk(Vector2i position) {
+		Chunk c = getChunk(position);
+		if(c != null && !loadedChunks.contains(c)) loadedChunks.add(c);
+	}
+	
+	public void unloadChunk(Vector2i position) {
+		Chunk c = getChunk(position);
+		if(c != null) loadedChunks.remove(c);
 	}
 	
 	public void setEntityCollision(boolean value, int x, int y) {
-		if(x < 0 || y < 0 || x >= width || y >= height) return;
-		entityCollisionArray[x + y * width] = value;
+		Vector2i position = new Vector2i((int) Math.floor(x / Chunk.WIDTH), (int) Math.floor(y / Chunk.HEIGHT));
+		if(chunks.containsKey(position)) {
+			Chunk c = chunks.get(position);
+			c.setEntityCollision(value, (int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
+		}
+		else {
+			return;
+		}
 	}
 	
 	public ArrayList<Vector2i> getSolidTiles(int x, int y, int radius) {
@@ -227,7 +283,7 @@ public class World {
 		int y2 = y + radius;
 		for(int i = x1; i < x2; i++) {
 			for(int j = y1; j < y2; j++) {
-				if(checkSolid(i, j)) {
+				if(getSolid(i, j)) {
 					tiles.add(new Vector2i(i * Tile.WIDTH, j * Tile.HEIGHT));
 				}
 			}
@@ -243,7 +299,7 @@ public class World {
 		int y2 = y + radius;
 		for(int i = x1; i < x2; i++) {
 			for(int j = y1; j < y2; j++) {
-				if(!checkSolid(i, j)) {
+				if(!getSolid(i, j)) {
 					tiles.add(new Vector2i(i, j));
 				}
 			}
@@ -251,30 +307,28 @@ public class World {
 		return tiles;
 	}
 	
-	public void updateEntityCollisionArray() {
-		entityCollisionArray = new boolean[width * height];
-		for(Entity e :  entities) {
-			if(e.getSolid()) {
-				int fx = (int) ((e.position.x + e.getCollisionBox().x) / Tile.WIDTH);
-				int fy = (int) ((e.position.y + e.getCollisionBox().y) / Tile.HEIGHT);
-				int lx = (int) (((e.position.x + e.getCollisionBox().x + e.getCollisionBox().width)) / Tile.WIDTH);
-				int ly = (int) (((e.position.y + e.getCollisionBox().y + e.getCollisionBox().height)) / Tile.HEIGHT);
-				for(int x = fx; x <= lx; x++) {
-					for(int y = fy; y <= ly; y++) {
-						game.world.setEntityCollision(true, x, y);
-					}
-				}
-			}
-		}
+	public WorldManager getWorldManager() {
+		return worldManager;
 	}
 	
-	//GENERATE WORLD
-	public void generate(int seed) {
-		System.out.println("WORLD GENERATED WITH SEED: " + seed);
-		
-		for(int i = 0; i < width * height; i++) {
-			array[i] = Math.random() < .99 ? Game.tiles.getId("grass") : Game.tiles.getId("wall");
-		}
+	public ClothingBatchManager getClothingBatchManager() {
+		return clothingBatchManager;
+	}
+	
+	public ItemBatchManager getItemBatchManager() {
+		return itemBatchManager;
+	}
+	
+	public MobBatchManager getMobBatchManager() {
+		return mobBatchManager;
+	}
+	
+	public TileBatchManager getTileBatchManager() {
+		return tileBatchManager;
+	}
+	
+	public VehicleBatchManager getVehicleBatchManager() {
+		return vehicleBatchManager;
 	}
 
 }

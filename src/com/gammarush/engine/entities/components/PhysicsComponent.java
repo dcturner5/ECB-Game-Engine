@@ -9,6 +9,7 @@ import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.world.Chunk;
 import com.gammarush.engine.world.World;
 
 public class PhysicsComponent extends Component {
@@ -42,7 +43,7 @@ public class PhysicsComponent extends Component {
 		
 		e.position.x = position.x;
 		e.position.y = position.y;
-		e.position.z = Renderer.ENTITY_LAYER + (e.position.y / Tile.HEIGHT) / e.getWorld().height;
+		e.position.z = Renderer.ENTITY_LAYER + (e.position.y / Tile.HEIGHT) / Chunk.HEIGHT;
 		
 		if(translation.x != 0) {
 			e.position.x -= velocity.x;
@@ -78,7 +79,7 @@ public class PhysicsComponent extends Component {
 			}
 		}
 		
-		for(Entity entity : e.getWorld().entities) {
+		for(Entity entity : e.getWorld().getEntities()) {
 			AABB entityBox = entity.getAABB();
 			if(entity.getSolid() && !e.equals(entity) && Physics.getCollision(box, entityBox)) {
 				groups.add(entity.getAABB());

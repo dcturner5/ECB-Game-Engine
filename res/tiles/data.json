@@ -1,23 +1,6 @@
 {
-
 	"tiles":[
-
-		{
-
-			"name":"grass",
-			"solid":false,
-			"texture":"res/tiles/plains_ground.png"
-
-		}
-,
-		{
-
-			"name":"wall",
-			"solid":true,
-			"texture":"res/tiles/mountain.png"
-
-		}
-
+		{"name": "grass", "solid": false, "texture": "res/tiles/plains_ground.png"},
+		{"name": "wall", "solid": true, "texture": "res/tiles/mountain.png"}
 	]
-
 }

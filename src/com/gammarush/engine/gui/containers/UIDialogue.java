@@ -26,7 +26,7 @@ public class UIDialogue extends UIContainer {
 		super(position, width, height);
 		
 		setSolid(false);
-		//setVisible(false);
+		setVisible(false);
 		
 		textbox = new UITextBox(new Vector2f(0, height - 16), width, 16, BASE_COLOR);
 		textbox.setAlignment(Alignment.LEFT);

@@ -81,6 +81,18 @@ public class Vector4f {
 		return (float) Math.sqrt(x * x + y * y + z * z + w * w);
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Vector4f v = (Vector4f) o;
+		if(this.x == v.x && this.y == v.y && this.z == v.z && this.w == v.w) return true;
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (x + " " + y + " " + z + " " + w).hashCode();
+	}
+	
 	public void print() {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z + ", W: " + w);
 	}

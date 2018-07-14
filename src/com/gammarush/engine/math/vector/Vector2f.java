@@ -97,6 +97,18 @@ public class Vector2f {
 		return x == 0 && y == 0;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Vector2f v = (Vector2f) o;
+		if(this.x == v.x && this.y == v.y) return true;
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (x + " " + y).hashCode();
+	}
+	
 	public void print() {
 		System.out.println("X: " + x + ", Y: " + y);
 	}

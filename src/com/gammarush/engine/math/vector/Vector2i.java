@@ -76,13 +76,13 @@ public class Vector2i {
 	}
 	
 	public Vector2f normalize() {
-		float d = length();
+		float d = magnitude();
 		float x = this.x / d;
 		float y = this.y / d;
 		return new Vector2f(x, y);
 	}
 	
-	public float length() {
+	public float magnitude() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
 	
@@ -90,9 +90,16 @@ public class Vector2i {
 		return new Vector2f(x, y);
 	}
 	
-	public boolean equals(Vector2i v) {
+	@Override
+	public boolean equals(Object o) {
+		Vector2i v = (Vector2i) o;
 		if(this.x == v.x && this.y == v.y) return true;
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (x + " " + y).hashCode();
 	}
 	
 	public void print() {

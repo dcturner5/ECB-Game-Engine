@@ -23,9 +23,9 @@ public class Vehicle extends Interactive {
 	public boolean braking = false;
 	
 	public float wheelRotation = 0f;
-
-	public Vehicle(VehicleTemplate template, Vector3f position, int direction, Game game) {
-		super(position, template.getWidth(), template.getHeight(), template.getModel(), game);
+	
+	public Vehicle(VehicleTemplate template, Vector3f position, int direction) {
+		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		this.wheelTemplate = Game.vehicles.getRandomWheel();
 		this.occupancy = template.getOccupancy();

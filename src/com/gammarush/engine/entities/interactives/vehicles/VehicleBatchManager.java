@@ -53,12 +53,14 @@ public class VehicleBatchManager {
 		}
 	}
 	
-	public void render(ArrayList<Vehicle> vehicles) {
+	public void process(ArrayList<Vehicle> vehicles) {
 		for(Vehicle e : vehicles) {
 			if(!e.getScreenPresence()) continue;
 			add(e);
 		}
-		
+	}
+	
+	public void render() {
 		for(VehicleBatch b : batches) {
 			VehicleTemplate t = Game.vehicles.get(b.getId());
 			t.render(b);

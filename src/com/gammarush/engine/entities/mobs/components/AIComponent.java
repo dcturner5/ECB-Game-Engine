@@ -64,6 +64,7 @@ public class AIComponent extends MobComponent {
 	}
 	
 	public AStar getAStar() {
+		astar.setWorld(getMob().getWorld());
 		return astar;
 	}
 

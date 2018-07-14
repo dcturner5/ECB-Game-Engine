@@ -51,7 +51,7 @@ public class Physics {
 			}
 		}
 		
-		for(Entity e : world.entities) {
+		for(Entity e : world.getEntities()) {
 			//optimize this with collision test before adding groups
 			if(e.getSolid() && e.position.x != position.x && e.position.y != position.y && e.width != width && e.height != height) {
 				groups.add(e.getAABB());

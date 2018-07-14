@@ -28,7 +28,7 @@ public class ClothingComponent extends MobComponent {
 		Mob e = getMob();
 		
 		ArrayList<Item> removeQueue = new ArrayList<Item>();
-		for(Item e1 : e.getWorld().items) {
+		for(Item e1 : e.getWorld().getItems()) {
 			if(Physics.getCollision(e.getAABB(), e1.getAABB())) {
 				ClothingTemplate t = Game.clothings.get(e1.getTemplate().getName());
 				if(t != null && outfit.add(t)) {
@@ -37,7 +37,7 @@ public class ClothingComponent extends MobComponent {
 			}
 		}
 		for(Item e1 : removeQueue) {
-			e.getWorld().items.remove(e1);
+			e.getWorld().getItems().remove(e1);
 		}
 	}
 	

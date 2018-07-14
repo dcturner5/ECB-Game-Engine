@@ -1,8 +1,11 @@
 package com.gammarush.engine.entities;
 
-import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.components.Component;
 import com.gammarush.engine.entities.components.ComponentHashMap;
+import com.gammarush.engine.entities.interactives.Interactive;
+import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
+import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -12,10 +15,13 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.world.Chunk;
 import com.gammarush.engine.world.World;
 
 public class Entity {
-	protected Game game;
+	
+	private World world;
+	private Vector2i chunkPosition;
 	
 	public Vector3f position;
 	public int width;
@@ -40,19 +46,47 @@ public class Entity {
 	public static final int DIRECTION_LEFT = 2;
 	public static final int DIRECTION_RIGHT = 3;
 	
-	public Entity(Vector3f position, int width, int height, Model model, Game game) {
-		this.game = game;
-		
+	public Entity(Vector3f position, int width, int height, Model model) {
 		this.position = position;
 		this.width = width;
 		this.height = height;
 		this.model = model;
+		this.world = null;
+		this.chunkPosition = getChunkPosition();
 		
-		this.physics = new Physics(width, height, game.world);
+		this.physics = new Physics(width, height, world);
 		this.setCollisionBox(new AABB(0, 0, width, height));
 	}
 	
 	public void update(double delta) {
+		//TODO Use a queue for this to solve the stutter bug
+		//TODO Test for null chunk to prevent CRASH
+		Vector2i cp = getChunkPosition();
+		Vector2i lcp = getLastChunkPosition();
+		if(!cp.equals(lcp)) {
+			Chunk c = world.getChunk(cp);
+			Chunk lc = world.getChunk(lcp);
+			
+			if(this instanceof Vehicle) {
+				c.getVehicles().add((Vehicle) this);
+				lc.getVehicles().remove(this);
+			}
+			else if(this instanceof Interactive) {
+				c.getInteractives().add((Interactive) this);
+				lc.getInteractives().remove(this);
+			}
+			else if(this instanceof Item) {
+				c.getItems().add((Item) this);
+				lc.getItems().remove(this);
+			}
+			else if(this instanceof Mob) {
+				c.getMobs().add((Mob) this);
+				lc.getMobs().remove(this);
+			}
+			
+			setLastChunkPosition(cp);
+		}
+		
 		for(Component c : components.getArray()) {
 			c.update(delta);
 		}
@@ -92,17 +126,26 @@ public class Entity {
 	}
 	
 	public boolean getScreenPresence() {
-		AABB screen = new AABB(-game.renderer.camera.position.x, -game.renderer.camera.position.y, game.renderer.width / game.renderer.camera.getZoom(), game.renderer.height / game.renderer.camera.getZoom());
+		Renderer renderer = world.getRenderer();
+		AABB screen = new AABB(-renderer.getCamera().position.x, -renderer.getCamera().position.y, renderer.getWidth() / renderer.getCamera().getZoom(), renderer.getHeight() / renderer.getCamera().getZoom());
 		AABB entity = new AABB(position.x, position.y, width, height);
 		return Physics.getCollision(screen, entity);
 	}
 	
 	public World getWorld() {
-		return game.world;
+		return world;
 	}
 	
 	public Vector2f getPosition() {
 		return new Vector2f(position.x, position.y);
+	}
+	
+	public Vector2i getChunkPosition() {
+		return new Vector2i((int) (position.x / Tile.WIDTH / Chunk.WIDTH), (int) (position.y / Tile.HEIGHT / Chunk.HEIGHT));
+	}
+	
+	public Vector2i getLastChunkPosition() {
+		return chunkPosition;
 	}
 	
 	public Vector2i getTilePosition() {
@@ -122,12 +165,20 @@ public class Entity {
 		return collisionBox;
 	}
 
+	public boolean getSolid() {
+		return solid;
+	}
+	
+	public void setLastChunkPosition(Vector2i chunkPosition) {
+		this.chunkPosition = chunkPosition;
+	}
+	
 	public void setSolid(boolean solid) {
 		this.solid = solid;
 	}
 	
-	public boolean getSolid() {
-		return solid;
+	public void setWorld(World world) {
+		this.world = world;
 	}
 
 }

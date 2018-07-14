@@ -28,6 +28,7 @@ import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
 import com.gammarush.engine.world.World;
+import com.gammarush.engine.world.WorldManager;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -40,7 +41,7 @@ public class Game implements Runnable {
 
 	public int width = 1280;
 	public int height = 720;
-	public float scale = 1f;
+	public float scale = 2f;
 	
 	private Thread thread;
 	private boolean running = false;
@@ -51,10 +52,11 @@ public class Game implements Runnable {
 	public Renderer renderer;
 	public World world;
 	public Player player;
-	public UIManager gui;
+	public UIManager uiManager;
 	
 	public QuestManager questManager;
 	public ScriptManager scriptManager;
+	public WorldManager worldManager;
 	
 	public static MobHashMap mobs;
 	public static ItemHashMap items;
@@ -86,7 +88,7 @@ public class Game implements Runnable {
 			glfwGetWindowSize(window, pWidth, pHeight);
 
 			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
+			
 			glfwSetWindowPos(window, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
 		}
 
@@ -94,8 +96,6 @@ public class Game implements Runnable {
 		//VSYNC: 0 = OFF, 1 = ON
 		glfwSwapInterval(1);
 		glfwShowWindow(window);
-		
-		input = new Input(this);
 		
 		GL.createCapabilities();
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -105,27 +105,26 @@ public class Game implements Runnable {
 		
 		System.out.println("OpenGL: " + glGetString(GL_VERSION));
 		
-		renderer = new Renderer(width, height, this);
-		renderer.setClearColor(0x000000);
-		
 		tiles = TileLoader.load("res/tiles/data.json");
 		mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
 		vehicles = VehicleLoader.load("res/entities/interactives/vehicles/data.json");
 		
-		world = new World(128, 128, this);
-		world.generate((int)(Math.random() * 10000));
+		worldManager = new WorldManager();
+		uiManager = new UIManager(this);
+		scriptManager = new ScriptManager(uiManager);
+		questManager = new QuestManager(scriptManager, worldManager);
 		
-		player = new Player(new Vector3f(1024, 512, Renderer.ENTITY_LAYER), this);
+		player = new Player(new Vector3f(0, 0, Renderer.ENTITY_LAYER), worldManager);
+		worldManager.getWorld().addMob(player.getMob());
 		
-		world.vehicles.add(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT, this));
+		worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector3f(128, 256, Renderer.ENTITY_LAYER), Vehicle.DIRECTION_LEFT));
 		
-		gui = new UIManager(this);
+		renderer = new Renderer(width, height, uiManager, worldManager);
+		renderer.setScreenSize((int) (width * scale), (int) (height * scale));
 		
-		
-		scriptManager = new ScriptManager(gui);
-		questManager = new QuestManager(scriptManager, this);
+		input = new Input(window, renderer, uiManager, worldManager);
 	}
 	
 	public void run() {
@@ -167,9 +166,9 @@ public class Game implements Runnable {
 	private void update(double delta) {
 		glfwPollEvents();
 		
-		world.update(delta);
 		player.update(delta);
-		gui.update(delta);
+		worldManager.update(delta);
+		uiManager.update(delta);
 	}
 	
 	private void render() {

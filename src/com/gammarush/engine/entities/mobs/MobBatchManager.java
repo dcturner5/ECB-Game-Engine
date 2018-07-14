@@ -27,13 +27,15 @@ public class MobBatchManager {
 		batch.add(e.position, ac.getAnimation(), e.color);
 	}
 	
-	public void render(ArrayList<Mob> mobs) {
+	public void process(ArrayList<Mob> mobs) {
 		for(Mob e : mobs) {
 			if(!e.getScreenPresence()) continue;
 			e.renderComponents();
 			add(e);
 		}
-		
+	}
+	
+	public void render() {
 		for(MobBatch b : batches) {
 			MobTemplate t = Game.mobs.get(b.getId());
 			t.render(b);

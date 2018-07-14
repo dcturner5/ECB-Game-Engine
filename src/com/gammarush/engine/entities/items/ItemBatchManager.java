@@ -25,12 +25,14 @@ public class ItemBatchManager {
 		batch.add(item.position, item.getOffset());
 	}
 	
-	public void render(ArrayList<Item> items) {
+	public void process(ArrayList<Item> items) {
 		for(Item e : items) {
 			if(!e.getScreenPresence()) continue;
 			add(e);
 		}
-		
+	}
+	
+	public void render() {
 		for(ItemBatch b : batches) {
 			ItemTemplate t = Game.items.get(b.getId());
 			t.render(b);

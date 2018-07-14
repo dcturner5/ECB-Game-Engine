@@ -28,7 +28,7 @@ public class TravelSubBehavior extends SubBehavior {
 			Vector2f position = e.getPosition();
 			Vector2i waypoint = path.get(0).mult(Tile.WIDTH, Tile.HEIGHT);
 			
-			if(getMob().getWorld().checkSolid(waypoint.x, waypoint.y)) {
+			if(getMob().getWorld().getSolid(waypoint.x, waypoint.y)) {
 				findPath();
 				//successful = false;
 				//complete = true;

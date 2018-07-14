@@ -119,6 +119,18 @@ public class Vector3f {
 		return (float) Math.sqrt(x * x + y * y + z * z);
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Vector3f v = (Vector3f) o;
+		if(this.x == v.x && this.y == v.y && this.z == v.z) return true;
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (x + " " + y + " " + z).hashCode();
+	}
+	
 	public void print() {
 		System.out.println("X: " + x + ", Y: " + y + ", Z: " + z);
 	}

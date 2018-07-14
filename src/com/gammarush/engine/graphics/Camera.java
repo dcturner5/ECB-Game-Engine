@@ -29,10 +29,10 @@ public class Camera {
 	
 	public void setZoom(float zoom) {
 		if(zoom < MIN_ZOOM || zoom > MAX_ZOOM) return;
-		Vector2f center = new Vector2f(position.x - renderer.width / this.zoom / 2, position.y - renderer.height / this.zoom / 2);
+		Vector2f center = new Vector2f(position.x - renderer.getWidth() / this.zoom / 2, position.y - renderer.getHeight() / this.zoom / 2);
 		this.zoom = zoom;
-		float width = renderer.width / this.zoom;
-		float height = renderer.height / this.zoom;
+		float width = renderer.getWidth() / this.zoom;
+		float height = renderer.getHeight() / this.zoom;
 		position = new Vector3f(center.x + width / 2, center.y + height / 2, 0);
 		Renderer.setProjectionMatrix(Matrix4f.orthographic(0.0f, width, height, 0.0f, MIN_DEPTH, MAX_DEPTH));
 	}
@@ -40,11 +40,11 @@ public class Camera {
 	public void follow(Mob target) {
 		if(target == null) return;
 		if(!target.isRidingVehicle()) {
-			position = new Vector3f(-target.position.x + renderer.width / zoom / 2 - target.width / 2, -target.position.y + renderer.height / zoom / 2 - target.height / 2, 0);
+			position = new Vector3f(-target.position.x + renderer.getWidth() / zoom / 2 - target.width / 2, -target.position.y + renderer.getHeight() / zoom / 2 - target.height / 2, 0);
 		}
 		else {
 			Vehicle vehicle = target.getVehicle();
-			position = new Vector3f(-vehicle.position.x + renderer.width / zoom / 2 - vehicle.width / 2, -vehicle.position.y + renderer.height / zoom / 2 - vehicle.height / 2, 0);
+			position = new Vector3f(-vehicle.position.x + renderer.getWidth() / zoom / 2 - vehicle.width / 2, -vehicle.position.y + renderer.getHeight() / zoom / 2 - vehicle.height / 2, 0);
 		}
 	}
 

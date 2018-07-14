@@ -6,6 +6,7 @@ import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.scripts.ScriptManager;
+import com.gammarush.engine.world.WorldManager;
 
 public class QuestManager {
 	
@@ -14,15 +15,16 @@ public class QuestManager {
 	private QuestHashMap quests = new QuestHashMap();
 	private DialogueHashMap dialogues = new DialogueHashMap();
 	
-	//TODO find alternative to linking game, such as linking world or world manager or entity manager
-	public QuestManager(ScriptManager scriptManager, Game game) {
+	public QuestManager(ScriptManager scriptManager, WorldManager worldManager) {
 		this.scriptManager = scriptManager;
 		
 		getScriptManager().addMethod("spawn", 4, (int[] args, AxilMemory memory) -> {
 			String type = memory.getString(args[0]);
 			int x = memory.getInt(args[1]);
 			int y = memory.getInt(args[2]);
-			game.world.mobs.add(new Mob(Game.mobs.get(type), new Vector3f(x, y, Renderer.ENTITY_LAYER), game));
+			Mob e = new Mob(Game.mobs.get(type), new Vector3f(x, y, Renderer.ENTITY_LAYER));
+			e.setWorld(worldManager.getWorld());
+			worldManager.getWorld().addMob(e);
 			return -1;
 		});
 		
@@ -33,7 +35,8 @@ public class QuestManager {
 		getScriptManager().load();
 		
 		getQuest("main").start();
-		getScriptManager().getUIManager().dialogue.set(getDialogue("main_001"));
+		//getScriptManager().getUIManager().dialogue.set(getDialogue("main_001"));
+		//getScriptManager().getUIManager().dialogue.open();
 	}
 	
 	public void addDialogue(Dialogue dialogue) {

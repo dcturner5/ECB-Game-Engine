@@ -93,7 +93,7 @@ public class AStar {
 	}
 	
 	private boolean walkable(int x, int y, int layer) {
-		return !(world.checkSolid(x, y) || world.getEntityCollision(x, y));
+		return !(world.getSolid(x, y) || world.getEntityCollision(x, y));
 	}
 	
 	private Node nodeInList(List<Node> list, Vector2i v) {
@@ -105,6 +105,10 @@ public class AStar {
 	
 	private double calculateHCost(Vector2i v1, Vector2i v2) {
 		return Math.abs(v1.x - v2.x) + Math.abs(v1.y - v2.y);
+	}
+	
+	public void setWorld(World world) {
+		this.world = world;
 	}
 	
 }

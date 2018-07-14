@@ -1,6 +1,5 @@
 package com.gammarush.engine.entities.mobs;
 
-import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.InventoryComponent;
@@ -30,8 +29,8 @@ public class Mob extends Entity {
 	public Vector4f[] color = new Vector4f[] {new Vector4f(), new Vector4f()};
 	public Vector4f[] hairColor = new Vector4f[] {new Vector4f(), new Vector4f()};
 
-	public Mob(MobTemplate template, Vector3f position, Game game) {
-		super(position, template.getWidth(), template.getHeight(), template.getModel(), game);
+	public Mob(MobTemplate template, Vector3f position) {
+		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		setSolid(false);
 		
@@ -96,7 +95,7 @@ public class Mob extends Entity {
 		
 		AABB box = new AABB(position.x, position.y, width, height);
 		Interactive interactive = null;
-		for(Interactive e : game.world.interactives) {
+		for(Interactive e : getWorld().getInteractives()) {
 			AABB interactiveBox = e.getAABB();
 			interactiveBox.x -= padding;
 			interactiveBox.y -= padding;
