@@ -27,6 +27,7 @@ public class World {
 	private String name;
 	
 	private Vector2i mainChunkPosition;
+	private ArrayList<Entity> entitySyncQueue = new ArrayList<Entity>();
 	
 	private GlobalLight global;
 	private AmbientLight ambient;
@@ -90,10 +91,11 @@ public class World {
 			mainChunkPosition = cp;
 		}
 		
-		
 		for(Chunk c : loadedChunks) {
 			c.update(delta);
 		}
+		
+		syncEntities();
 	}
 	
 	public void render() {
@@ -330,5 +332,38 @@ public class World {
 	public VehicleBatchManager getVehicleBatchManager() {
 		return vehicleBatchManager;
 	}
+	
+	public void syncEntity(Entity entity) {
+		entitySyncQueue.add(entity);
+	}
 
+	public void syncEntities() {
+		for(Entity e : entitySyncQueue) {
+			Vector2i cp = e.getChunkPosition();
+			Vector2i lcp = e.getLastChunkPosition();
+			if(!cp.equals(lcp)) {
+				Chunk c = getChunk(cp);
+				Chunk lc = getChunk(lcp);
+				if(e instanceof Vehicle) {
+					lc.getVehicles().remove(e);
+					c.getVehicles().add((Vehicle) e);
+				}
+				else if(e instanceof Interactive) {
+					lc.getInteractives().remove(e);
+					c.getInteractives().add((Interactive) e);
+				}
+				else if(e instanceof Item) {
+					lc.getItems().remove(e);
+					c.getItems().add((Item) e);
+				}
+				else if(e instanceof Mob) {
+					lc.getMobs().remove(e);
+					c.getMobs().add((Mob) e);
+				}
+				e.setLastChunkPosition(cp);
+			}
+		}
+		entitySyncQueue.clear();
+	}
+	
 }

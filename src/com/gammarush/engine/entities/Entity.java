@@ -2,10 +2,6 @@ package com.gammarush.engine.entities;
 
 import com.gammarush.engine.entities.components.Component;
 import com.gammarush.engine.entities.components.ComponentHashMap;
-import com.gammarush.engine.entities.interactives.Interactive;
-import com.gammarush.engine.entities.interactives.vehicles.Vehicle;
-import com.gammarush.engine.entities.items.Item;
-import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.math.matrix.Matrix4f;
@@ -59,36 +55,14 @@ public class Entity {
 	}
 	
 	public void update(double delta) {
-		//TODO Use a queue for this to solve the stutter bug
-		//TODO Test for null chunk to prevent CRASH
+		for(Component c : components.getArray()) {
+			c.update(delta);
+		}
+		
 		Vector2i cp = getChunkPosition();
 		Vector2i lcp = getLastChunkPosition();
 		if(!cp.equals(lcp)) {
-			Chunk c = world.getChunk(cp);
-			Chunk lc = world.getChunk(lcp);
-			
-			if(this instanceof Vehicle) {
-				c.getVehicles().add((Vehicle) this);
-				lc.getVehicles().remove(this);
-			}
-			else if(this instanceof Interactive) {
-				c.getInteractives().add((Interactive) this);
-				lc.getInteractives().remove(this);
-			}
-			else if(this instanceof Item) {
-				c.getItems().add((Item) this);
-				lc.getItems().remove(this);
-			}
-			else if(this instanceof Mob) {
-				c.getMobs().add((Mob) this);
-				lc.getMobs().remove(this);
-			}
-			
-			setLastChunkPosition(cp);
-		}
-		
-		for(Component c : components.getArray()) {
-			c.update(delta);
+			world.syncEntity(this);
 		}
 	}
 	
