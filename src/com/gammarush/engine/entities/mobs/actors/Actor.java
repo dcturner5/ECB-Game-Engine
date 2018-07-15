@@ -10,6 +10,7 @@ import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
+import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.fonts.Font;
 import com.gammarush.engine.utils.json.JSON;
 
@@ -20,7 +21,7 @@ public class Actor extends Mob {
 	private String type;
 	
 	public Actor(int id, JSON json) {
-		super(Game.mobs.get(json.getString("type")), new Vector2f());
+		super(Game.mobs.get(json.getString("type")), new Vector2f(0, 2 * Tile.HEIGHT));
 		
 		this.id = id;
 		this.name = json.getString("name");

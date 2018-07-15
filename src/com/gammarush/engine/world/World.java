@@ -25,6 +25,7 @@ public class World {
 	
 	private int id;
 	private String name;
+	private ArrayList<String> tileOrder;
 	
 	private Vector2i mainChunkPosition;
 	private ArrayList<Entity> entitySyncQueue = new ArrayList<Entity>();
@@ -48,6 +49,7 @@ public class World {
 		this.worldManager = worldManager;
 		
 		name = json.getString("name");
+		tileOrder = json.getStringArray("tiles");
 		ArrayList<JSON> chunksArray = json.getArray("chunks");
 		for(JSON chunkJson : chunksArray) {
 			Chunk c = new Chunk(chunkJson, this);
@@ -120,6 +122,10 @@ public class World {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public ArrayList<String> getTileOrder() {
+		return tileOrder;
 	}
 	
 	public ArrayList<Entity> getEntities() {

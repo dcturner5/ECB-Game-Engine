@@ -1,6 +1,11 @@
 {
 	"tiles":[
-		{"name": "grass", "solid": false, "texture": "res/tiles/plains_ground.png"},
-		{"name": "wall", "solid": true, "texture": "res/tiles/mountain.png"}
+		{"name": "carpet", 	"solid": false},
+		{"name": "default", "solid": false},
+		{"name": "grass", 	"solid": false},
+		{"name": "stone", 	"solid": true},
+		{"name": "void", 	"solid": true},
+		{"name": "wall",	"solid": true},
+		{"name": "wood",	"solid": false}
 	]
 }

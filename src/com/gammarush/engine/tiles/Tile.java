@@ -41,7 +41,7 @@ public class Tile {
 		this.name = (String) json.getJSON("name");
 		this.solid = (boolean) json.getJSON("solid");
 		
-		Texture texture = new Texture((String) json.getJSON("texture"));
+		Texture texture = new Texture("res/tiles/" + name + ".png");
 		Texture normalMap = json.getJSON("normalMap") != null ? new Texture((String) json.getJSON("normalMap")) : DEFAULT_NORMAL_MAP;
 		TextureArray blendMap = json.getJSON("blendMap") != null ? new TextureArray((String) json.getJSON("blendMap"), 8) : DEFAULT_BLEND_MAP;
 		this.model = new Model(texture, normalMap, blendMap);

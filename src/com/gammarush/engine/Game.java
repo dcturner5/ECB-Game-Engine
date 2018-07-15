@@ -119,10 +119,10 @@ public class Game implements Runnable {
 		scriptManager = new ScriptManager(uiManager);
 		questManager = new QuestManager(playerManager, scriptManager, worldManager);
 		
-		worldManager.getWorld().addMob(actors.get("Dalton"));
-		worldManager.getWorld().addMob(actors.get("Orlando"));
+		//worldManager.getWorld().addMob(actors.get("Dalton"));
+		//worldManager.getWorld().addMob(actors.get("Orlando"));
 		
-		worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
+		//worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
 		
 		renderer = new Renderer(width, height, uiManager, worldManager);
 		renderer.setScreenSize((int) (width * scale), (int) (height * scale));

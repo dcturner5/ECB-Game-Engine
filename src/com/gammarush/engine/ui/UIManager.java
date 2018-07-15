@@ -4,7 +4,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.graphics.Color;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -69,7 +68,7 @@ public class UIManager {
 		}
 		Renderer.GUI.disable();
 		
-		font.drawStringWorld("Welcome to Martín Simulator", new Vector3f(256, 256, Renderer.ENTITY_LAYER), 5, Color.WHITE, new Vector4f(0, 0, 1000, 1000));
+		//font.drawStringWorld("Welcome to Martín Simulator", new Vector3f(16, 32, Renderer.ENTITY_LAYER), 5, Color.WHITE, new Vector4f(0, 0, 1000, 1000));
 	}
 
 	public void init() {

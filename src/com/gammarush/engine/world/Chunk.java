@@ -35,7 +35,9 @@ public class Chunk {
 		this.position = json.getVector2i("position");
 		
 		ArrayList<Integer> array = json.getIntegerArray("array");
-		for(int i = 0; i < array.size(); i++) this.array[i] = array.get(i);
+		for(int i = 0; i < array.size(); i++) {
+			this.array[i] = Game.tiles.getId(getWorld().getTileOrder().get(array.get(i)));
+		}
 	}
 	
 	public void update(double delta) {
