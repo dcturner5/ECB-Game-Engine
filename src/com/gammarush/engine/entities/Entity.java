@@ -67,13 +67,13 @@ public class Entity {
 	}
 	
 	public void render() {
-		renderComponents();
+		/*renderComponents();
 		
 		model.getMesh().bind();
 		model.getTexture().bind(TEXTURE_LOCATION);
 		model.draw();
 		model.getMesh().unbind();
-		model.getTexture().unbind(TEXTURE_LOCATION);
+		model.getTexture().unbind(TEXTURE_LOCATION);*/
 	}
 	
 	public void prepare() {

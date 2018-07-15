@@ -9,19 +9,18 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.actors.ActorHashMap;
-import com.gammarush.engine.actors.ActorLoader;
 import com.gammarush.engine.entities.items.ItemHashMap;
 import com.gammarush.engine.entities.items.ItemLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
 import com.gammarush.engine.entities.items.clothing.ClothingLoader;
 import com.gammarush.engine.entities.mobs.MobHashMap;
 import com.gammarush.engine.entities.mobs.MobLoader;
+import com.gammarush.engine.entities.mobs.actors.ActorHashMap;
+import com.gammarush.engine.entities.mobs.actors.ActorLoader;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.entities.vehicles.VehicleHashMap;
 import com.gammarush.engine.entities.vehicles.VehicleLoader;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.gui.UIManager;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.player.PlayerManager;
@@ -29,6 +28,7 @@ import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
+import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.world.WorldManager;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -120,6 +120,8 @@ public class Game implements Runnable {
 		questManager = new QuestManager(playerManager, scriptManager, worldManager);
 		
 		worldManager.getWorld().addMob(actors.get("Dalton"));
+		worldManager.getWorld().addMob(actors.get("Orlando"));
+		
 		worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
 		
 		renderer = new Renderer(width, height, uiManager, worldManager);

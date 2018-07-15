@@ -5,13 +5,13 @@ import static org.lwjgl.opengl.GL11.*;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.vehicles.Vehicle;
-import com.gammarush.engine.gui.UIManager;
-import com.gammarush.engine.gui.fonts.Font;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.ui.UIManager;
+import com.gammarush.engine.ui.fonts.Font;
 import com.gammarush.engine.world.World;
 import com.gammarush.engine.world.WorldManager;
 
@@ -21,6 +21,7 @@ public class Renderer {
 	
 	public static Shader DEFAULT;
 	public static Shader FONT;
+	public static Shader FONT_WORLD;
 	public static Shader GUI;
 	public static Shader MOB;
 	public static Shader TILE;
@@ -95,6 +96,12 @@ public class Renderer {
 		FONT.setUniform1i("sprite", Font.TEXTURE_LOCATION);
 		FONT.disable();
 		
+		FONT_WORLD = new Shader("shaders/font.vert", "shaders/font.frag");
+		FONT_WORLD.enable();
+		FONT_WORLD.setUniformMat4f("pr_matrix", projectionMatrix);
+		FONT_WORLD.setUniform1i("sprite", Font.TEXTURE_LOCATION);
+		FONT_WORLD.disable();
+		
 		GUI = new Shader("shaders/gui.vert", "shaders/gui.frag");
 		GUI.enable();
 		GUI.setUniformMat4f("pr_matrix", projectionMatrix);
@@ -137,6 +144,10 @@ public class Renderer {
 		VEHICLE.enable();
 		VEHICLE.setUniformMat4f("pr_matrix", projectionMatrix);
 		VEHICLE.disable();
+		
+		FONT_WORLD.enable();
+		FONT_WORLD.setUniformMat4f("pr_matrix", projectionMatrix);
+		FONT_WORLD.disable();
 	}
 	
 	public void render() {
@@ -173,6 +184,10 @@ public class Renderer {
 			DEFAULT.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
 		}*/
 		DEFAULT.disable();
+		
+		FONT_WORLD.enable();
+		FONT_WORLD.setUniformMat4f("vw_matrix", viewMatrix);
+		FONT_WORLD.disable();
 		
 		MOB.enable();
 		MOB.setUniformMat4f("vw_matrix", viewMatrix);

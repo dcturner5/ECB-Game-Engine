@@ -34,7 +34,6 @@ public class Mob extends Interactive {
 		this.template = template;
 		setSolid(false);
 		
-		//race and hair
 		color = template.colors.get((int) (Math.random() * template.colors.size()));
 		hairColor = template.hairColors.get((int) (Math.random() * template.hairColors.size()));
 		

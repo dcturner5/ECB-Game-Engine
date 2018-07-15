@@ -10,14 +10,14 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.gui.UIManager;
-import com.gammarush.engine.gui.components.UIComponent;
-import com.gammarush.engine.gui.containers.UIContainer;
-import com.gammarush.engine.gui.event.EventType;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.ui.UIManager;
+import com.gammarush.engine.ui.components.UIComponent;
+import com.gammarush.engine.ui.containers.UIContainer;
+import com.gammarush.engine.ui.event.EventType;
 import com.gammarush.engine.world.WorldManager;
 
 public class InputManager {

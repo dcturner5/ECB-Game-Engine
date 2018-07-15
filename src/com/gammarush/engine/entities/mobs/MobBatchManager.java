@@ -30,6 +30,7 @@ public class MobBatchManager {
 	public void process(ArrayList<Mob> mobs) {
 		for(Mob e : mobs) {
 			if(!e.getScreenPresence()) continue;
+			e.render();
 			e.renderComponents();
 			add(e);
 		}

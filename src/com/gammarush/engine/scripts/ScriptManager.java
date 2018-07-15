@@ -7,7 +7,7 @@ import com.gammarush.axil.AxilScript;
 import com.gammarush.axil.compiler.AxilCompiler;
 import com.gammarush.axil.methods.AxilMethodInterface;
 import com.gammarush.axil.methods.AxilMethodMap;
-import com.gammarush.engine.gui.UIManager;
+import com.gammarush.engine.ui.UIManager;
 
 public class ScriptManager {
 	

@@ -23,6 +23,18 @@
 				"color": "white",
 				"hairColor": "brown"
 			}
+		},
+		{
+			"name": "Orlando",
+			"type": "human",
+			"clothes": [
+				"hair01",
+				"overalls"
+			],
+			"colors": {
+				"color": "brown",
+				"hairColor": "black"
+			}
 		}
 	]
 }
