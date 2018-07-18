@@ -21,7 +21,7 @@ public class Actor extends Mob {
 	private String type;
 	
 	public Actor(int id, JSON json) {
-		super(Game.mobs.get(json.getString("type")), new Vector2f(0, 2 * Tile.HEIGHT));
+		super(Game.mobs.get(json.getString("type")), new Vector2f(0, 3 * Tile.HEIGHT));
 		
 		this.id = id;
 		this.name = json.getString("name");

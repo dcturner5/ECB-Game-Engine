@@ -17,12 +17,12 @@ import com.gammarush.engine.entities.mobs.MobHashMap;
 import com.gammarush.engine.entities.mobs.MobLoader;
 import com.gammarush.engine.entities.mobs.actors.ActorHashMap;
 import com.gammarush.engine.entities.mobs.actors.ActorLoader;
-import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.entities.statics.StaticHashMap;
+import com.gammarush.engine.entities.statics.StaticLoader;
 import com.gammarush.engine.entities.vehicles.VehicleHashMap;
 import com.gammarush.engine.entities.vehicles.VehicleLoader;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
-import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
@@ -63,7 +63,7 @@ public class Game implements Runnable {
 	public static ItemHashMap items;
 	public static ClothingHashMap clothings;
 	public static VehicleHashMap vehicles;
-	
+	public static StaticHashMap statics;
 	public static TileHashMap tiles;
 	
 	public void start() {
@@ -107,6 +107,7 @@ public class Game implements Runnable {
 		System.out.println("OpenGL: " + glGetString(GL_VERSION));
 		
 		tiles = TileLoader.load("res/tiles/data.json");
+		statics = StaticLoader.load("res/entities/statics/data.json");
 		mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
 		clothings = ClothingLoader.load("res/entities/items/data.json");
@@ -118,6 +119,26 @@ public class Game implements Runnable {
 		playerManager = new PlayerManager(worldManager);
 		scriptManager = new ScriptManager(uiManager);
 		questManager = new QuestManager(playerManager, scriptManager, worldManager);
+		
+		/*worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(0 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(1 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(2 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(3 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(4 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(5 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(6 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(7 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(8 * Tile.WIDTH, 0 * Tile.HEIGHT)));
+		
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(0 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(1 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(2 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(3 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		//worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(4 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(5 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(6 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		//worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(7 * Tile.WIDTH, 4 * Tile.HEIGHT)));
+		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(8 * Tile.WIDTH, 4 * Tile.HEIGHT)));*/
 		
 		//worldManager.getWorld().addMob(actors.get("Dalton"));
 		//worldManager.getWorld().addMob(actors.get("Orlando"));

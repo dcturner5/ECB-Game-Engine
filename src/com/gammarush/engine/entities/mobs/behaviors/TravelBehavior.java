@@ -20,7 +20,7 @@ public class TravelBehavior extends Behavior {
 		queue.add(new WaitSubBehavior(300, this));
 		*/
 		queue.add(new TravelSubBehavior(destination, this));
-		queue.add(new WaitSubBehavior(300, this));
+		queue.add(new WaitSubBehavior(60, this));
 	
 	}
 	

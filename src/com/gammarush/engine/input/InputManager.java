@@ -9,6 +9,8 @@ import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.Game;
 import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
@@ -164,7 +166,9 @@ public class InputManager {
 			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH);
 			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
 			
-			worldManager.getWorld().addItem(new Item(Game.items.getRandom(), mousePos));
+			AIComponent ai = (AIComponent) Game.actors.get("Dalton").getComponent("ai");
+			ai.addBehavior(new TravelBehavior(new Vector2i((int) mousePos.x / Tile.WIDTH, (int) mousePos.y / Tile.HEIGHT), ai));
+			//worldManager.getWorld().addItem(new Item(Game.items.getRandom(), mousePos));
 		}
 	}
 	

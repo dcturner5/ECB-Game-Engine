@@ -42,6 +42,18 @@ public class Entity {
 	public static final int DIRECTION_LEFT = 2;
 	public static final int DIRECTION_RIGHT = 3;
 	
+	public Entity(Vector3f position, int width, int height, Model model) {
+		this.position = position;
+		this.width = width;
+		this.height = height;
+		this.model = model;
+		this.world = null;
+		this.chunkPosition = getChunkPosition();
+		
+		this.physics = new Physics(width, height, world);
+		this.setCollisionBox(new AABB(0, 0, width, height));
+	}
+	
 	public Entity(Vector2f position, int width, int height, Model model) {
 		this.position = new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER);
 		this.width = width;
@@ -153,6 +165,11 @@ public class Entity {
 	
 	public void setWorld(World world) {
 		this.world = world;
+	}
+	
+	public void setPosition(Vector2f position) {
+		this.position.x = position.x;
+		this.position.y = position.y;
 	}
 
 }

@@ -7,7 +7,7 @@ import com.gammarush.engine.entities.components.AnimationComponent;
 
 public class MobBatchManager {
 	
-	public ArrayList<MobBatch> batches = new ArrayList<MobBatch>();
+	private ArrayList<MobBatch> batches = new ArrayList<MobBatch>();
 	
 	public void add(Mob e) {
 		MobBatch batch = null;

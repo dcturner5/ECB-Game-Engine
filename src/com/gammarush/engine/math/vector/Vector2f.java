@@ -31,6 +31,12 @@ public class Vector2f {
 		return new Vector2f(x, y);
 	}
 	
+	public Vector2f add(Vector2i v) {
+		float x = this.x + v.x;
+		float y = this.y + v.y;
+		return new Vector2f(x, y);
+	}
+	
 	public Vector2f add(float x, float y) {
 		x += this.x;
 		y += this.y;

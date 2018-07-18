@@ -32,6 +32,7 @@ public class Mob extends Interactive {
 	public Mob(MobTemplate template, Vector2f position) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
+		
 		setSolid(false);
 		
 		color = template.colors.get((int) (Math.random() * template.colors.size()));

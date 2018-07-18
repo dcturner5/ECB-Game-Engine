@@ -1,0 +1,11 @@
+{
+	"statics": [
+		{"name": "bathtub", "width": 44, "height": 32, "solid": true},
+		{"name": "bed", "width": 48, "height": 32, "solid": true},
+		{"name": "doorway", "width": 16, "height": 32, "solid": false},
+		{"name": "wall", "width": 16, "height": 16, "solid": false},
+		{"name": "wall_junction", "width": 4, "height": 4, "solid": false},
+		{"name": "wall_side", "width": 4, "height": 16, "solid": false},
+		{"name": "wall_side_solid", "width": 4, "height": 16, "solid": true}
+	]
+}

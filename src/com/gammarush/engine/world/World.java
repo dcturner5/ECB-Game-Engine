@@ -10,6 +10,8 @@ import com.gammarush.engine.entities.items.ItemBatchManager;
 import com.gammarush.engine.entities.items.clothing.ClothingBatchManager;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.MobBatchManager;
+import com.gammarush.engine.entities.statics.Static;
+import com.gammarush.engine.entities.statics.StaticBatchManager;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.entities.vehicles.VehicleBatchManager;
 import com.gammarush.engine.graphics.Renderer;
@@ -41,6 +43,7 @@ public class World {
 	private ClothingBatchManager clothingBatchManager = new ClothingBatchManager();
 	private ItemBatchManager itemBatchManager = new ItemBatchManager();
 	private MobBatchManager mobBatchManager = new MobBatchManager();
+	private StaticBatchManager staticBatchManager = new StaticBatchManager();
 	private TileBatchManager tileBatchManager = new TileBatchManager();
 	private VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
 	
@@ -57,7 +60,7 @@ public class World {
 		}
 		
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
-		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .9f);
+		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .7f);
 		//lights.add(new PointLight(new Vector2f(5 * Tile.WIDTH, 5 * Tile.HEIGHT), 1f, new Vector3f(1f, 1f, 1f), 0f));
 	}
 	
@@ -80,6 +83,7 @@ public class World {
 		
 		Renderer.DEFAULT.enable();
 		getItemBatchManager().render();
+		getStaticBatchManager().render();
 		Renderer.DEFAULT.disable();
 		
 		Renderer.VEHICLE.enable();
@@ -113,6 +117,14 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getVehicles().add(e);
+		}
+	}
+	
+	public void addStatic(Static e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			e.setWorld(this);
+			c.getStatics().add(e);
 		}
 	}
 	
@@ -299,7 +311,7 @@ public class World {
 		int y2 = y + radius;
 		for(int i = x1; i < x2; i++) {
 			for(int j = y1; j < y2; j++) {
-				if(!getSolid(i, j)) {
+				if(!getSolid(i, j) && !getEntityCollision(i, j)) {
 					tiles.add(new Vector2i(i, j));
 				}
 			}
@@ -321,6 +333,10 @@ public class World {
 	
 	public MobBatchManager getMobBatchManager() {
 		return mobBatchManager;
+	}
+	
+	public StaticBatchManager getStaticBatchManager() {
+		return staticBatchManager;
 	}
 	
 	public TileBatchManager getTileBatchManager() {

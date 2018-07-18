@@ -7,7 +7,10 @@ import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.actors.Actor;
+import com.gammarush.engine.entities.statics.Static;
 import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.utils.json.JSON;
@@ -27,6 +30,7 @@ public class Chunk {
 	private ArrayList<Interactive> interactives = new ArrayList<Interactive>();
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private ArrayList<Mob> mobs = new ArrayList<Mob>();
+	private ArrayList<Static> statics = new ArrayList<Static>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	//private ArrayList<PointLight> lights = new ArrayList<PointLight>();
 	
@@ -34,10 +38,44 @@ public class Chunk {
 		this.world = world;
 		this.position = json.getVector2i("position");
 		
+		ArrayList<JSON> actorsJson = json.getArray("actors");
+		if(actorsJson != null) {
+			for(JSON actorJson : actorsJson) {
+				String actorName = actorJson.getString("name");
+				Vector2f actorPosition = actorJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+				Actor actor = Game.actors.get(actorName);
+				actor.setWorld(world);
+				actor.setPosition(actorPosition);
+				mobs.add(actor);
+			}
+		}
+		
+		ArrayList<JSON> staticsJson = json.getArray("statics");
+		if(staticsJson != null) {
+			for(JSON staticJson : staticsJson) {
+				String staticName = staticJson.getString("name");
+				ArrayList<JSON> staticPositions = staticJson.getArray("positions");
+				for(JSON staticPositionJson : staticPositions) {
+					Vector2f staticPosition = staticPositionJson.getVector2f().mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+					Vector2f staticStretch = staticPositionJson.getVector2f("stretch");
+					if(staticStretch != null) {
+						for(int x = 0; x <= staticStretch.x; x++) {
+							for(int y = 0; y <= staticStretch.y; y++) {
+								statics.add(new Static(Game.statics.get(staticName), staticPosition.add(x * Tile.WIDTH, y * Tile.HEIGHT), world));
+							}
+						}
+					}
+					else statics.add(new Static(Game.statics.get(staticName), staticPosition, world));
+				}
+			}
+		}
+		
 		ArrayList<Integer> array = json.getIntegerArray("array");
 		for(int i = 0; i < array.size(); i++) {
 			this.array[i] = Game.tiles.getId(getWorld().getTileOrder().get(array.get(i)));
 		}
+		
+		System.out.println(statics.size());
 	}
 	
 	public void update(double delta) {
@@ -46,8 +84,9 @@ public class Chunk {
 		interactives.addAll(vehicles);
 		
 		entities.clear();
-		entities.addAll(items);
 		entities.addAll(interactives);
+		entities.addAll(items);
+		entities.addAll(statics);
 		
 		updateEntityCollisionArray();
 		for(Entity e : entities) {
@@ -58,6 +97,7 @@ public class Chunk {
 	public void render() {
 		world.getTileBatchManager().process(this);
 		world.getItemBatchManager().process(items);
+		world.getStaticBatchManager().process(statics);
 		world.getVehicleBatchManager().process(vehicles);
 		world.getMobBatchManager().process(mobs);
 	}
@@ -76,6 +116,10 @@ public class Chunk {
 	
 	public ArrayList<Mob> getMobs() {
 		return mobs;
+	}
+	
+	public ArrayList<Static> getStatics() {
+		return statics;
 	}
 	
 	public ArrayList<Vehicle> getVehicles() {
@@ -126,8 +170,14 @@ public class Chunk {
 			if(e.getSolid()) {
 				int fx = (int) ((e.position.x + e.getCollisionBox().x) / Tile.WIDTH);
 				int fy = (int) ((e.position.y + e.getCollisionBox().y) / Tile.HEIGHT);
-				int lx = (int) (((e.position.x + e.getCollisionBox().x + e.getCollisionBox().width)) / Tile.WIDTH);
-				int ly = (int) (((e.position.y + e.getCollisionBox().y + e.getCollisionBox().height)) / Tile.HEIGHT);
+				double rlx = (e.position.x + e.getCollisionBox().x + e.getCollisionBox().width) / Tile.WIDTH;
+				int lx = (int) rlx;
+				double rly = (e.position.y + e.getCollisionBox().y + e.getCollisionBox().height) / Tile.HEIGHT;
+				int ly = (int) rly;
+				
+				if(rlx - lx == 0) lx--;
+				if(rly - ly == 0) ly--;
+				
 				for(int x = fx; x <= lx; x++) {
 					for(int y = fy; y <= ly; y++) {
 						setEntityCollision(true, x, y);

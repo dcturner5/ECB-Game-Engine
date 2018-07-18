@@ -107,6 +107,7 @@ public class JSON extends HashMap<String, Object> {
 	
 	public Vector4f getColor(String name) {
 		JSON color = (JSON) getJSON(name);
+		if(color == null) return null;
 		return new Vector4f(color.getFloat("r"), color.getFloat("g"), color.getFloat("b"), 1f);
 	}
 	
@@ -202,6 +203,7 @@ public class JSON extends HashMap<String, Object> {
 	
 	public Vector2f getVector2f(String name) {
 		JSON v = (JSON) getJSON(name);
+		if(v == null) return null;
 		return new Vector2f(v.getFloat("x"), v.getFloat("y"));
 	}
 	
@@ -211,6 +213,7 @@ public class JSON extends HashMap<String, Object> {
 	
 	public Vector2i getVector2i(String name) {
 		JSON v = (JSON) getJSON(name);
+		if(v == null) return null;
 		return new Vector2i(v.getInteger("x"), v.getInteger("y"));
 	}
 	
@@ -220,6 +223,7 @@ public class JSON extends HashMap<String, Object> {
 	
 	public Vector3f getVector3f(String name) {
 		JSON v = (JSON) getJSON(name);
+		if(v == null) return null;
 		return new Vector3f(v.getFloat("x"), v.getFloat("y"), v.getFloat("z"));
 	}
 	
@@ -229,6 +233,7 @@ public class JSON extends HashMap<String, Object> {
 	
 	public Vector4f getVector4f(String name) {
 		JSON v = (JSON) getJSON(name);
+		if(v == null) return null;
 		return new Vector4f(v.getFloat("x"), v.getFloat("y"), v.getFloat("z"), v.getFloat("w"));
 	}
 	
