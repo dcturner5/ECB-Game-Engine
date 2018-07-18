@@ -8,13 +8,16 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.Game;
-import com.gammarush.engine.entities.items.Item;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.ui.components.UIComponent;
@@ -24,18 +27,14 @@ import com.gammarush.engine.world.WorldManager;
 
 public class InputManager {
 	
-	private Renderer renderer;
-	private UIManager uiManager;
-	private WorldManager worldManager;
+	private GameManager gameManager;
 	
 	public Vector2f mousePosition = new Vector2f();
 	private Vector2f prevMouseWorldPosition = new Vector2f();
 	private boolean leftMouseDown = false;
 	
-	public InputManager(long window, Renderer renderer, UIManager uiManager, WorldManager worldManager) {
-		this.renderer = renderer;
-		this.uiManager = uiManager;
-		this.worldManager = worldManager;
+	public InputManager(long window, GameManager gameManager) {
+		this.gameManager = gameManager;
 		 
 		glfwSetWindowSizeCallback(window, new WindowSizeCallback(this));
 		glfwSetKeyCallback(window, new KeyCallback(this));
@@ -46,14 +45,14 @@ public class InputManager {
 	
 	public Vector2f getMouseWorldPosition() {
 		return new Vector2f(
-				(float) (mousePosition.x / renderer.getCamera().getZoom()) - renderer.getCamera().position.x, 
-				(float) (mousePosition.y / renderer.getCamera().getZoom()) - renderer.getCamera().position.y
+				(float) (mousePosition.x / getRenderer().getCamera().getZoom()) - getRenderer().getCamera().position.x, 
+				(float) (mousePosition.y / getRenderer().getCamera().getZoom()) - getRenderer().getCamera().position.y
 			);
 	}
 	
 	public UIContainer getUIContainer(Vector2f position) {
 		UIContainer container = null;
-		for(UIContainer cont : uiManager.getContainers()) {
+		for(UIContainer cont : getUIManager().getContainers()) {
 			if(cont.getVisible() && cont.getCollision(position.x, position.y) && (container == null || container.getPosition().z < cont.getPosition().z)) {
 				container = cont;
 			}
@@ -88,7 +87,7 @@ public class InputManager {
 			}
 		}
 		else {
-			for(UIContainer cont : uiManager.getContainers()) {
+			for(UIContainer cont : getUIManager().getContainers()) {
 				if(cont.getVisible()) {
 					for(UIComponent comp : cont.getComponents()) {
 						if(!comp.getCollision(mousePosition.x, mousePosition.y)) {
@@ -117,7 +116,7 @@ public class InputManager {
 	
 	public boolean keyInput(int key) {
 		boolean result = false;
-		for(UIContainer cont : uiManager.getContainers()) {
+		for(UIContainer cont : getUIManager().getContainers()) {
 			if(cont.getVisible()) {
 				for(UIComponent comp : cont.getComponents()) {
 					if(comp.getFocus() && comp.getEditable()) {
@@ -206,8 +205,8 @@ public class InputManager {
 	}
 	
 	public void move(float x, float y) {
-		mousePosition.x = x / renderer.getScreenWidth() * renderer.getWidth();
-		mousePosition.y = y / renderer.getScreenHeight() * renderer.getHeight();
+		mousePosition.x = x / getRenderer().getScreenWidth() * getRenderer().getWidth();
+		mousePosition.y = y / getRenderer().getScreenHeight() * getRenderer().getHeight();
 		
 		UIContainer container = getUIContainer(mousePosition);
 		UIComponent component = getUIComponent(mousePosition, container);
@@ -226,19 +225,43 @@ public class InputManager {
 	public void leftDrag(float x, float y) {
 		Vector2f mousePos = getMouseWorldPosition();
 		Vector2i worldPosDelta = new Vector2i(mousePos.sub(prevMouseWorldPosition));
-		renderer.getCamera().position = renderer.getCamera().position.add(new Vector3f(worldPosDelta.x, worldPosDelta.y, 0f));
+		getRenderer().getCamera().position = getRenderer().getCamera().position.add(new Vector3f(worldPosDelta.x, worldPosDelta.y, 0f));
 	}
 	
 	public void scroll(float deltaX, float deltaY) {
-		float zoom = renderer.getCamera().getZoom();
+		float zoom = getRenderer().getCamera().getZoom();
 		if(deltaY < 0) zoom /= 2;
 		if(deltaY > 0) zoom *= 2;
-		renderer.getCamera().setZoom(zoom);
+		getRenderer().getCamera().setZoom(zoom);
 	}
 	
 	public void windowSize(int width, int height) {
-		renderer.setScreenSize(width, height);
+		getRenderer().setScreenSize(width, height);
         glViewport(0, 0, width, height);
+	}
+	
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return gameManager.getPlayerManager();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return gameManager.getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return gameManager.getUIManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return gameManager.getWorldManager();
 	}
 
 }

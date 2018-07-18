@@ -5,14 +5,19 @@ import static org.lwjgl.glfw.GLFW.*;
 import java.util.ArrayList;
 
 import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
+import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.ui.containers.UIConsole;
 import com.gammarush.engine.ui.containers.UIContainer;
 import com.gammarush.engine.ui.containers.UIDialogue;
 import com.gammarush.engine.ui.fonts.Font;
-import com.gammarush.engine.Game;
+import com.gammarush.engine.world.WorldManager;
+import com.gammarush.engine.GameManager;
 
 public class UIManager {
 	
@@ -31,7 +36,7 @@ public class UIManager {
 
 	public static final int TEXTURE_LOCATION = 0;
 	
-	private Game game;
+	private GameManager gameManager;
 	private ArrayList<UIContainer> containers = new ArrayList<UIContainer>();
 	
 	public UIConsole console;
@@ -39,8 +44,8 @@ public class UIManager {
 	
 	Font font = new Font();
 	
-	public UIManager(Game game) {
-		this.game = game;
+	public UIManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 		init();
 	}
 	
@@ -72,10 +77,10 @@ public class UIManager {
 	}
 
 	public void init() {
-		console = new UIConsole(new Vector3f(8, 8, Renderer.GUI_LAYER), 512, 128, game);
+		console = new UIConsole(new Vector3f(8, 8, Renderer.GUI_LAYER), 512, 128, this);
 		add(console);
 		
-		dialogue = new UIDialogue(new Vector3f(game.width / 2 - 720 / 2, game.height - 192 - 128, Renderer.GUI_LAYER), 720, 192);
+		dialogue = new UIDialogue(new Vector3f(getRenderer().getWidth() / 2 - 720 / 2, getRenderer().getHeight() - 192 - 128, Renderer.GUI_LAYER), 720, 192);
 		add(dialogue);
 	}
 	
@@ -85,6 +90,30 @@ public class UIManager {
 	
 	public ArrayList<UIContainer> getContainers() {
 		return containers;
+	}
+	
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
+	}
+	
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return gameManager.getPlayerManager();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return gameManager.getScriptManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return gameManager.getWorldManager();
 	}
 	
 }

@@ -2,13 +2,18 @@ package com.gammarush.engine.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
+import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.ui.fonts.Font;
@@ -40,16 +45,14 @@ public class Renderer {
 	private int screenWidth;
 	private int screenHeight;
 	
-	private UIManager uiManager;
-	private WorldManager worldManager;
+	private GameManager gameManager;
 	
-	public Renderer(int width, int height, UIManager uiManager, WorldManager worldManager) {
+	public Renderer(int width, int height, float scale, GameManager gameManager) {
 		this.width = width;
 		this.height = height;
-		
-		this.uiManager = uiManager;
-		this.worldManager = worldManager;
-		this.worldManager.setRenderer(this);
+		this.screenWidth = (int) (width * scale);
+		this.screenHeight = (int) (height * scale);
+		this.gameManager = gameManager;
 		
 		camera = new Camera(new Vector3f(0.0f, 0.0f, 0.0f), this);
 		projectionMatrix = Matrix4f.orthographic(0.0f, this.width, this.height, 0.0f, Camera.MIN_DEPTH, Camera.MAX_DEPTH);
@@ -152,8 +155,8 @@ public class Renderer {
 	
 	public void render() {
 		loadShaderUniforms();
-		worldManager.render();
-		uiManager.render();
+		getWorldManager().render();
+		getUIManager().render();
 	}
 	
 	public void clear() {
@@ -169,7 +172,7 @@ public class Renderer {
 	
 	public void loadShaderUniforms() {
 		Matrix4f viewMatrix = Matrix4f.translate(camera.position);
-		World world = worldManager.getWorld();
+		World world = getWorldManager().getWorld();
 		
 		DEFAULT.enable();
 		DEFAULT.setUniformMat4f("vw_matrix", viewMatrix);
@@ -230,6 +233,30 @@ public class Renderer {
 			VEHICLE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
 		}*/
 		VEHICLE.disable();
+	}
+	
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
+	}
+	
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return gameManager.getPlayerManager();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return gameManager.getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return gameManager.getUIManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return gameManager.getWorldManager();
 	}
 
 }

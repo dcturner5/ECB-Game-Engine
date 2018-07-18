@@ -22,7 +22,25 @@
 			"colors": {
 				"color": "white",
 				"hairColor": "brown"
-			}
+			},
+			"dialogues": [
+				{
+					"name": "main_001",
+					"text": "Would you like to spawn a human or mutant?",
+					"options": [
+						{"name": "response_1", "text": "Human... because Im boring...", "type": "progress", "link": "main_002"},
+						{"name": "response_2", "text": "Gimme the mutant", "type": "progress", "link": "main_002"}
+					]
+				},
+				{
+					"name": "main_002",
+					"text": "Want to spawn something else?",
+					"options": [
+						{"name": "response_1", "text": "Yes pls", "type": "progress", "link": "main_001"},
+						{"name": "response_2", "text": "Nope", "type": "exit", "link": ""}
+					]
+				}
+			]
 		},
 		{
 			"name": "Orlando",

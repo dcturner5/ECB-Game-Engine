@@ -1,25 +1,30 @@
 package com.gammarush.engine.player;
 
 import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
+import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.input.InputManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
+import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.world.WorldManager;
 
 public class PlayerManager {
 	
-	private WorldManager worldManager;
+	private GameManager gameManager;
 	private Mob mob;
 	
-	public PlayerManager(WorldManager worldManager) {
-		this.worldManager = worldManager;
-		this.worldManager.setPlayerManager(this);
+	public PlayerManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 		
 		setMob(Game.actors.get("Martín"));
-		this.worldManager.getWorld().addMob(mob);
+		getWorldManager().getWorld().addMob(mob);
 	}
 	
 	public void update(double delta) {
-		worldManager.getRenderer().getCamera().follow(mob);
+		getRenderer().getCamera().follow(mob);
 	}
 
 	public void render() {
@@ -39,6 +44,30 @@ public class PlayerManager {
 		this.mob = mob;
 		this.mob.addComponent(new ControllableComponent(this.mob));
 		this.mob.removeComponent("ai");
+	}
+	
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
+	}
+	
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return gameManager.getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return gameManager.getUIManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return gameManager.getWorldManager();
 	}
 
 }

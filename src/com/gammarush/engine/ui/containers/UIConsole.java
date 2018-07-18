@@ -1,7 +1,6 @@
 package com.gammarush.engine.ui.containers;
 
 import com.gammarush.axil.AxilScript;
-import com.gammarush.engine.Game;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.ui.UIManager;
@@ -15,7 +14,7 @@ public class UIConsole extends UIContainer {
 	
 	private UITextBox textbox;
 
-	public UIConsole(Vector3f position, int width, int height, Game game) {
+	public UIConsole(Vector3f position, int width, int height, UIManager uiManager) {
 		super(position, width, height, UIManager.BASE_COLOR);
 		setVisible(false);
 		setOpenAnimation(new UIAnimationSlideOpen(this, 10, AnimationType.DOWN));
@@ -42,7 +41,7 @@ public class UIConsole extends UIContainer {
 				int backspace = 259, enter = 257, leftShift = 340, rightShift = 344;
 				if(key == enter) {
 					try {
-						AxilScript script = game.scriptManager.getCompiler().compileString(textbox.getString());
+						AxilScript script = uiManager.getScriptManager().getCompiler().compileString(textbox.getString());
 						script.run();
 					}
 					catch(Exception e) {

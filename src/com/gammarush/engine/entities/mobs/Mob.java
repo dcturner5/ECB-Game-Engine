@@ -92,7 +92,7 @@ public class Mob extends Interactive {
 	
 	@Override
 	public void activate(Mob e) {
-		System.out.println("ACTIVATED");
+		//System.out.println("ACTIVATED");
 	}
 	
 	public Interactive getInteractive() {

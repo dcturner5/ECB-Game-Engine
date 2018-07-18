@@ -2,26 +2,26 @@ package com.gammarush.engine.quests;
 
 import com.gammarush.axil.memory.AxilMemory;
 import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.world.WorldManager;
 
 public class QuestManager {
 	
-	private PlayerManager playerManager;
-	private ScriptManager scriptManager;
-	private WorldManager worldManager;
+	private GameManager gameManager;
 	
 	private QuestHashMap quests = new QuestHashMap();
 	private DialogueHashMap dialogues = new DialogueHashMap();
 	
-	public QuestManager(PlayerManager playerManager, ScriptManager scriptManager, WorldManager worldManager) {
-		this.playerManager = playerManager;
-		this.scriptManager = scriptManager;
-		this.worldManager = worldManager;
+	public QuestManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 		
 		getScriptManager().addMethod("spawn", 4, (int[] args, AxilMemory memory) -> {
 			String type = memory.getString(args[0]);
@@ -54,7 +54,7 @@ public class QuestManager {
 		getScriptManager().compile();
 		
 		getQuest("main").start();
-		//getScriptManager().getUIManager().dialogue.set(getDialogue("main_001"));
+		getScriptManager().getUIManager().dialogue.set(getDialogue("main_001"));
 		//getScriptManager().getUIManager().dialogue.open();
 	}
 	
@@ -70,16 +70,28 @@ public class QuestManager {
 		return dialogues.get(name);
 	}
 	
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
 	public PlayerManager getPlayerManager() {
-		return playerManager;
+		return gameManager.getPlayerManager();
 	}
 	
 	public ScriptManager getScriptManager() {
-		return scriptManager;
+		return gameManager.getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return gameManager.getUIManager();
 	}
 	
 	public WorldManager getWorldManager() {
-		return worldManager;
+		return gameManager.getWorldManager();
 	}
 
 }

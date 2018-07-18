@@ -4,15 +4,21 @@ import com.gammarush.engine.entities.components.Component;
 import com.gammarush.engine.entities.components.ComponentHashMap;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
+import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
+import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
+import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.world.Chunk;
 import com.gammarush.engine.world.World;
+import com.gammarush.engine.world.WorldManager;
 
 public class Entity {
 	
@@ -170,6 +176,34 @@ public class Entity {
 	public void setPosition(Vector2f position) {
 		this.position.x = position.x;
 		this.position.y = position.y;
+	}
+	
+	public InputManager getInputManager() {
+		return getWorld().getWorldManager().getInputManager();
+	}
+	
+	public QuestManager getQuestManager() {
+		return getWorld().getWorldManager().getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return getWorld().getWorldManager().getRenderer();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return getWorld().getWorldManager().getPlayerManager();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return getWorld().getWorldManager().getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return getWorld().getWorldManager().getUIManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return getWorld().getWorldManager();
 	}
 
 }

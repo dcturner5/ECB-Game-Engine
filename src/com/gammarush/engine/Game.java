@@ -21,15 +21,8 @@ import com.gammarush.engine.entities.statics.StaticHashMap;
 import com.gammarush.engine.entities.statics.StaticLoader;
 import com.gammarush.engine.entities.vehicles.VehicleHashMap;
 import com.gammarush.engine.entities.vehicles.VehicleLoader;
-import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.input.InputManager;
-import com.gammarush.engine.player.PlayerManager;
-import com.gammarush.engine.quests.QuestManager;
-import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.TileHashMap;
 import com.gammarush.engine.tiles.TileLoader;
-import com.gammarush.engine.ui.UIManager;
-import com.gammarush.engine.world.WorldManager;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -49,14 +42,7 @@ public class Game implements Runnable {
 	
 	public long window;
 	
-	public InputManager inputManager;
-	
-	public PlayerManager playerManager;
-	public QuestManager questManager;
-	public Renderer renderer;
-	public ScriptManager scriptManager;
-	public UIManager uiManager;
-	public WorldManager worldManager;
+	private GameManager gameManager;
 	
 	public static ActorHashMap actors;
 	public static MobHashMap mobs;
@@ -114,41 +100,8 @@ public class Game implements Runnable {
 		vehicles = VehicleLoader.load("res/entities/vehicles/data.json");
 		actors = ActorLoader.load("res/actors/data.json");
 		
-		worldManager = new WorldManager();
-		uiManager = new UIManager(this);
-		playerManager = new PlayerManager(worldManager);
-		scriptManager = new ScriptManager(uiManager);
-		questManager = new QuestManager(playerManager, scriptManager, worldManager);
-		
-		/*worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(0 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(1 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(2 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(3 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(4 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(5 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(6 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(7 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(8 * Tile.WIDTH, 0 * Tile.HEIGHT)));
-		
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(0 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(1 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(2 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(3 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		//worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(4 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(5 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(6 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		//worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(7 * Tile.WIDTH, 4 * Tile.HEIGHT)));
-		worldManager.getWorld().addStatic(new Static(statics.get("wall"), new Vector2f(8 * Tile.WIDTH, 4 * Tile.HEIGHT)));*/
-		
-		//worldManager.getWorld().addMob(actors.get("Dalton"));
-		//worldManager.getWorld().addMob(actors.get("Orlando"));
-		
+		gameManager = new GameManager(this);
 		//worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
-		
-		renderer = new Renderer(width, height, uiManager, worldManager);
-		renderer.setScreenSize((int) (width * scale), (int) (height * scale));
-		
-		inputManager = new InputManager(window, renderer, uiManager, worldManager);
 	}
 	
 	public void run() {
@@ -189,15 +142,11 @@ public class Game implements Runnable {
 	
 	private void update(double delta) {
 		glfwPollEvents();
-		
-		playerManager.update(delta);
-		uiManager.update(delta);
-		worldManager.update(delta);
+		gameManager.update(delta);
 	}
 	
 	private void render() {
-		renderer.clear();
-		renderer.render();
+		gameManager.render();
 		glfwSwapBuffers(window);
 	}
 

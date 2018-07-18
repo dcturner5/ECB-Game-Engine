@@ -7,9 +7,17 @@ import com.gammarush.axil.AxilScript;
 import com.gammarush.axil.compiler.AxilCompiler;
 import com.gammarush.axil.methods.AxilMethodInterface;
 import com.gammarush.axil.methods.AxilMethodMap;
+import com.gammarush.engine.GameManager;
+import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.input.InputManager;
+import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.ui.UIManager;
+import com.gammarush.engine.world.WorldManager;
 
 public class ScriptManager {
+	
+	private GameManager gameManager;
 	
 	private AxilCompiler compiler;
 	private AxilMethodMap methods = new AxilMethodMap();
@@ -17,10 +25,8 @@ public class ScriptManager {
 	private ScriptHashMap scripts = new ScriptHashMap();
 	private ArrayList<String> queue = new ArrayList<String>();
 	
-	private UIManager uiManager;
-	
-	public ScriptManager(UIManager uiManager) {
-		this.uiManager = uiManager;
+	public ScriptManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 		compiler = new AxilCompiler(methods);
 	}
 	
@@ -61,8 +67,28 @@ public class ScriptManager {
 		return scripts.get(name);
 	}
 	
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
+	}
+	
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return gameManager.getPlayerManager();
+	}
+	
 	public UIManager getUIManager() {
-		return uiManager;
+		return gameManager.getUIManager();
+	}
+	
+	public WorldManager getWorldManager() {
+		return gameManager.getWorldManager();
 	}
 
 }

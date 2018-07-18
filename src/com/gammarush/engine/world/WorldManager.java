@@ -1,19 +1,23 @@
 package com.gammarush.engine.world;
 
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.graphics.Renderer;
+import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.player.PlayerManager;
+import com.gammarush.engine.quests.QuestManager;
+import com.gammarush.engine.scripts.ScriptManager;
+import com.gammarush.engine.ui.UIManager;
 
 public class WorldManager {
+	
+	private GameManager gameManager;
 	
 	private World world;
 	private WorldHashMap worlds = new WorldHashMap();
 	
-	private PlayerManager playerManager;
-	private Renderer renderer;
-	
-	public WorldManager() {
+	public WorldManager(GameManager gameManager) {
+		this.gameManager = gameManager;
 		worlds = WorldLoader.load("res/worlds/data.json", this);
-		
 		world = worlds.get("overworld");
 	}
 	
@@ -25,24 +29,32 @@ public class WorldManager {
 		getWorld().render();
 	}
 	
-	public PlayerManager getPlayerManager() {
-		return playerManager;
-	}
-	
-	public Renderer getRenderer() {
-		return renderer;
-	}
-	
 	public World getWorld() {
 		return world;
 	}
 	
-	public void setPlayerManager(PlayerManager playerManager) {
-		this.playerManager = playerManager;
+	public InputManager getInputManager() {
+		return gameManager.getInputManager();
 	}
 	
-	public void setRenderer(Renderer renderer) {
-		this.renderer = renderer;
+	public QuestManager getQuestManager() {
+		return gameManager.getQuestManager();
+	}
+	
+	public Renderer getRenderer() {
+		return gameManager.getRenderer();
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return gameManager.getPlayerManager();
+	}
+	
+	public ScriptManager getScriptManager() {
+		return gameManager.getScriptManager();
+	}
+	
+	public UIManager getUIManager() {
+		return gameManager.getUIManager();
 	}
 
 }
