@@ -196,6 +196,4 @@ public class UIContainer {
 		this.solid = solid;
 	}
 
-	
-
 }

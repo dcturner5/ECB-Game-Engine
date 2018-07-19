@@ -24,10 +24,12 @@ public class Mob extends Interactive {
 	
 	public boolean moving = false;
 	public int direction = 2;
-	public Vehicle vehicle = null;
+	private Vehicle vehicle = null;
 	
 	public Color color;
 	public Color hairColor;
+	
+	private Mob interactingMob;
 
 	public Mob(MobTemplate template, Vector2f position) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
@@ -131,6 +133,22 @@ public class Mob extends Interactive {
 	
 	public MobTemplate getTemplate() {
 		return template;
+	}
+	
+	public AIComponent getAIComponent() {
+		return (AIComponent) getComponent("ai");
+	}
+	
+	public Mob getInteractingMob() {
+		return interactingMob;
+	}
+	
+	public void setInteractingMob(Mob mob) {
+		interactingMob = mob;
+	}
+	
+	public boolean isInteractingWithMob() {
+		return interactingMob != null;
 	}
 
 }

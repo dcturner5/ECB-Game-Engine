@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.vehicles;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
@@ -62,14 +62,14 @@ public class VehicleBatchManager {
 	
 	public void render() {
 		for(VehicleBatch b : batches) {
-			VehicleTemplate t = Game.vehicles.get(b.getId());
+			VehicleTemplate t = GameManager.getVehicle(b.getId());
 			t.render(b);
 		}
 		batches.clear();
 		
 		Renderer.DEFAULT.enable();
 		for(WheelBatch b : wheelBatches) {
-			WheelTemplate t = Game.vehicles.getWheel(b.getId());
+			WheelTemplate t = GameManager.vehicles.getWheel(b.getId());
 			t.render(b);
 		}
 		wheelBatches.clear();

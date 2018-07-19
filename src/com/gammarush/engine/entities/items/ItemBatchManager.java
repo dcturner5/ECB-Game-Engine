@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.items;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 
 public class ItemBatchManager {
 	
@@ -34,7 +34,7 @@ public class ItemBatchManager {
 	
 	public void render() {
 		for(ItemBatch b : batches) {
-			ItemTemplate t = Game.items.get(b.getId());
+			ItemTemplate t = GameManager.getItem(b.getId());
 			t.render(b);
 		}
 		batches.clear();

@@ -2,6 +2,7 @@ package com.gammarush.engine.ui.containers;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.entities.mobs.actors.Actor;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.math.vector.Vector4f;
@@ -14,10 +15,10 @@ import com.gammarush.engine.ui.event.UIEventHandler;
 
 public class UIDialogue extends UIContainer {
 	
-	private static final Vector4f BASE_COLOR = new Vector4f(0, 0, 0, .3f);
+	private static final Vector4f BASE_COLOR = new Vector4f(0, 0, 0, .5f);
 	private static final Vector4f FONT_COLOR = new Vector4f(.9f, .9f, .9f, 1);
 	private static final Vector4f FONT_PROGRESS_COLOR = new Vector4f(1f, 1f, 0, 1);
-	private static final Vector4f FONT_EXIT_COLOR = new Vector4f(1f, 0, 0, 1);
+	private static final Vector4f FONT_EXIT_COLOR = new Vector4f(1f, .3f, .3f, 1);
 	
 	private UITextBox textbox;
 	private ArrayList<UITextBox> optionTextBoxes = new ArrayList<UITextBox>();
@@ -36,7 +37,8 @@ public class UIDialogue extends UIContainer {
 	}
 	
 	public void set(Dialogue dialogue) {
-		textbox.setString(dialogue.getText());
+		String name = ((Actor) (dialogue.getQuestManager().getPlayerManager().getMob().getInteractingMob())).getName();
+		textbox.setString(name + ": " + dialogue.getText());
 		
 		ArrayList<DialogueOption> options = dialogue.getOptions();
 		
@@ -62,8 +64,13 @@ public class UIDialogue extends UIContainer {
 				@Override
 				public void leftClick() {
 					Dialogue link = option.getLink();
-					if(link != null) set(option.getLink());
-					else close();
+					if(link != null) {
+						set(option.getLink());
+					}
+					else {
+						close();
+						option.getQuestManager().getPlayerManager().getMob().setInteractingMob(null);
+					}
 					
 					option.getQuestManager().getScriptManager().callMethod("event_dialogue", dialogue.getName(), option.getName());
 				}

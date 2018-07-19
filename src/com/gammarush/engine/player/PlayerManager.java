@@ -1,6 +1,5 @@
 package com.gammarush.engine.player;
 
-import com.gammarush.engine.Game;
 import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
@@ -19,7 +18,7 @@ public class PlayerManager {
 	public PlayerManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 		
-		setMob(Game.actors.get("Martín"));
+		setMob(GameManager.getActor("Martín"));
 		getWorldManager().getWorld().addMob(mob);
 	}
 	

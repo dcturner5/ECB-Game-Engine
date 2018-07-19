@@ -2,7 +2,7 @@ package com.gammarush.engine.world;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.items.Item;
@@ -43,7 +43,7 @@ public class Chunk {
 			for(JSON actorJson : actorsJson) {
 				String actorName = actorJson.getString("name");
 				Vector2f actorPosition = actorJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
-				Actor actor = Game.actors.get(actorName);
+				Actor actor = GameManager.getActor(actorName);
 				actor.setWorld(world);
 				actor.setPosition(actorPosition);
 				mobs.add(actor);
@@ -61,18 +61,18 @@ public class Chunk {
 					if(staticStretch != null) {
 						for(int x = 0; x <= staticStretch.x; x++) {
 							for(int y = 0; y <= staticStretch.y; y++) {
-								statics.add(new Static(Game.statics.get(staticName), staticPosition.add(x * Tile.WIDTH, y * Tile.HEIGHT), world));
+								statics.add(new Static(GameManager.getStatic(staticName), staticPosition.add(x * Tile.WIDTH, y * Tile.HEIGHT), world));
 							}
 						}
 					}
-					else statics.add(new Static(Game.statics.get(staticName), staticPosition, world));
+					else statics.add(new Static(GameManager.getStatic(staticName), staticPosition, world));
 				}
 			}
 		}
 		
 		ArrayList<Integer> array = json.getIntegerArray("array");
 		for(int i = 0; i < array.size(); i++) {
-			this.array[i] = Game.tiles.getId(getWorld().getTileOrder().get(array.get(i)));
+			this.array[i] = GameManager.getTile(getWorld().getTileOrder().get(array.get(i))).getId();
 		}
 		
 		System.out.println(statics.size());
@@ -150,7 +150,7 @@ public class Chunk {
 	
 	public boolean getSolid(int x, int y) {
 		if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) return true;
-		Tile tile = Game.tiles.get(getTile(x, y));
+		Tile tile = GameManager.getTile(getTile(x, y));
 		return tile.getSolid();
 	}
 	

@@ -2,7 +2,7 @@ package com.gammarush.engine.tiles;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -30,7 +30,7 @@ public class TileBatchManager {
 		for(int x = fx; x < lx; x++) {
 			for(int y = fy; y < ly; y++) {
 				int id = chunk.getTile(x, y);
-				Tile tile = Game.tiles.get(id);
+				Tile tile = GameManager.getTile(id);
 				if(tile == null) continue;
 				
 				Tile tilef = null;
@@ -52,7 +52,7 @@ public class TileBatchManager {
 					
 					ArrayList<Tile> tiles = new ArrayList<Tile>(8);
 					for(int i = 0; i < ids.length; i++) {
-						Tile neighborTile = Game.tiles.get(ids[i]);
+						Tile neighborTile = GameManager.getTile(ids[i]);
 						if(neighborTile != null) tiles.add(neighborTile);
 						
 					}
@@ -81,7 +81,7 @@ public class TileBatchManager {
 					if(tile.getBlendType() == Tile.BLEND_TYPE_RECESSIVE) {
 						blend = true;
 						blendIndices[0] = 1;
-						tilef = Game.tiles.get(chunk.getTile(x + tile.getBlendWeight().x, y + tile.getBlendWeight().y));
+						tilef = GameManager.getTile(chunk.getTile(x + tile.getBlendWeight().x, y + tile.getBlendWeight().y));
 					}
 				}
 				
@@ -110,7 +110,7 @@ public class TileBatchManager {
 	
 	public void render() {
 		for(TileBatch b : batches) {
-			Tile tile = Game.tiles.get(b.getId());
+			Tile tile = GameManager.getTile(b.getId());
 			if(b.getBlend()) tile.render(b.positions, b.blendDatas);
 			else tile.render(b.positions);
 		}

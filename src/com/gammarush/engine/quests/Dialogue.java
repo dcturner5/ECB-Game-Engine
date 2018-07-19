@@ -6,6 +6,8 @@ import com.gammarush.engine.utils.json.JSON;
 
 public class Dialogue {
 	
+	private QuestManager questManager;
+	
 	private int id;
 	private String name;
 	private String text;
@@ -13,6 +15,7 @@ public class Dialogue {
 	
 	public Dialogue(int id, JSON json, QuestManager questManager) {
 		this.id = id;
+		this.questManager = questManager;
 		name = json.getString("name");
 		text = json.getString("text");
 		ArrayList<JSON> optionArray = json.getArray("options");
@@ -35,6 +38,10 @@ public class Dialogue {
 	
 	public ArrayList<DialogueOption> getOptions() {
 		return options;
+	}
+	
+	public QuestManager getQuestManager() {
+		return questManager;
 	}
 	
 }

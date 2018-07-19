@@ -5,7 +5,7 @@
 			"width": 16,
 			"height": 16,
 			"components": [
-				{"name": "physics", "acceleration": 4},
+				{"name": "physics", "acceleration": 1},
 				{"name": "ai"},
 				{"name": "clothing"},
 				{

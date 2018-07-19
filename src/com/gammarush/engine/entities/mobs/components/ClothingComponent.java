@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.mobs.components;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
@@ -30,7 +30,7 @@ public class ClothingComponent extends MobComponent {
 		ArrayList<Item> removeQueue = new ArrayList<Item>();
 		for(Item e1 : e.getWorld().getItems()) {
 			if(Physics.getCollision(e.getAABB(), e1.getAABB())) {
-				ClothingTemplate t = Game.clothings.get(e1.getTemplate().getName());
+				ClothingTemplate t = GameManager.getClothing(e1.getTemplate().getId());
 				if(t != null && outfit.add(t)) {
 					removeQueue.add(e1);
 				}

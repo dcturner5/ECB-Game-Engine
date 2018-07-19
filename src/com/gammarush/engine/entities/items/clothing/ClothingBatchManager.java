@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.items.clothing;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -30,7 +30,7 @@ public class ClothingBatchManager {
 	
 	public void render() {
 		for(ClothingBatch b : batches) {
-			ClothingTemplate t = Game.clothings.get(b.id);
+			ClothingTemplate t = GameManager.getClothing(b.id);
 			t.render(b);
 		}
 		batches.clear();

@@ -21,7 +21,7 @@ public class AIComponent extends MobComponent {
 	public AIComponent(Entity entity) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		astar = new AStar(entity.getWorld());
-		addBehavior(new IdleBehavior(this));
+		addBehavior(new IdleBehavior());
 	}
 
 	@Override
@@ -38,6 +38,8 @@ public class AIComponent extends MobComponent {
 	}
 	
 	public boolean addBehavior(Behavior behavior) {
+		behavior.setAIComponent(this);
+		behavior.init();
 		boolean success = behaviors.add(behavior);
 		Collections.sort(behaviors, new Comparator<Behavior>() {
 			@Override

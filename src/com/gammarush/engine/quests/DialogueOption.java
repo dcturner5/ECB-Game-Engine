@@ -8,12 +8,12 @@ public class DialogueOption {
 		DEFAULT, PROGRESS, EXIT
 	}
 	
+	private QuestManager questManager;
+	
 	private String name;
 	private String text;
 	private OptionType type;
 	private String link;
-	
-	private QuestManager questManager;
 	
 	public DialogueOption(JSON json, QuestManager questManager) {
 		OptionType type = OptionType.DEFAULT;

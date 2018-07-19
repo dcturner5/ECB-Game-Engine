@@ -9,20 +9,6 @@ import java.nio.IntBuffer;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import com.gammarush.engine.SystemManager;
-import com.gammarush.engine.entities.items.ItemHashMap;
-import com.gammarush.engine.entities.items.ItemLoader;
-import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
-import com.gammarush.engine.entities.items.clothing.ClothingLoader;
-import com.gammarush.engine.entities.mobs.MobHashMap;
-import com.gammarush.engine.entities.mobs.MobLoader;
-import com.gammarush.engine.entities.mobs.actors.ActorHashMap;
-import com.gammarush.engine.entities.mobs.actors.ActorLoader;
-import com.gammarush.engine.entities.statics.StaticHashMap;
-import com.gammarush.engine.entities.statics.StaticLoader;
-import com.gammarush.engine.entities.vehicles.VehicleHashMap;
-import com.gammarush.engine.entities.vehicles.VehicleLoader;
-import com.gammarush.engine.tiles.TileHashMap;
-import com.gammarush.engine.tiles.TileLoader;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -43,14 +29,6 @@ public class Game implements Runnable {
 	public long window;
 	
 	private GameManager gameManager;
-	
-	public static ActorHashMap actors;
-	public static MobHashMap mobs;
-	public static ItemHashMap items;
-	public static ClothingHashMap clothings;
-	public static VehicleHashMap vehicles;
-	public static StaticHashMap statics;
-	public static TileHashMap tiles;
 	
 	public void start() {
 		running = true;
@@ -92,16 +70,7 @@ public class Game implements Runnable {
 		
 		System.out.println("OpenGL: " + glGetString(GL_VERSION));
 		
-		tiles = TileLoader.load("res/tiles/data.json");
-		statics = StaticLoader.load("res/entities/statics/data.json");
-		mobs = MobLoader.load("res/entities/mobs/data.json");
-		items = ItemLoader.load("res/entities/items/data.json");
-		clothings = ClothingLoader.load("res/entities/items/data.json");
-		vehicles = VehicleLoader.load("res/entities/vehicles/data.json");
-		actors = ActorLoader.load("res/actors/data.json");
-		
 		gameManager = new GameManager(this);
-		//worldManager.getWorld().addVehicle(new Vehicle(vehicles.get("mercury"), new Vector2f(128, 256), Vehicle.DIRECTION_LEFT));
 	}
 	
 	public void run() {

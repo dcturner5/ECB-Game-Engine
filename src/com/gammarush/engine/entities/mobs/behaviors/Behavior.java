@@ -14,12 +14,12 @@ public abstract class Behavior {
 	protected boolean complete = false;
 	protected ArrayList<SubBehavior> queue = new ArrayList<SubBehavior>();
 	
-	public Behavior(int priority, AIComponent aiComponent) {
+	public Behavior(int priority) {
 		this.priority = priority;
-		this.aiComponent = aiComponent;
 	}
 	
 	public abstract void update(double delta);
+	public abstract void init();
 	
 	public int getPriority() {
 		return priority;
@@ -35,6 +35,10 @@ public abstract class Behavior {
 	
 	public boolean getComplete() {
 		return complete;
+	}
+	
+	public void setAIComponent(AIComponent aiComponent) {
+		this.aiComponent = aiComponent;
 	}
 	
 }

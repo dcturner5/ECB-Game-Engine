@@ -14,7 +14,7 @@ public class Camera {
 	
 	public static final float MIN_DEPTH = -1.0f;
 	public static final float MAX_DEPTH = 16.0f;
-	public static final float MAX_ZOOM = 1f;
+	public static final float MAX_ZOOM = 4f;
 	public static final float MIN_ZOOM = 1 / 4f;
 	
 	public Camera(Vector3f position, Renderer renderer) {

@@ -43,25 +43,28 @@ public class ControllableComponent extends MobComponent {
 		}
 		
 		Vector2f velocity = new Vector2f();
-		if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
-			velocity.y -= acceleration;
-			e.direction = Entity.DIRECTION_UP;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
-			velocity.y += acceleration;
-			e.direction = Entity.DIRECTION_DOWN;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
-			velocity.x -= acceleration;
-			e.direction = Entity.DIRECTION_LEFT;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
-			velocity.x += acceleration;
-			e.direction = Entity.DIRECTION_RIGHT;
-		}
-		if(KeyCallback.isKeyDown(GLFW_KEY_E)) {
-			Interactive e1 = e.getInteractive();
-			if(e1 != null) e1.activate(e);
+		
+		if(!e.isInteractingWithMob()) {
+			if(KeyCallback.isKeyDown(GLFW_KEY_W)) {
+				velocity.y -= acceleration;
+				e.direction = Entity.DIRECTION_UP;
+			}
+			if(KeyCallback.isKeyDown(GLFW_KEY_S)) {
+				velocity.y += acceleration;
+				e.direction = Entity.DIRECTION_DOWN;
+			}
+			if(KeyCallback.isKeyDown(GLFW_KEY_A)) {
+				velocity.x -= acceleration;
+				e.direction = Entity.DIRECTION_LEFT;
+			}
+			if(KeyCallback.isKeyDown(GLFW_KEY_D)) {
+				velocity.x += acceleration;
+				e.direction = Entity.DIRECTION_RIGHT;
+			}
+			if(KeyCallback.isKeyDown(GLFW_KEY_E)) {
+				Interactive e1 = e.getInteractive();
+				if(e1 != null) e1.activate(e);
+			}
 		}
 		
 		e.moving = !velocity.isEmpty();

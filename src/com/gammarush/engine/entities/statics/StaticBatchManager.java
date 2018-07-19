@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.statics;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 
 public class StaticBatchManager {
 	
@@ -35,7 +35,7 @@ public class StaticBatchManager {
 	
 	public void render() {
 		for(StaticBatch b : batches) {
-			StaticTemplate t = Game.statics.get(b.getId());
+			StaticTemplate t = GameManager.getStatic(b.getId());
 			t.render(b);
 		}
 		batches.clear();

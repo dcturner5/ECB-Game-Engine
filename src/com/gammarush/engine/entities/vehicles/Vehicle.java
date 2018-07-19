@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.vehicles;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
@@ -26,7 +26,7 @@ public class Vehicle extends Interactive {
 	public Vehicle(VehicleTemplate template, Vector2f position, int direction) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
-		this.wheelTemplate = Game.vehicles.getRandomWheel();
+		this.wheelTemplate = GameManager.vehicles.getRandomWheel();
 		this.occupancy = template.getOccupancy();
 		this.direction = direction;
 		this.mobPositions = template.getMobPositions();

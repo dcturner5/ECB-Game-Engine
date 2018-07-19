@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.SubBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.TravelSubBehavior;
 import com.gammarush.engine.entities.mobs.behaviors.subbehaviors.WaitSubBehavior;
-import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.tiles.Tile;
@@ -18,16 +17,19 @@ public class IdleBehavior extends Behavior {
 	private int range = 16;
 	private int waitTime = 240;
 	
-	public IdleBehavior(AIComponent aiComponent) {
-		super(PRIORITY, aiComponent);
-		origin = getMob().getPosition();
+	public IdleBehavior() {
+		super(PRIORITY);
 	}
 	
-	public IdleBehavior(AIComponent aiComponent, int range, int waitTime) {
-		super(PRIORITY, aiComponent);
-		origin = getMob().getPosition();
+	public IdleBehavior(int range, int waitTime) {
+		super(PRIORITY);
 		this.range = range;
 		this.waitTime = waitTime;
+	}
+	
+	@Override
+	public void init() {
+		origin = getMob().getPosition();
 	}
 	
 	@Override

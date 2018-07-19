@@ -30,7 +30,7 @@ public class PhysicsComponent extends Component {
 	public PhysicsComponent(Entity entity, float acceleration) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		this.velocity = new Vector2f();
-		this.acceleration = acceleration;
+		this.acceleration = acceleration * Renderer.SCALE;
 	}
 
 	@Override

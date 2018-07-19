@@ -2,7 +2,7 @@ package com.gammarush.engine.entities.mobs;
 
 import java.util.ArrayList;
 
-import com.gammarush.engine.Game;
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.components.AnimationComponent;
 
 public class MobBatchManager {
@@ -38,7 +38,7 @@ public class MobBatchManager {
 	
 	public void render() {
 		for(MobBatch b : batches) {
-			MobTemplate t = Game.mobs.get(b.getId());
+			MobTemplate t = GameManager.getMob(b.getId());
 			t.render(b);
 		}
 		batches.clear();
