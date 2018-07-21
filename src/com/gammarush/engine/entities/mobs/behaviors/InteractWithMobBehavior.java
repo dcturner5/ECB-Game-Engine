@@ -18,6 +18,7 @@ public class InteractWithMobBehavior extends Behavior {
 	
 	@Override
 	public void init() {
+		getMob().setInteractingMob(target);
 		target.setInteractingMob(getMob());
 		queue.add(new TravelSubBehavior(getTargetPosition(), this));
 	}

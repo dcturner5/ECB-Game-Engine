@@ -1,0 +1,11 @@
+{
+	"dialogues": [
+		{
+			"name": "dismissal",
+			"text": "Please... Just go away...",
+			"options": [
+				{"name": "1", "text": "[Leave]", "type": "exit"}
+			]
+		}
+	]
+}

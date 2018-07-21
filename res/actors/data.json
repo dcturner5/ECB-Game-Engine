@@ -25,20 +25,12 @@
 			},
 			"dialogues": [
 				{
-				
 					"name": "dalton_001",
 					"text": "Oh... Hi Martín. Whats up?",
 					"options": [
-						{"name": "1", "text": "Would you like some gelato?", "type": "default", "link": "dalton_002"},
-						{"name": "2", "text": "Heard about my grandfather?", "type": "default", "link": "dalton_002"},
-						{"name": "3", "text": "Whats your opinion on Israel?", "type": "default", "link": "dalton_002"}
-					]
-				},
-				{
-					"name": "dalton_002",
-					"text": "Please go away...",
-					"options": [
-						{"name": "1", "text": "[Leave]", "type": "exit", "link": ""}
+						{"name": "1", "text": "Would you like some gelato?", "link": "main_001"},
+						{"name": "2", "text": "Heard about my grandfather?", "link": "dismissal"},
+						{"name": "3", "text": "Whats your opinion on Israel?", "link": "dismissal"}
 					]
 				}
 			]
@@ -59,9 +51,9 @@
 					"name": "orlando_001",
 					"text": "You know Jesus kissed another man?",
 					"options": [
-						{"name": "1", "text": "This is why we're not living together!", "type": "default", "link": "dalton_002"},
-						{"name": "2", "text": "What book does it say that?", "type": "default", "link": "dalton_002"},
-						{"name": "3", "text": "[Leave]", "type": "exit", "link": ""}
+						{"name": "1", "text": "This is why we're not living together!", "link": "dismissal"},
+						{"name": "2", "text": "What book does it say that?", "link": "main_001"},
+						{"name": "3", "text": "[Leave]", "type": "exit"}
 					]
 				}
 			]

@@ -65,6 +65,8 @@ public class QuestManager {
 			getScriptManager().getQueue().add(q.getScriptPath());
 		}
 		getScriptManager().compile();
+		
+		DialogueLoader.load("res/dialogues/data.json", this);
 	}
 	
 	public InputManager getInputManager() {

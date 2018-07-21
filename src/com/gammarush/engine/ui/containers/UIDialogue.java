@@ -69,6 +69,7 @@ public class UIDialogue extends UIContainer {
 					}
 					else {
 						close();
+						option.getQuestManager().getPlayerManager().getMob().getInteractingMob().setInteractingMob(null);
 						option.getQuestManager().getPlayerManager().getMob().setInteractingMob(null);
 					}
 					

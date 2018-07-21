@@ -358,7 +358,7 @@ public class World {
 			if(!cp.equals(lcp)) {
 				Chunk c = getChunk(cp);
 				Chunk lc = getChunk(lcp);
-				if(c == null) {
+				if(c == null || lc == null) {
 					continue;
 				}
 				

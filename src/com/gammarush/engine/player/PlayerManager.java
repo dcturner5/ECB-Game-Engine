@@ -19,7 +19,6 @@ public class PlayerManager {
 		this.gameManager = gameManager;
 		
 		setMob(GameManager.getActor("Martín"));
-		getWorldManager().getWorld().addMob(mob);
 	}
 	
 	public void update(double delta) {

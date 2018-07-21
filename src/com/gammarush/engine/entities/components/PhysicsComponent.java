@@ -43,7 +43,7 @@ public class PhysicsComponent extends Component {
 		
 		e.position.x = position.x;
 		e.position.y = position.y;
-		e.position.z = Renderer.ENTITY_LAYER + (e.position.y / Tile.HEIGHT) / Chunk.HEIGHT;
+		e.position.z = Renderer.ENTITY_LAYER + 1.0f * e.getLocalChunkPosition().y / Chunk.HEIGHT;
 		
 		if(translation.x != 0) {
 			e.position.x -= velocity.x;

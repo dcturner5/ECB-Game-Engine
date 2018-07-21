@@ -46,6 +46,7 @@ public class Chunk {
 				Actor actor = GameManager.getActor(actorName);
 				actor.setWorld(world);
 				actor.setPosition(actorPosition);
+				actor.setLastChunkPosition(actor.getChunkPosition());
 				mobs.add(actor);
 			}
 		}
@@ -75,7 +76,7 @@ public class Chunk {
 			this.array[i] = GameManager.getTile(getWorld().getTileOrder().get(array.get(i))).getId();
 		}
 		
-		System.out.println(statics.size());
+		print();
 	}
 	
 	public void update(double delta) {
@@ -88,10 +89,10 @@ public class Chunk {
 		entities.addAll(items);
 		entities.addAll(statics);
 		
-		updateEntityCollisionArray();
 		for(Entity e : entities) {
 			e.update(delta);
 		}
+		updateEntityCollisionArray();
 	}
 	
 	public void render() {
@@ -171,20 +172,27 @@ public class Chunk {
 				int fx = (int) ((e.position.x + e.getCollisionBox().x) / Tile.WIDTH);
 				int fy = (int) ((e.position.y + e.getCollisionBox().y) / Tile.HEIGHT);
 				double rlx = (e.position.x + e.getCollisionBox().x + e.getCollisionBox().width) / Tile.WIDTH;
-				int lx = (int) rlx;
+				int lx = (int) Math.floor(rlx);
 				double rly = (e.position.y + e.getCollisionBox().y + e.getCollisionBox().height) / Tile.HEIGHT;
-				int ly = (int) rly;
+				int ly = (int) Math.floor(rly);
 				
 				if(rlx - lx == 0) lx--;
 				if(rly - ly == 0) ly--;
 				
 				for(int x = fx; x <= lx; x++) {
 					for(int y = fy; y <= ly; y++) {
-						setEntityCollision(true, x, y);
+						world.setEntityCollision(true, x, y);
 					}
 				}
 			}
 		}
+	}
+	
+	public void print() {
+		System.out.println("CHUNK (" + position.x + ", " + position.y + ")");
+		System.out.println("Entities: " + entities.size());
+		System.out.println("Mobs: " + mobs.size());
+		System.out.println("Statics: " + statics.size() + "\n");
 	}
 
 }

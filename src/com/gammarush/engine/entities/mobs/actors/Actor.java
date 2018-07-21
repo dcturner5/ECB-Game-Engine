@@ -11,7 +11,6 @@ import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.quests.Dialogue;
 import com.gammarush.engine.quests.QuestManager;
-import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.containers.UIDialogue;
 import com.gammarush.engine.utils.json.JSON;
 
@@ -21,7 +20,7 @@ public class Actor extends Mob {
 	private String name;
 	
 	public Actor(int id, JSON json, QuestManager questManager) {
-		super(GameManager.getMob(json.getString("type")), new Vector2f(0, 3 * Tile.HEIGHT));
+		super(GameManager.getMob(json.getString("type")), new Vector2f());
 		
 		this.id = id;
 		this.name = json.getString("name");

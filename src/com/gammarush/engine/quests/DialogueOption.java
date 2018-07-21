@@ -16,20 +16,19 @@ public class DialogueOption {
 	private String link;
 	
 	public DialogueOption(JSON json, QuestManager questManager) {
-		OptionType type = OptionType.DEFAULT;
-		switch(json.getString("type")) {
-		case "progress":
-			type = OptionType.PROGRESS;
-			break;
-		case "exit":
-			type = OptionType.EXIT;
-			break;
+		type = OptionType.DEFAULT;
+		String typeJson = json.getString("type");
+		if(typeJson != null) {
+			if(typeJson.equals("exit")) {
+				type = OptionType.EXIT;
+			}
 		}
 		
-		this.name = json.getString("name");
-		this.text = json.getString("text");
-		this.type = type;
-		this.link = json.getString("link");
+		name = json.getString("name");
+		text = json.getString("text");
+		link = json.getString("link");
+		if(link == null) link = "";
+			
 		this.questManager = questManager;
 	}
 	
