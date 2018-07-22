@@ -1,11 +1,10 @@
 {
 	"statics": [
-		{"name": "bathtub", "width": 44, "height": 32, "solid": true},
-		{"name": "bed", "width": 48, "height": 32, "solid": true},
-		{"name": "doorway", "width": 16, "height": 32, "solid": false},
-		{"name": "wall", "width": 16, "height": 16, "solid": false},
+		{"name": "bathtub", "width": 44, "height": 32, "solid": true, "collision": {"x": 0, "y": 16, "width": 44, "height": 16}},
+		{"name": "bed", "width": 48, "height": 32, "solid": true, "collision": {"x": 0, "y": 16, "width": 48, "height": 16}},
+		{"name": "wall", "width": 16, "height": 32, "solid": true, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
+		{"name": "wall_door", "width": 16, "height": 32, "solid": false, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
 		{"name": "wall_junction", "width": 4, "height": 4, "solid": false},
-		{"name": "wall_side", "width": 4, "height": 16, "solid": false},
-		{"name": "wall_side_solid", "width": 4, "height": 16, "solid": true}
+		{"name": "wall_side", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 32, "width": 4, "height": 16}}
 	]
 }

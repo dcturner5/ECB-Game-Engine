@@ -10,6 +10,7 @@ import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.utils.json.JSON;
 
 public class StaticTemplate extends EntityTemplate {
@@ -17,15 +18,21 @@ public class StaticTemplate extends EntityTemplate {
 	private int width;
 	private int height;
 	private boolean solid;
+	private AABB collisionBox;
+	
 	private Model model;
 	private ArrayList<Color> colors;
 	
 	public StaticTemplate(int id, JSON json) {
 		super(id, json);
 		
-		this.width = json.getInteger("width") * Renderer.SCALE;
-		this.height = json.getInteger("height") * Renderer.SCALE;
-		this.solid = json.getBoolean("solid");
+		width = json.getInteger("width") * Renderer.SCALE;
+		height = json.getInteger("height") * Renderer.SCALE;
+		solid = json.getBoolean("solid");
+		collisionBox = new AABB(0, 0, width, height);
+		if(json.get("collision") != null) {
+			collisionBox = new AABB(json.getVector2f("collision").mult(Renderer.SCALE), json.getFloat("collision.width") * Renderer.SCALE, json.getFloat("collision.height") * Renderer.SCALE);
+		}
 		
 		this.model = new Model(new Texture("res/entities/statics/" + json.getString("name") + ".png"));
 	}
@@ -58,6 +65,10 @@ public class StaticTemplate extends EntityTemplate {
 	
 	public boolean getSolid() {
 		return solid;
+	}
+	
+	public AABB getCollisionBox() {
+		return collisionBox;
 	}
 	
 	public Model getModel() {

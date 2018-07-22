@@ -142,6 +142,12 @@ public class Entity {
 		return new Vector2f((float) (x - Math.floor(x)) * Chunk.WIDTH, (float) (y - Math.floor(y)) * Chunk.HEIGHT);
 	}
 	
+	public Vector2f getLocalChunkCollisionBox() {
+		float x = position.x / Tile.WIDTH / Chunk.WIDTH;
+		float y = position.y / Tile.HEIGHT / Chunk.HEIGHT;
+		return new Vector2f((float) (x - Math.floor(x)) * Chunk.WIDTH, (float) (y - Math.floor(y)) * Chunk.HEIGHT);
+	}
+	
 	public Vector2i getLastChunkPosition() {
 		return chunkPosition;
 	}

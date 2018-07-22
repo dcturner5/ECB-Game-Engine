@@ -4,6 +4,7 @@
 			"name": "human",
 			"width": 16,
 			"height": 16,
+			"collision": {"x": 3, "y": 10, "width": 10, "height": 6},
 			"components": [
 				{"name": "physics", "acceleration": 1},
 				{"name": "ai"},
@@ -94,6 +95,7 @@
 			"name": "mutant",
 			"width": 16,
 			"height": 16,
+			"collision": {"x": 3, "y": 0, "width": 10, "height": 16},
 			"components": [
 				{
 					"name": "physics",

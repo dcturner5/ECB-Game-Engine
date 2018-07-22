@@ -17,6 +17,7 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.utils.json.JSON;
+import com.gammarush.engine.world.Chunk;
 
 public class Mob extends Interactive {
 	
@@ -34,8 +35,8 @@ public class Mob extends Interactive {
 	public Mob(MobTemplate template, Vector2f position) {
 		super(position, template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
-		
 		setSolid(false);
+		setCollisionBox(template.getCollisionBox());
 		
 		color = template.colors.get((int) (Math.random() * template.colors.size()));
 		hairColor = template.hairColors.get((int) (Math.random() * template.hairColors.size()));
@@ -66,6 +67,9 @@ public class Mob extends Interactive {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		
+		position.z = Renderer.ENTITY_LAYER + 
+				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT;
 		
 		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
 		if(moving) ac.start("run");
