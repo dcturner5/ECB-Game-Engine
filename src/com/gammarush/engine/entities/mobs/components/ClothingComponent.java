@@ -3,10 +3,11 @@ package com.gammarush.engine.entities.mobs.components;
 import java.util.ArrayList;
 
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.Entity;
+import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.items.Item;
 import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
-import com.gammarush.engine.entities.mobs.ClothingOutfit;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.physics.Physics;
 
@@ -16,11 +17,43 @@ public class ClothingComponent extends MobComponent {
 	public static final String[] DEPENDENCIES = new String[]{};
 	public static final int PRIORITY = 1;
 	
-	public ClothingOutfit outfit;
+	public ClothingSet outfit;
+	
+	public class ClothingSet {
+		
+		private ArrayList<ClothingTemplate> array = new ArrayList<ClothingTemplate>();
+		private Mob mob;
+		
+		public ClothingSet(Mob mob) {
+			this.mob = mob;
+		}
+		
+		public void render() {
+			for(ClothingTemplate c : array) {
+				//TODO ADD SIZE ATTRIBS SO CLOTHES SCALE WITH MOB
+				mob.getWorld().getClothingBatchManager().add(c, mob.position, ((AnimationComponent) mob.getComponent("animation")).getAnimation(), 
+						c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Color());
+			}
+		}
+		
+		public boolean add(ClothingTemplate clothing) {
+			for(ClothingTemplate c : array) {
+				if(c.getType() == clothing.getType()) {
+					return false;
+				}
+			}
+			return array.add(clothing);
+		}
+		
+		public boolean remove(ClothingTemplate clothing) {
+			return array.remove(clothing);
+		}
+		
+	}
 	
 	public ClothingComponent(Entity entity) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
-		outfit = new ClothingOutfit(getMob());
+		outfit = new ClothingSet(getMob());
 	}
 
 	@Override

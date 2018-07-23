@@ -37,4 +37,8 @@ public class AABB {
 		return new Vector2f(x + width / 2, y + height / 2);
 	}
 
+	public void print() {
+		System.out.print("X: " + x + ", Y: " + y + ", W: " + width + ", H: " + height);
+	}
+
 }

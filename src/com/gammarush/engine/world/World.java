@@ -164,6 +164,14 @@ public class World {
 		return result;
 	}
 	
+	public ArrayList<Mob> getMobs() {
+		ArrayList<Mob> result = new ArrayList<Mob>();
+		for(Chunk c : loadedChunks) {
+			result.addAll(c.getMobs());
+		}
+		return result;
+	}
+	
 	public AmbientLight getAmbientLight() {
 		return ambient;
 	}

@@ -9,7 +9,6 @@ import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.tiles.Tile;
-import com.gammarush.engine.world.Chunk;
 import com.gammarush.engine.world.World;
 
 public class PhysicsComponent extends Component {

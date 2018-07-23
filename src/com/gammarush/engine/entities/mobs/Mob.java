@@ -6,11 +6,12 @@ import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.InventoryComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
+import com.gammarush.engine.entities.mobs.components.AttackComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
+import com.gammarush.engine.entities.mobs.components.StatsComponent;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
-import com.gammarush.engine.input.KeyCallback;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
@@ -49,6 +50,9 @@ public class Mob extends Interactive {
 			if(name.equals("animation")) {
 				addComponent(new AnimationComponent(this, c.getAnimationHashMap("animations")));
 			}
+			if(name.equals("attack")) {
+				addComponent(new AttackComponent(this));
+			}
 			if(name.equals("clothing")) {
 				addComponent(new ClothingComponent(this));
 			}
@@ -60,6 +64,9 @@ public class Mob extends Interactive {
 			}
 			if(name.equals("physics")) {
 				addComponent(new PhysicsComponent(this, c.getFloat("acceleration")));
+			}
+			if(name.equals("stats")) {
+				addComponent(new StatsComponent(this, 100));
 			}
 		}
 	}
@@ -76,10 +83,6 @@ public class Mob extends Interactive {
 		else ac.stop("run");
 
 		if(!ac.isRunning()) ac.start("idle");
-		
-		if(KeyCallback.isKeyDown(org.lwjgl.glfw.GLFW.GLFW_KEY_T)) {
-			((AnimationComponent) getComponent("animation")).start("stab");
-		}
 	}
 
 	@Override

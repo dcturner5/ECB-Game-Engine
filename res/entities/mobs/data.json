@@ -8,6 +8,7 @@
 			"components": [
 				{"name": "physics", "acceleration": 1},
 				{"name": "ai"},
+				{"name": "stats"},
 				{"name": "clothing"},
 				{
 					"name": "animation",
@@ -40,7 +41,7 @@
 							"name": "stab",
 							"priority": 1,
 							"loop": false,
-							"maxFrame": 8,
+							"maxFrame": 4,
 							"indices": [
 								[0, 12, 13, 0],
 								[1, 14, 15, 1],
@@ -49,7 +50,8 @@
 							]
 						}
 					]
-				}
+				},
+				{"name": "attack"}
 			],
 			"colors": [
 				{

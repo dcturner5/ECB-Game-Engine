@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
+import com.gammarush.engine.entities.mobs.components.AttackComponent;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
@@ -142,7 +143,8 @@ public class InputManager {
 			}
 		}
 		if(container == null || !container.getSolid()) {
-			
+			AttackComponent ac = (AttackComponent) getPlayerManager().getMob().getComponent("attack");
+			ac.attack();
 		}
 		Vector2f mousePos = getMouseWorldPosition();
 		prevMouseWorldPosition = mousePos;
