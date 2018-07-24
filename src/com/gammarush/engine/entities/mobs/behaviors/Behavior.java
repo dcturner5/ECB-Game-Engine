@@ -18,8 +18,8 @@ public abstract class Behavior {
 		this.priority = priority;
 	}
 	
-	public abstract void update(double delta);
 	public abstract void init();
+	public abstract void update(double delta);
 	
 	public int getPriority() {
 		return priority;

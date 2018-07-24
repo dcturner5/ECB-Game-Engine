@@ -1,6 +1,13 @@
 {
 	"items": [
 		{
+			"name": "bruise_01",
+			"pool": "",
+			"clothing": {
+				"type": "skin"
+			}
+		},
+		{
 			"name": "hair01",
 			"pool": "common",
 			"clothing": {

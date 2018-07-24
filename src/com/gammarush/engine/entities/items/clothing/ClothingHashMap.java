@@ -33,18 +33,18 @@ public class ClothingHashMap {
 		return array.get((int) (Math.random() * array.size()));
 	}
 	
-	public ClothingTemplate getRandom(int type, int pool) {
+	public ClothingTemplate getRandom(String type, int pool) {
 		ArrayList<ClothingTemplate> poolArray = new ArrayList<ClothingTemplate>();
 		for(ClothingTemplate c : array) {
-			if(c.getType() == type && c.getPool() == pool) poolArray.add(c);
+			if(c.getType().equals(type) && c.getPool() == pool) poolArray.add(c);
 		}
 		return poolArray.get((int) (Math.random() * poolArray.size()));
 	}
 	
-	public ClothingTemplate getRandomByType(int type) {
+	public ClothingTemplate getRandomByType(String type) {
 		ArrayList<ClothingTemplate> poolArray = new ArrayList<ClothingTemplate>();
 		for(ClothingTemplate c : array) {
-			if(c.getType() == type) poolArray.add(c);
+			if(c.getType().equals(type)) poolArray.add(c);
 		}
 		return poolArray.get((int) (Math.random() * poolArray.size()));
 	}

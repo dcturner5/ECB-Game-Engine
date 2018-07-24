@@ -1,7 +1,7 @@
 package com.gammarush.engine.entities.mobs.components;
 
+import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.engine.entities.mobs.actors.Actor;
 
 public class StatsComponent extends MobComponent {
 	
@@ -20,12 +20,14 @@ public class StatsComponent extends MobComponent {
 	
 	@Override
 	public void update(double delta) {
-		
+		if(health < maxHealth / 2) {
+			ClothingComponent cc = (ClothingComponent) getMob().getComponent("clothing");
+			cc.outfit.add(GameManager.getClothing("bruise_01"));
+		}
 	}
 	
 	public void damageHealth(int value) {
 		health -= value;
-		System.out.println(((Actor)(getMob())).getName() + " : " + health);
 	}
 	
 	public void restoreHealth(int value) {

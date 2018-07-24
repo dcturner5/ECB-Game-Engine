@@ -14,14 +14,10 @@ import com.gammarush.engine.utils.json.JSON;
 
 public class ClothingTemplate extends ItemTemplate {
 	
-	public static final int TYPE_HAIR = 0;
-	public static final int TYPE_HEAD = 1;
-	public static final int TYPE_BODY = 2;
-	
 	public static final int WIDTH = 16 * Renderer.SCALE;
 	public static final int HEIGHT = 16 * Renderer.SCALE;
 	
-	private int type;
+	private String type;
 	private int layer;
 	
 	public Model model;
@@ -29,18 +25,18 @@ public class ClothingTemplate extends ItemTemplate {
 	public ClothingTemplate(int id, JSON json) {
 		super(id, json);
 		
-		String type = json.getString("clothing.type");
-		if(type.equals("hair")) {
-			this.type = TYPE_HAIR;
+		type = json.getString("clothing.type");
+		if(type.equals("skin")) {
 			layer = 0;
 		}
-		else if(type.equals("head")) {
-			this.type = TYPE_HEAD;
+		if(type.equals("hair")) {
 			layer = 1;
 		}
-		else if(type.equals("body")) {
-			this.type = TYPE_BODY;
+		else if(type.equals("head")) {
 			layer = 2;
+		}
+		else if(type.equals("body")) {
+			layer = 3;
 		}
 		
 		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 64);
@@ -70,7 +66,7 @@ public class ClothingTemplate extends ItemTemplate {
 		return layer;
 	}
 	
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 

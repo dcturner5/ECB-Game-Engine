@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.GameManager;
-import com.gammarush.engine.entities.mobs.behaviors.TravelBehavior;
+import com.gammarush.engine.entities.mobs.behaviors.AttackBehavior;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.AttackComponent;
 import com.gammarush.engine.graphics.Renderer;
@@ -167,7 +167,8 @@ public class InputManager {
 			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
 			
 			AIComponent ai = (AIComponent) GameManager.getActor("Orlando").getComponent("ai");
-			ai.addBehavior(new TravelBehavior(new Vector2i((int) mousePos.x / Tile.WIDTH, (int) mousePos.y / Tile.HEIGHT)));
+			//ai.addBehavior(new TravelBehavior(new Vector2i((int) mousePos.x / Tile.WIDTH, (int) mousePos.y / Tile.HEIGHT)));
+			ai.addBehavior(new AttackBehavior(getPlayerManager().getMob()));
 			//worldManager.getWorld().addItem(new Item(Game.items.getRandom(), mousePos));
 		}
 	}

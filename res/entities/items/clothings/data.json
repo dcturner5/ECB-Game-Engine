@@ -1,34 +1,34 @@
 {
 	"clothing": [
 		{
+			"name": "bruise_01",
+			"type": "skin",
+			"pool": ""
+		},
+		{
 			"name": "hair01",
 			"type": "hair",
-			"pool": "rare",
-			"texture": "res/entities/items/clothings/hair01.png"
+			"pool": "rare"
 		},
 		{
 			"name": "hair02",
 			"type": "hair",
-			"pool": "rare",
-			"texture": "res/entities/items/clothings/hair02.png"
+			"pool": "rare"
 		},
 		{
 			"name": "suit",
 			"type": "body",
-			"pool": "common",
-			"texture": "res/entities/items/clothings/suit.png"
+			"pool": "common"
 		},
 		{
 			"name": "overalls",
 			"type": "body",
-			"pool": "common",
-			"texture": "res/entities/items/clothings/overalls.png"
+			"pool": "common"
 		},
 		{
 			"name": "hat",
 			"type": "head",
-			"pool": "common",
-			"texture": "res/entities/items/clothings/hat.png"
+			"pool": "common"
 		}
 	]
 }

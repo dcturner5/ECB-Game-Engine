@@ -1,6 +1,7 @@
 package com.gammarush.engine.entities.mobs.components;
 
 import com.gammarush.engine.entities.components.AnimationComponent;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.physics.AABB;
@@ -35,20 +36,20 @@ public class AttackComponent extends MobComponent {
 		
 		Vector2f offset = new Vector2f();
 		if(e.direction == Mob.DIRECTION_UP) {
-			offset.y -= range;
+			offset.y = -1;
 		}
 		if(e.direction == Mob.DIRECTION_DOWN) {
-			offset.y += range;
+			offset.y = 1;
 		}
 		if(e.direction == Mob.DIRECTION_LEFT) {
-			offset.x -= range;
+			offset.x = -1;
 		}
 		if(e.direction == Mob.DIRECTION_RIGHT) {
-			offset.x += range;
+			offset.x = 1;
 		}
 		
-		cb.x += offset.x;
-		cb.y += offset.y;
+		cb.x += offset.x * getRange();
+		cb.y += offset.y * getRange();
 		
 		Mob mob = null;
 		for(Mob e1 : e.getWorld().getMobs()) {
@@ -57,17 +58,26 @@ public class AttackComponent extends MobComponent {
 			if(Physics.getCollision(cb, mobBox)) mob = e1;
 		}
 		
+		((AnimationComponent) e.getComponent("animation")).start("attack");
 		if(mob != null) {
+			PhysicsComponent pc = (PhysicsComponent) mob.getComponent("physics");
 			StatsComponent sc = (StatsComponent) mob.getComponent("stats");
-			if(sc != null) {
+			if(pc != null && sc != null) {
+				pc.velocity = offset.mult(10);
 				sc.damageHealth(damage);
-				((AnimationComponent) e.getComponent("animation")).start("stab");
 				cooldownIndex = cooldown;
 				return true;
 			}
 		}
-		System.out.println("ATTACK FAILED");
 		return false;
+	}
+
+	public int getRange() {
+		return range;
+	}
+
+	public void setRange(int range) {
+		this.range = range;
 	}
 
 }

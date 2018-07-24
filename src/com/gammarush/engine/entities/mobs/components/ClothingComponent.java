@@ -32,13 +32,13 @@ public class ClothingComponent extends MobComponent {
 			for(ClothingTemplate c : array) {
 				//TODO ADD SIZE ATTRIBS SO CLOTHES SCALE WITH MOB
 				mob.getWorld().getClothingBatchManager().add(c, mob.position, ((AnimationComponent) mob.getComponent("animation")).getAnimation(), 
-						c.getType() == ClothingTemplate.TYPE_HAIR ? mob.hairColor : new Color());
+						c.getType().equals("hair") ? mob.hairColor : new Color());
 			}
 		}
 		
 		public boolean add(ClothingTemplate clothing) {
 			for(ClothingTemplate c : array) {
-				if(c.getType() == clothing.getType()) {
+				if(c.getType().equals(clothing.getType())) {
 					return false;
 				}
 			}

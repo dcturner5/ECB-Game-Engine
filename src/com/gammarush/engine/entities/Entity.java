@@ -156,6 +156,10 @@ public class Entity {
 		return new Vector2i((int) (position.x / Tile.WIDTH), (int) (position.y / Tile.HEIGHT));
 	}
 	
+	public Vector2i getCenterTilePosition() {
+		return new Vector2i((int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT));
+	}
+	
 	public AABB getAABB() {
 		return new AABB(position.x + collisionBox.x, position.y + collisionBox.y, collisionBox.width, collisionBox.height);
 	}
