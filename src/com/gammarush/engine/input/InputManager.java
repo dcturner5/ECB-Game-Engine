@@ -8,9 +8,8 @@ import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.glViewport;
 
 import com.gammarush.engine.GameManager;
-import com.gammarush.engine.entities.mobs.behaviors.AttackBehavior;
-import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.AttackComponent;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
@@ -166,9 +165,9 @@ public class InputManager {
 			mousePos.x = (float) (Math.floor(mousePos.x / Tile.WIDTH) * Tile.WIDTH);
 			mousePos.y = (float) (Math.floor(mousePos.y / Tile.HEIGHT) * Tile.HEIGHT);
 			
-			AIComponent ai = (AIComponent) GameManager.getActor("Orlando").getComponent("ai");
+			//AIComponent ai = (AIComponent) GameManager.getActor("NPC 2").getComponent("ai");
 			//ai.addBehavior(new TravelBehavior(new Vector2i((int) mousePos.x / Tile.WIDTH, (int) mousePos.y / Tile.HEIGHT)));
-			ai.addBehavior(new AttackBehavior(getPlayerManager().getMob()));
+			//ai.addBehavior(new AttackBehavior(getPlayerManager().getMob()));
 			//worldManager.getWorld().addItem(new Item(Game.items.getRandom(), mousePos));
 		}
 	}
@@ -240,6 +239,10 @@ public class InputManager {
 	public void windowSize(int width, int height) {
 		getRenderer().setScreenSize(width, height);
         glViewport(0, 0, width, height);
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public QuestManager getQuestManager() {

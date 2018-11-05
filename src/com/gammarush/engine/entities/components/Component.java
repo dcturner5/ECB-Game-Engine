@@ -9,6 +9,8 @@ public abstract class Component {
 	private int priority;
 	private Entity entity;
 	
+	private boolean permanentlyEnabled = false;
+	
 	public Component(String name, String[] dependencies, int priority, Entity entity) {
 		this.name = name;
 		this.dependencies = dependencies;
@@ -34,6 +36,14 @@ public abstract class Component {
 	
 	public Entity getEntity() {
 		return entity;
+	}
+	
+	public boolean isPermanentlyEnabled() {
+		return permanentlyEnabled;
+	}
+	
+	protected void setPermanentlyEnabled(boolean permanentlyEnabled) {
+		this.permanentlyEnabled = permanentlyEnabled;
 	}
 
 }

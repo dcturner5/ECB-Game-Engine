@@ -8,7 +8,7 @@
 			"components": [
 				{"name": "physics", "acceleration": 1},
 				{"name": "ai"},
-				{"name": "stats"},
+				{"name": "stats", "health": 100, "attack": {"damage": 10, "range": 32, "cooldown": 16}, "defense": 0, "hostility": 0.5},
 				{"name": "clothing"},
 				{
 					"name": "animation",
@@ -47,6 +47,18 @@
 								[1, 6,  1,  7],
 								[2, 8,  2,  9],
 								[3, 10, 3, 11]
+							]
+						},
+						{
+							"name": "dead",
+							"priority": 3,
+							"loop": true,
+							"maxFrame": 1,
+							"indices": [
+								[20],
+								[21],
+								[20],
+								[21]
 							]
 						}
 					]
@@ -99,16 +111,10 @@
 			"height": 16,
 			"collision": {"x": 3, "y": 0, "width": 10, "height": 16},
 			"components": [
-				{
-					"name": "physics",
-					"acceleration": 8
-				},
-				{
-					"name": "ai"
-				},
-				{
-					"name": "clothing"
-				},
+				{"name": "physics", "acceleration": 8},
+				{"name": "ai"},
+				{"name": "stats", "health": 1, "attack": {"damage": 0, "range": 32, "cooldown": 16}, "defense": 0},
+				{"name": "clothing"},
 				{
 					"name": "animation",
 					"animations": [

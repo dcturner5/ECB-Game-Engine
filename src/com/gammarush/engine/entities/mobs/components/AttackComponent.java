@@ -10,28 +10,34 @@ import com.gammarush.engine.physics.Physics;
 public class AttackComponent extends MobComponent {
 	
 	public static final String NAME = "attack";
-	public static final String[] DEPENDENCIES = new String[]{"animation"};
+	public static final String[] DEPENDENCIES = new String[]{"animation", "stats"};
 	public static final int PRIORITY = 1;
 	
-	private int damage = 10;
-	private int range = 32;
-	private int cooldown = 16;
+	private int attack;
+	private int range;
+	private int cooldown;
 	
 	private int cooldownIndex = 0;
 
 	public AttackComponent(Mob mob) {
 		super(NAME, DEPENDENCIES, PRIORITY, mob);
+		
+		StatsComponent sc = (StatsComponent) mob.getComponent("stats");
+		attack = sc.getStat("attack.damage");
+		range = sc.getStat("attack.range");
+		cooldown = sc.getStat("attack.cooldown");
 	}
 
 	@Override
 	public void update(double delta) {
-		if(cooldownIndex > 0) cooldownIndex--;
+		if(getMob().isInteractingWithMob()) cooldownIndex = cooldown;
+		else if(cooldownIndex > 0) cooldownIndex--;
 	}
 	
 	public boolean attack() {
+		Mob e = getMob();
 		if(cooldownIndex > 0) return false;
 		
-		Mob e = getMob();
 		AABB cb = new AABB(e.position.x, e.position.y, e.width, e.height);
 		
 		Vector2f offset = new Vector2f();
@@ -48,8 +54,8 @@ public class AttackComponent extends MobComponent {
 			offset.x = 1;
 		}
 		
-		cb.x += offset.x * getRange();
-		cb.y += offset.y * getRange();
+		cb.x += offset.x * range;
+		cb.y += offset.y * range;
 		
 		Mob mob = null;
 		for(Mob e1 : e.getWorld().getMobs()) {
@@ -63,21 +69,23 @@ public class AttackComponent extends MobComponent {
 			PhysicsComponent pc = (PhysicsComponent) mob.getComponent("physics");
 			StatsComponent sc = (StatsComponent) mob.getComponent("stats");
 			if(pc != null && sc != null) {
-				pc.velocity = offset.mult(10);
-				sc.damageHealth(damage);
+				int damage =  attack + getClothingStat("attack", e) - getClothingStat("defense", mob);
+				sc.alterHealth(-damage, e);
+				pc.velocity = offset.mult(damage);
 				cooldownIndex = cooldown;
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	public int getRange() {
 		return range;
 	}
-
-	public void setRange(int range) {
-		this.range = range;
+	
+	public int getClothingStat(String name, Mob e) {
+		if(e.getComponent("clothing") == null) return 0;
+		return ((ClothingComponent) e.getComponent("clothing")).getStat(name);
 	}
 
 }

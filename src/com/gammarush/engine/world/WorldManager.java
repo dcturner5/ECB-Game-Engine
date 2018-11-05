@@ -1,6 +1,7 @@
 package com.gammarush.engine.world;
 
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.player.PlayerManager;
@@ -31,6 +32,16 @@ public class WorldManager {
 	
 	public World getWorld() {
 		return world;
+	}
+	
+	public void setWorld(String name) {
+		if(worlds.get(name) != null) {
+			world = worlds.get(name);
+		}
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public InputManager getInputManager() {

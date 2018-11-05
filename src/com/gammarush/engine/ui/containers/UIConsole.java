@@ -65,5 +65,9 @@ public class UIConsole extends UIContainer {
 		super.close();
 		textbox.setFocus(false);
 	}
+	
+	public void print(String value) {
+		textbox.setString(textbox.getString() + "\n" + value);
+	}
 
 }

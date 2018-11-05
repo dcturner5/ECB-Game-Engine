@@ -28,35 +28,44 @@ public class TravelSubBehavior extends SubBehavior {
 			Vector2f position = e.getPosition();
 			Vector2i waypoint = path.get(0).mult(Tile.WIDTH, Tile.HEIGHT);
 			
-			if(getMob().getWorld().getSolid(waypoint.x, waypoint.y)) {
+			//fix this at some point
+			if(getMob().getWorld().getSolid(waypoint.x / Tile.WIDTH, waypoint.y / Tile.HEIGHT)) {
+				System.out.println("SOLID");
 				findPath();
 				//successful = false;
 				//complete = true;
+				//return;
 			}
 			
 			Vector2f velocity = new Vector2f();
 			if(position.y > waypoint.y) {
-				velocity.y -= pc.acceleration;
+				velocity.y = Math.max(velocity.y - pc.acceleration, waypoint.y - position.y);
 				e.direction = Mob.DIRECTION_UP;
 			}
-			if(position.y < waypoint.y) {
-				velocity.y += pc.acceleration;
+			else if(position.y < waypoint.y) {
+				velocity.y = Math.min(velocity.y + pc.acceleration, waypoint.y - position.y);
 				e.direction = Mob.DIRECTION_DOWN;
 			}
 			if(position.x > waypoint.x) {
-				velocity.x -= pc.acceleration;
+				velocity.x = Math.max(velocity.x - pc.acceleration, waypoint.x - position.x);
 				e.direction = Mob.DIRECTION_LEFT;
 			}
-			if(position.x < waypoint.x) {
-				velocity.x += pc.acceleration;
+			else if(position.x < waypoint.x) {
+				velocity.x = Math.min(velocity.x + pc.acceleration, waypoint.x - position.x);
 				e.direction = Mob.DIRECTION_RIGHT;
 			}
 			
 			e.moving = !velocity.isEmpty();
 			e.position = e.position.add(velocity);
 			
-			if(e.position.x == waypoint.x && e.position.y == waypoint.y && path.size() > 0) {
-				path.remove(0);
+			if(e.position.x == waypoint.x && e.position.y == waypoint.y) {
+				if(path.size() > 0) {
+					path.remove(0);
+				}
+				else {
+					e.moving = false;
+					complete = true;
+				}
 			}
 		}
 		else {

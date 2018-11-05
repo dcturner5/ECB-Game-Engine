@@ -19,6 +19,7 @@ public class ClothingTemplate extends ItemTemplate {
 	
 	private String type;
 	private int layer;
+	private ClothingStats stats = new ClothingStats();
 	
 	public Model model;
 	
@@ -29,7 +30,7 @@ public class ClothingTemplate extends ItemTemplate {
 		if(type.equals("skin")) {
 			layer = 0;
 		}
-		if(type.equals("hair")) {
+		else if(type.equals("hair")) {
 			layer = 1;
 		}
 		else if(type.equals("head")) {
@@ -37,6 +38,10 @@ public class ClothingTemplate extends ItemTemplate {
 		}
 		else if(type.equals("body")) {
 			layer = 3;
+		}
+		
+		if(json.exists("clothing.stats")) {
+			stats = new ClothingStats(json);
 		}
 		
 		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 64);
@@ -68,6 +73,10 @@ public class ClothingTemplate extends ItemTemplate {
 	
 	public String getType() {
 		return type;
+	}
+	
+	public ClothingStats getStats() {
+		return stats;
 	}
 
 }

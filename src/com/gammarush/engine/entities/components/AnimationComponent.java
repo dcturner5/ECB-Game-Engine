@@ -17,11 +17,15 @@ public class AnimationComponent extends Component {
 
 	public AnimationComponent(Entity entity) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
+		
+		setPermanentlyEnabled(true);
 	}
 	
 	public AnimationComponent(Entity entity, AnimationHashMap animations) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		this.animations = animations;
+		
+		setPermanentlyEnabled(true);
 	}
 
 	@Override
@@ -34,7 +38,6 @@ public class AnimationComponent extends Component {
 			if(e instanceof Vehicle) {
 				active.setDirection(((Vehicle) e).direction);
 			}
-			
 			active.update(delta);
 		}
 	}
@@ -47,9 +50,14 @@ public class AnimationComponent extends Component {
 		if(active != null && !active.equals(animations.get(name))) {
 			active.stop();
 		}
+		
 		active = animations.get(name);
+		if(active == null) {
+			System.out.println("Animation \"" + name + "\" Does Not Exist");
+			return;
+		}
+		
 		active.start();
-		//prevents glitch when changed directions when animation is not active - cannot be updated
 		
 		Entity e = getEntity();
 		if(e instanceof Mob) {

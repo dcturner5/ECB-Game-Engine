@@ -10,3 +10,18 @@ function event_dialogue(dialogue_id, response_id) {
 		}
 	}
 }
+
+count = 0;
+function event_death_mob_by_player(mob_name) {
+	if(mob_name == "human") {
+		++count;
+		if(count % 5 == 0) {
+			print(count + " humans have been killed...");
+			i = 0;
+			while(i < 100) {
+				spawn("human", int(random() * 2048), int(random() * 2048));
+				++i;
+			}
+		}
+	}
+}

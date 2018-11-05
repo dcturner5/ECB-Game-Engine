@@ -60,7 +60,7 @@ public class World {
 		}
 		
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
-		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), .7f);
+		ambient = new AmbientLight(new Vector3f(1f, 1f, 1f), 1f);
 		//lights.add(new PointLight(new Vector2f(5 * Tile.WIDTH, 5 * Tile.HEIGHT), 1f, new Vector3f(1f, 1f, 1f), 0f));
 	}
 	
@@ -125,6 +125,34 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getStatics().add(e);
+		}
+	}
+	
+	public void removeItem(Item e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			c.getItems().remove(e);
+		}
+	}
+	
+	public void removeMob(Mob e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			c.getMobs().remove(e);
+		}
+	}
+	
+	public void removeVehicle(Vehicle e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			c.getVehicles().remove(e);
+		}
+	}
+	
+	public void removeStatic(Static e) {
+		Chunk c = getChunkFromWorldPosition(e.position);
+		if(c != null) {
+			c.getStatics().remove(e);
 		}
 	}
 	
@@ -224,9 +252,6 @@ public class World {
 			Chunk c = chunks.get(position);
 			c.setTile(id, (int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
 		}
-		else {
-			return;
-		}
 	}
 	
 	public boolean getSolid(int x, int y) {
@@ -289,9 +314,6 @@ public class World {
 		if(chunks.containsKey(position)) {
 			Chunk c = chunks.get(position);
 			c.setEntityCollision(value, (int) (((float) x / Chunk.WIDTH - position.x) * Chunk.WIDTH), (int) (((float) y / Chunk.HEIGHT - position.y) * Chunk.HEIGHT));
-		}
-		else {
-			return;
 		}
 	}
 	

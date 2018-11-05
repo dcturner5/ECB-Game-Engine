@@ -5,6 +5,7 @@ import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.InventoryComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
+import com.gammarush.engine.entities.mobs.actors.Actor;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.AttackComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
@@ -66,7 +67,7 @@ public class Mob extends Interactive {
 				addComponent(new PhysicsComponent(this, c.getFloat("acceleration")));
 			}
 			if(name.equals("stats")) {
-				addComponent(new StatsComponent(this, 100));
+				addComponent(new StatsComponent(this, new MobStats(c)));
 			}
 		}
 	}
@@ -156,6 +157,14 @@ public class Mob extends Interactive {
 	
 	public boolean isInteractingWithMob() {
 		return interactingMob != null;
+	}
+	
+	public boolean isActor() {
+		return this instanceof Actor;
+	}
+	
+	public boolean isPlayer() {
+		return getPlayerManager().getMob().equals(this);
 	}
 
 }

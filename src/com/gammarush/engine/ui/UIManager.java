@@ -18,6 +18,7 @@ import com.gammarush.engine.ui.containers.UIDialogue;
 import com.gammarush.engine.ui.fonts.Font;
 import com.gammarush.engine.world.WorldManager;
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.events.EventManager;
 
 public class UIManager {
 	
@@ -90,6 +91,10 @@ public class UIManager {
 	
 	public ArrayList<UIContainer> getContainers() {
 		return containers;
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public InputManager getInputManager() {

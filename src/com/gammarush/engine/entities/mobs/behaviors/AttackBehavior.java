@@ -11,6 +11,7 @@ public class AttackBehavior extends Behavior {
 	public static final int PRIORITY = 3;
 	
 	private Mob target;
+	private AttackSubBehavior attackSubBehavior;
 
 	public AttackBehavior(Mob target) {
 		super(PRIORITY);
@@ -30,12 +31,31 @@ public class AttackBehavior extends Behavior {
 			else queue.remove(b);
 		}
 		else {
-			float distance = getMob().getPosition().sub(target.getPosition()).magnitude();
-			AttackComponent ac = (AttackComponent) getMob().getComponent("attack");
-			if(distance < ac.getRange()) {
-				queue.add(new AttackSubBehavior(this));
+			float dx = getMob().getPosition().x - target.getPosition().x;
+			float dy = getMob().getPosition().y - target.getPosition().y;
+			
+			float distance; int direction;
+			if(Math.abs(dx) > Math.abs(dy)) {
+				distance = Math.abs(dx);
+				direction = dx < 0 ? Mob.DIRECTION_RIGHT : Mob.DIRECTION_LEFT;
 			}
 			else {
+				distance = Math.abs(dy);
+				direction = dy < 0 ? Mob.DIRECTION_DOWN : Mob.DIRECTION_UP;
+			}
+			
+			AttackComponent ac = (AttackComponent) getMob().getComponent("attack");
+			if(ac != null && distance <= ac.getRange()) {
+				getMob().direction = direction;
+				
+				attackSubBehavior = new AttackSubBehavior(this);
+				queue.add(attackSubBehavior);
+			}
+			else {
+				if(attackSubBehavior != null && attackSubBehavior.getComplete()) {
+					//System.out.println("ATTACK HIT: " + attackSubBehavior.getSuccessful());
+					attackSubBehavior = null;
+				}
 				queue.add(new TravelSubBehavior(target.getTilePosition(), this));
 			}
 		}

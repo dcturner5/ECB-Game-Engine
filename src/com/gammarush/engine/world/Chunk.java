@@ -66,7 +66,9 @@ public class Chunk {
 							}
 						}
 					}
-					else statics.add(new Static(GameManager.getStatic(staticName), staticPosition, world));
+					else {
+						statics.add(new Static(GameManager.getStatic(staticName), staticPosition, world));
+					}
 				}
 			}
 		}
@@ -76,7 +78,7 @@ public class Chunk {
 			this.array[i] = GameManager.getTile(getWorld().getTileOrder().get(array.get(i))).getId();
 		}
 		
-		print();
+		//print();
 	}
 	
 	public void update(double delta) {

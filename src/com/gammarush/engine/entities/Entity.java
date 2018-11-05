@@ -2,6 +2,7 @@ package com.gammarush.engine.entities;
 
 import com.gammarush.engine.entities.components.Component;
 import com.gammarush.engine.entities.components.ComponentHashMap;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.graphics.model.Model;
 import com.gammarush.engine.input.InputManager;
@@ -35,6 +36,7 @@ public class Entity {
 	public Physics physics;
 	public Vector2f velocity = new Vector2f();
 	
+	private boolean enabled = true;
 	private boolean solid = false;
 	private AABB collisionBox;
 	
@@ -74,7 +76,7 @@ public class Entity {
 	
 	public void update(double delta) {
 		for(Component c : components.getArray()) {
-			c.update(delta);
+			if(enabled || c.isPermanentlyEnabled()) c.update(delta);
 		}
 		
 		Vector2i cp = getChunkPosition();
@@ -97,6 +99,22 @@ public class Entity {
 	public void prepare() {
 		Renderer.DEFAULT.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotate(rotation).add(new Vector3f(width / 2, height / 2, 0)))
 				.multiply(Matrix4f.scale(new Vector3f(width, height, 0))));
+	}
+	
+	public void enable() {
+		enabled = true;
+	}
+	
+	public void disable() {
+		enabled = false;
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public boolean isDisabled() {
+		return !enabled;
 	}
 	
 	public void addComponent(Component component) {
@@ -160,6 +178,10 @@ public class Entity {
 		return new Vector2i((int) ((position.x + width / 2) / Tile.WIDTH), (int) ((position.y + height / 2) / Tile.HEIGHT));
 	}
 	
+	public Vector2i getCenterTilePositionTest() {
+		return new Vector2i(Math.round((position.x + width / 2) / Tile.WIDTH), Math.round((position.y + height / 2) / Tile.HEIGHT));
+	}
+	
 	public AABB getAABB() {
 		return new AABB(position.x + collisionBox.x, position.y + collisionBox.y, collisionBox.width, collisionBox.height);
 	}
@@ -192,6 +214,10 @@ public class Entity {
 	public void setPosition(Vector2f position) {
 		this.position.x = position.x;
 		this.position.y = position.y;
+	}
+	
+	public EventManager getEventManager() {
+		return getWorld().getWorldManager().getEventManager();
 	}
 	
 	public InputManager getInputManager() {

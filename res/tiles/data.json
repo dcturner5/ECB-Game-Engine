@@ -1,11 +1,14 @@
 {
 	"tiles":[
-		{"name": "carpet", 	"solid": false},
-		{"name": "default", "solid": false},
-		{"name": "grass", 	"solid": false},
-		{"name": "stone", 	"solid": true},
-		{"name": "void", 	"solid": true},
-		{"name": "wall",	"solid": true},
-		{"name": "wood",	"solid": false}
+		{"name": "brick", 		"solid": false},
+		{"name": "carpet", 		"solid": false},
+		{"name": "concrete", 	"solid": false},
+		{"name": "default", 	"solid": false},
+		{"name": "grass", 		"solid": false},
+		{"name": "sand", 		"solid": false},
+		{"name": "stone", 		"solid": true},
+		{"name": "void", 		"solid": true},
+		{"name": "wall",		"solid": true},
+		{"name": "wood",		"solid": false}
 	]
 }

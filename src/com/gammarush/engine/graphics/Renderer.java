@@ -6,6 +6,7 @@ import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.vehicles.Vehicle;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector2f;
@@ -233,6 +234,10 @@ public class Renderer {
 			VEHICLE.setUniform4f("point_color[" + i + "]", new Vector4f(light.color.x, light.color.y, light.color.z, light.intensity));
 		}*/
 		VEHICLE.disable();
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public InputManager getInputManager() {

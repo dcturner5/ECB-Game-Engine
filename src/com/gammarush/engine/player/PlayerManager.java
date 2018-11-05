@@ -2,7 +2,9 @@ package com.gammarush.engine.player;
 
 import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.quests.QuestManager;
@@ -18,7 +20,7 @@ public class PlayerManager {
 	public PlayerManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 		
-		setMob(GameManager.getActor("Martín"));
+		setMob(GameManager.getActor("Player"));
 	}
 	
 	public void update(double delta) {
@@ -39,9 +41,21 @@ public class PlayerManager {
 	}
 
 	public void setMob(Mob mob) {
-		this.mob = mob;
-		this.mob.addComponent(new ControllableComponent(this.mob));
-		this.mob.removeComponent("ai");
+		if(mob != null) {
+			//TODO disable components instead of removing and adding
+			if(this.mob != null) {
+				this.mob.addComponent(new AIComponent(this.mob));
+				this.mob.removeComponent("controllable");
+			}
+			
+			this.mob = mob;
+			this.mob.addComponent(new ControllableComponent(this.mob));
+			this.mob.removeComponent("ai");
+		}
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public InputManager getInputManager() {

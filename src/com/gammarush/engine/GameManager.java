@@ -18,6 +18,7 @@ import com.gammarush.engine.entities.statics.StaticTemplate;
 import com.gammarush.engine.entities.vehicles.VehicleHashMap;
 import com.gammarush.engine.entities.vehicles.VehicleLoader;
 import com.gammarush.engine.entities.vehicles.VehicleTemplate;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.player.PlayerManager;
@@ -39,6 +40,7 @@ public class GameManager {
 	public static StaticHashMap statics;
 	public static TileHashMap tiles;
 	
+	private EventManager eventManager;
 	private InputManager inputManager;
 	private PlayerManager playerManager;
 	private QuestManager questManager;
@@ -67,6 +69,8 @@ public class GameManager {
 		
 		questManager.loadScripts();
 		questManager.getQuest("main").start();
+		
+		eventManager = new EventManager(this);
 	}
 	
 	public void update(double delta) {
@@ -134,6 +138,10 @@ public class GameManager {
 	
 	public static Tile getTile(String name) {
 		return tiles.get(name);
+	}
+	
+	public EventManager getEventManager() {
+		return eventManager;
 	}
 	
 	public InputManager getInputManager() {

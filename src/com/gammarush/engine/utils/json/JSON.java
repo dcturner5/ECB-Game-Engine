@@ -237,4 +237,8 @@ public class JSON extends HashMap<String, Object> {
 		return new Vector4f(v.getFloat("x"), v.getFloat("y"), v.getFloat("z"), v.getFloat("w"));
 	}
 	
+	public boolean exists(String name) {
+		return getJSON(name) != null;
+	}
+	
 }

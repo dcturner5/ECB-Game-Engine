@@ -18,6 +18,7 @@ public class Actor extends Mob {
 	
 	private int id;
 	private String name;
+	private String dialogueLink;
 	
 	public Actor(int id, JSON json, QuestManager questManager) {
 		super(GameManager.getMob(json.getString("type")), new Vector2f());
@@ -39,6 +40,10 @@ public class Actor extends Mob {
 			if(hairColorName != null) this.hairColor = getTemplate().getHairColor(hairColorName);
 		}
 		
+		if(json.getString("dialogue") != null) {
+			dialogueLink = json.getString("dialogue");
+		}
+		
 		ArrayList<JSON> dialogueArray = json.getArray("dialogues");
 		if(dialogueArray != null) {
 			for(int i = 0; i < dialogueArray.size(); i++) {
@@ -52,11 +57,13 @@ public class Actor extends Mob {
 	
 	@Override
 	public void activate(Mob e) {
-		getAIComponent().addBehavior(new InteractWithMobBehavior(e));
-		
-		UIDialogue dialogue = getUIManager().dialogue;
-		dialogue.set(getQuestManager().getDialogue("orlando_001"));
-		dialogue.open();
+		Dialogue dialogue = getQuestManager().getDialogue(dialogueLink);
+		if(dialogue != null) {
+			getAIComponent().addBehavior(new InteractWithMobBehavior(e));
+			UIDialogue dialogueUI = getUIManager().dialogue;
+			dialogueUI.set(dialogue);
+			dialogueUI.open();
+		}
 	}
 	
 	public int getId() {

@@ -1,11 +1,12 @@
 {
 	"actors": [
 		{
-			"name": "Martín",
+			"name": "Player",
 			"type": "human",
 			"clothes": [
-				"hair02",
-				"suit"
+				"hair_02",
+				"suit",
+				"hat_special"
 			],
 			"colors": {
 				"color": "white",
@@ -13,16 +14,17 @@
 			}
 		},
 		{
-			"name": "Dalton",
+			"name": "NPC 1",
 			"type": "human",
 			"clothes": [
-				"hair01",
+				"hair_01",
 				"overalls"
 			],
 			"colors": {
 				"color": "white",
 				"hairColor": "brown"
 			},
+			"dialogue": "dalton_001",
 			"dialogues": [
 				{
 					"name": "dalton_001",
@@ -36,10 +38,10 @@
 			]
 		},
 		{
-			"name": "Orlando",
+			"name": "NPC 2",
 			"type": "human",
 			"clothes": [
-				"hair01",
+				"hair_01",
 				"overalls"
 			],
 			"colors": {

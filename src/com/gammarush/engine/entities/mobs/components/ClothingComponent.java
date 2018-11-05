@@ -49,6 +49,14 @@ public class ClothingComponent extends MobComponent {
 			return array.remove(clothing);
 		}
 		
+		public int getStat(String name) {
+			int total = 0;
+			for(ClothingTemplate c : array) {
+				total += c.getStats().getStat(name);
+			}
+			return total;
+		}
+		
 	}
 	
 	public ClothingComponent(Entity entity) {
@@ -78,6 +86,10 @@ public class ClothingComponent extends MobComponent {
 	@Override
 	public void render() {
 		outfit.render();
+	}
+	
+	public int getStat(String name) {
+		return outfit.getStat(name);
 	}
 
 }

@@ -8,14 +8,14 @@
 			}
 		},
 		{
-			"name": "hair01",
+			"name": "hair_01",
 			"pool": "common",
 			"clothing": {
 				"type": "hair"
 			}
 		},
 		{
-			"name": "hair02",
+			"name": "hair_02",
 			"pool": "rare",
 			"clothing": {
 				"type": "hair"
@@ -40,6 +40,18 @@
 			"pool": "common",
 			"clothing": {
 				"type": "head"
+			}
+		},
+		{
+			"name": "hat_special",
+			"pool": "common",
+			"clothing": {
+				"type": "head",
+				"script": "res/scripts/special",
+				"stats": {
+					"attack": 10,
+					"defense": 10
+				}
 			}
 		}
 	]

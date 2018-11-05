@@ -8,6 +8,7 @@ import com.gammarush.axil.compiler.AxilCompiler;
 import com.gammarush.axil.methods.AxilMethodInterface;
 import com.gammarush.axil.methods.AxilMethodMap;
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
 import com.gammarush.engine.player.PlayerManager;
@@ -65,6 +66,10 @@ public class ScriptManager {
 	
 	public AxilScript getScript(String name) {
 		return scripts.get(name);
+	}
+	
+	public EventManager getEventManager() {
+		return gameManager.getEventManager();
 	}
 	
 	public InputManager getInputManager() {
