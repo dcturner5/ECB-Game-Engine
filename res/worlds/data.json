@@ -10,6 +10,9 @@
 						{"name": "Player", "position": {"x": 5, "y": 11}},
 						{"name": "Mysterious Man", "position": {"x": 8, "y": 11}}
 					],
+					"vehicles": [
+						{"name": "mercury", "position": {"x": 11, "y": 3}}
+					],
 					"array": [
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

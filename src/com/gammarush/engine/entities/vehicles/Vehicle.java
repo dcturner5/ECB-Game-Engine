@@ -7,7 +7,9 @@ import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
+import com.gammarush.engine.math.vector.Vector3f;
 
 public class Vehicle extends Interactive {
 	
@@ -24,7 +26,7 @@ public class Vehicle extends Interactive {
 	public float wheelRotation = 0f;
 	
 	public Vehicle(VehicleTemplate template, Vector2f position, int direction) {
-		super(position, template.getWidth(), template.getHeight(), template.getModel());
+		super(new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER), template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		this.wheelTemplate = GameManager.vehicles.getRandomWheel();
 		this.occupancy = template.getOccupancy();
@@ -34,7 +36,7 @@ public class Vehicle extends Interactive {
 		setSolid(true);
 		addComponent(new PhysicsComponent(this, template.getAcceleration()));
 		addComponent(new AnimationComponent(this, template.getAnimationHashMap()));
-		((AnimationComponent) getComponent("animation")).start("run");
+		((AnimationComponent) getComponent("animation")).start("idle");
 	}
 	
 	@Override
@@ -75,11 +77,11 @@ public class Vehicle extends Interactive {
 		
 		for(int i = 0; i < mobs.size(); i++) {
 			Mob e = mobs.get(i);
-			Vector2f position = mobPositions.get(i + direction * occupancy);
-			if(position != null) {
-				e.position.x = this.position.x + position.x;
-				e.position.y = this.position.y + position.y;
-			}
+			//Vector2f position = mobPositions.get(i + direction * occupancy);
+			//if(position != null) {
+				e.position.x = this.position.x;// + position.x;
+				e.position.y = this.position.y;// + position.y;
+			//}
 		}
 	}
 	

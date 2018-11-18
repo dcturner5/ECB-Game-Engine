@@ -38,7 +38,6 @@ public class Entity {
 	public float rotation = 0.0f;
 	
 	public Physics physics;
-	public Vector2f velocity = new Vector2f();
 	
 	private boolean enabled = true;
 	private boolean solid = false;

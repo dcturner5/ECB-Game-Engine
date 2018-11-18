@@ -143,7 +143,7 @@ public class InputManager {
 		}
 		if(container == null || !container.getSolid()) {
 			AttackComponent ac = (AttackComponent) getPlayerManager().getMob().getComponent("attack");
-			ac.attack();
+			if(ac != null) ac.attack();
 		}
 		Vector2f mousePos = getMouseWorldPosition();
 		prevMouseWorldPosition = mousePos;

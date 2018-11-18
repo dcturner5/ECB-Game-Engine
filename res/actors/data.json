@@ -19,7 +19,8 @@
 			"type": "human",
 			"clothes": [
 				"hair_01",
-				"overalls"
+				"overalls",
+				"knife"
 			],
 			"colors": {
 				"color": "white",

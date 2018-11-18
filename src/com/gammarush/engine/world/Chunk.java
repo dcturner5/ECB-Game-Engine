@@ -52,6 +52,17 @@ public class Chunk {
 			}
 		}
 		
+		ArrayList<JSON> vehiclesJson = json.getArray("vehicles");
+		if(vehiclesJson != null) {
+			for(JSON vehicleJson : vehiclesJson) {
+				Vector2f vehiclePosition = vehicleJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+				Vehicle vehicle = new Vehicle(GameManager.getVehicle(vehicleJson.getString("name")), vehiclePosition, 1);
+				vehicle.setWorld(world);
+				vehicle.setLastChunkPosition(vehicle.getChunkPosition());
+				vehicles.add(vehicle);
+			}
+		}
+		
 		ArrayList<JSON> staticsJson = json.getArray("statics");
 		if(staticsJson != null) {
 			for(JSON staticJson : staticsJson) {
