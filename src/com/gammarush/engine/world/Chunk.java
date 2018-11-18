@@ -1,6 +1,7 @@
 package com.gammarush.engine.world;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Entity;
@@ -103,6 +104,15 @@ public class Chunk {
 		world.getStaticBatchManager().process(statics);
 		world.getVehicleBatchManager().process(vehicles);
 		world.getMobBatchManager().process(mobs);
+	}
+	
+	public Entity getEntity(UUID uuid) {
+		for(Entity e : entities) {
+			if(e.getUUID().equals(uuid)) {
+				return e;
+			}
+		}
+		return null;
 	}
 	
 	public ArrayList<Entity> getEntities() {

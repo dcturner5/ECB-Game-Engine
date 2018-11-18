@@ -8,7 +8,7 @@
 					"position": {"x": 0, "y": 0},
 					"actors": [
 						{"name": "Player", "position": {"x": 5, "y": 11}},
-						{"name": "NPC 1", "position": {"x": 8, "y": 11}}
+						{"name": "Mysterious Man", "position": {"x": 8, "y": 11}}
 					],
 					"array": [
 						0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

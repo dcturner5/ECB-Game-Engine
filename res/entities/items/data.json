@@ -53,6 +53,17 @@
 					"defense": 10
 				}
 			}
+		},
+		{
+			"name": "knife",
+			"pool": "common",
+			"clothing": {
+				"type": "weapon",
+				"script": "res/scripts/special",
+				"stats": {
+					"attack": 20
+				}
+			}
 		}
 	]
 }

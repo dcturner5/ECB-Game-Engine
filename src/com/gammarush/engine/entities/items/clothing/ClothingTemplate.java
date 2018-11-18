@@ -39,6 +39,9 @@ public class ClothingTemplate extends ItemTemplate {
 		else if(type.equals("body")) {
 			layer = 3;
 		}
+		else if(type.equals("weapon")) {
+			layer = 4;
+		}
 		
 		if(json.exists("clothing.stats")) {
 			stats = new ClothingStats(json);

@@ -2,6 +2,7 @@ package com.gammarush.engine.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.entities.Interactive;
@@ -101,6 +102,7 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getItems().add(e);
+			c.getEntities().add(e);
 		}
 	}
 	
@@ -109,6 +111,8 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getMobs().add(e);
+			c.getInteractives().add(e);
+			c.getEntities().add(e);
 		}
 	}
 	
@@ -117,6 +121,8 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getVehicles().add(e);
+			c.getInteractives().add(e);
+			c.getEntities().add(e);
 		}
 	}
 	
@@ -125,13 +131,24 @@ public class World {
 		if(c != null) {
 			e.setWorld(this);
 			c.getStatics().add(e);
+			c.getEntities().add(e);
 		}
+	}
+	
+	public Entity getEntity(UUID uuid) {
+		for(Entity e : getEntities()) {
+			if(e.getUUID().equals(uuid)) {
+				return e;
+			}
+		}
+		return null;
 	}
 	
 	public void removeItem(Item e) {
 		Chunk c = getChunkFromWorldPosition(e.position);
 		if(c != null) {
 			c.getItems().remove(e);
+			c.getEntities().remove(e);
 		}
 	}
 	
@@ -139,6 +156,7 @@ public class World {
 		Chunk c = getChunkFromWorldPosition(e.position);
 		if(c != null) {
 			c.getMobs().remove(e);
+			c.getEntities().remove(e);
 		}
 	}
 	
@@ -146,6 +164,7 @@ public class World {
 		Chunk c = getChunkFromWorldPosition(e.position);
 		if(c != null) {
 			c.getVehicles().remove(e);
+			c.getEntities().remove(e);
 		}
 	}
 	
@@ -153,6 +172,7 @@ public class World {
 		Chunk c = getChunkFromWorldPosition(e.position);
 		if(c != null) {
 			c.getStatics().remove(e);
+			c.getEntities().remove(e);
 		}
 	}
 	

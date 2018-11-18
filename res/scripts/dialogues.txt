@@ -1,0 +1,14 @@
+print("");
+
+function event_dialogue(dialogue_id, response_id) {
+	if(dialogue_id == "dismissal_hostile") {
+		x = getX();
+		y = getY();
+		
+		hm = spawn("human", getX() + 16, getY() + 16);
+		attack(hm, getPlayer());
+		
+		removeClothing(getPlayer(), "suit");
+		removeClothing(getPlayer(), "hat_special");
+	}
+}

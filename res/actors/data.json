@@ -5,8 +5,9 @@
 			"type": "human",
 			"clothes": [
 				"hair_02",
-				"suit",
-				"hat_special"
+				"knife",
+				"hat",
+				"suit"
 			],
 			"colors": {
 				"color": "white",
@@ -14,7 +15,7 @@
 			}
 		},
 		{
-			"name": "NPC 1",
+			"name": "Mysterious Man",
 			"type": "human",
 			"clothes": [
 				"hair_01",
@@ -24,15 +25,23 @@
 				"color": "white",
 				"hairColor": "brown"
 			},
-			"dialogue": "dalton_001",
+			"dialogue": "mm_001",
 			"dialogues": [
 				{
-					"name": "dalton_001",
-					"text": "Oh... Hi Martín. Whats up?",
+					"name": "mm_001",
+					"text": "You... I know you from somewhere...",
 					"options": [
-						{"name": "1", "text": "Would you like some gelato?", "link": "main_001"},
-						{"name": "2", "text": "Heard about my grandfather?", "link": "dismissal"},
-						{"name": "3", "text": "Whats your opinion on Israel?", "link": "dismissal"}
+						{"name": "1", "text": "What?", "link": "mm_002"},
+						{"name": "2", "text": "From where?", "link": "main_001"},
+						{"name": "3", "text": "Fuck off", "link": "dismissal"}
+					]
+				},
+				{
+					"name": "mm_002",
+					"text": "Are you deaf you little bitch?",
+					"options": [
+						{"name": "1", "text": "Yes", "link": "dismissal_hostile"},
+						{"name": "2", "text": "No... How do you know me?", "link": "main_001"}
 					]
 				}
 			]

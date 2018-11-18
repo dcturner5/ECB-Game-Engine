@@ -1,5 +1,7 @@
 package com.gammarush.engine.entities;
 
+import java.util.UUID;
+
 import com.gammarush.engine.entities.components.Component;
 import com.gammarush.engine.entities.components.ComponentHashMap;
 import com.gammarush.engine.events.EventManager;
@@ -22,6 +24,8 @@ import com.gammarush.engine.world.World;
 import com.gammarush.engine.world.WorldManager;
 
 public class Entity {
+	
+	private UUID uuid;
 	
 	private World world;
 	private Vector2i chunkPosition;
@@ -51,6 +55,7 @@ public class Entity {
 	public static final int DIRECTION_RIGHT = 3;
 	
 	public Entity(Vector3f position, int width, int height, Model model) {
+		this.uuid = UUID.randomUUID();
 		this.position = position;
 		this.width = width;
 		this.height = height;
@@ -63,6 +68,7 @@ public class Entity {
 	}
 	
 	public Entity(Vector2f position, int width, int height, Model model) {
+		this.uuid = UUID.randomUUID();
 		this.position = new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER);
 		this.width = width;
 		this.height = height;
@@ -140,6 +146,10 @@ public class Entity {
 		AABB screen = new AABB(-renderer.getCamera().position.x, -renderer.getCamera().position.y, renderer.getWidth() / renderer.getCamera().getZoom(), renderer.getHeight() / renderer.getCamera().getZoom());
 		AABB entity = new AABB(position.x, position.y, width, height);
 		return Physics.getCollision(screen, entity);
+	}
+	
+	public UUID getUUID() {
+		return uuid;
 	}
 	
 	public World getWorld() {

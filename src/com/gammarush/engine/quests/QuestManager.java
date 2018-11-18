@@ -1,8 +1,14 @@
 package com.gammarush.engine.quests;
 
+import java.util.UUID;
+
 import com.gammarush.axil.memory.AxilMemory;
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.engine.entities.mobs.actors.Actor;
+import com.gammarush.engine.entities.mobs.behaviors.AttackBehavior;
+import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
@@ -12,6 +18,7 @@ import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.UIManager;
+import com.gammarush.engine.utils.json.JSONLoader;
 import com.gammarush.engine.world.WorldManager;
 
 public class QuestManager {
@@ -38,15 +45,36 @@ public class QuestManager {
 	}
 	
 	public void loadScripts() {
-		getScriptManager().addMethod("console_print", 2, (int[] args, AxilMemory memory) -> {
+		getScriptManager().addMethod("console", 2, (int[] args, AxilMemory memory) -> {
 			String value = memory.getString(args[0]);
 			getUIManager().console.print(value);
 			return -1;
 		});
 		
-		getScriptManager().addMethod("setPlayer", 2, (int[] args, AxilMemory memory) -> {
+		getScriptManager().addMethod("getActor", 2, (int[] args, AxilMemory memory) -> {
+			int address = args[1];
 			String name = memory.getString(args[0]);
-			getPlayerManager().setMob(GameManager.getActor(name));
+			Actor actor = GameManager.getActor(name);
+			memory.setString(address, actor.getUUID().toString());
+			return -1;
+		});
+		
+		getScriptManager().addMethod("getPlayer", 1, (int[] args, AxilMemory memory) -> {
+			int address = args[0];
+			Mob mob = getPlayerManager().getMob();
+			memory.setString(address, mob.getUUID().toString());
+			return -1;
+		});
+		
+		getScriptManager().addMethod("setPlayer", 2, (int[] args, AxilMemory memory) -> {
+			int address = args[1];
+			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			if(mob == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			getPlayerManager().setMob(mob);
+			memory.setBoolean(address, true);
 			return -1;
 		});
 		
@@ -73,6 +101,31 @@ public class QuestManager {
 			Mob e = new Mob(GameManager.getMob(type), new Vector2f(x, y));
 			e.setWorld(getWorldManager().getWorld());
 			getWorldManager().getWorld().addMob(e);
+			
+			int address = args[3];
+			memory.setString(address, e.getUUID().toString());
+			return -1;
+		});
+		
+		getScriptManager().addMethod("attack", 3, (int[] args, AxilMemory memory) -> {
+			int address = args[2];
+			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			if(mob == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			AIComponent ac = (AIComponent) mob.getComponent("ai");
+			if(ac == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			Mob target = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[1])));
+			if(target == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			ac.addBehavior(new AttackBehavior(target));
+			memory.setBoolean(address, true);
 			return -1;
 		});
 		
@@ -98,20 +151,53 @@ public class QuestManager {
 		});
 		
 		getScriptManager().addMethod("addClothing", 3, (int[] args, AxilMemory memory) -> {
-			String actorName = memory.getString(args[0]);
-			String itemName = memory.getString(args[1]);
-			ClothingComponent cc = (ClothingComponent) GameManager.actors.get(actorName).getComponent("clothing");
-			cc.outfit.add(GameManager.clothings.get(itemName));
+			int address = args[2];
+			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			if(mob == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			ClothingComponent cc = (ClothingComponent) mob.getComponent("clothing");
+			if(cc == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			ClothingTemplate ct = GameManager.clothings.get(memory.getString(args[1]));
+			if(ct == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			cc.outfit.add(ct);
+			memory.setBoolean(address, true);
 			return -1;
 		});
 		
 		getScriptManager().addMethod("removeClothing", 3, (int[] args, AxilMemory memory) -> {
-			String actorName = memory.getString(args[0]);
-			String itemName = memory.getString(args[1]);
-			ClothingComponent cc = (ClothingComponent) GameManager.actors.get(actorName).getComponent("clothing");
-			cc.outfit.remove(GameManager.clothings.get(itemName));
+			int address = args[2];
+			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			if(mob == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			ClothingComponent cc = (ClothingComponent) mob.getComponent("clothing");
+			if(cc == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			ClothingTemplate ct = GameManager.clothings.get(memory.getString(args[1]));
+			if(ct == null) {
+				memory.setBoolean(address, false);
+				return -1;
+			}
+			cc.outfit.remove(ct);
+			memory.setBoolean(address, true);
 			return -1;
 		});
+		
+		for(String path : JSONLoader.load("res/scripts/data.json").getStringArray("scripts")) {
+			getScriptManager().getQueue().add(path);
+		}
+		getScriptManager().compile();
 		
 		quests = QuestLoader.load("res/quests/data.json", this);
 		for(Quest q : quests.getArray()) {

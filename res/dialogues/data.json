@@ -6,6 +6,13 @@
 			"options": [
 				{"name": "1", "text": "[Leave]", "type": "exit"}
 			]
+		},
+		{
+			"name": "dismissal_hostile",
+			"text": "You'll pay for this!",
+			"options": [
+				{"name": "1", "text": "[Leave]", "type": "exit"}
+			]
 		}
 	]
 }
