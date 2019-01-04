@@ -47,7 +47,6 @@
 			"pool": "common",
 			"clothing": {
 				"type": "head",
-				"script": "res/scripts/special",
 				"stats": {
 					"attack": 10,
 					"defense": 10
@@ -59,7 +58,10 @@
 			"pool": "common",
 			"clothing": {
 				"type": "weapon",
-				"script": "res/scripts/special",
+				"scripts": {
+					"attack": "res/scripts/knife_attack",
+					"defense": "res/scripts/knife_defense"
+				},
 				"stats": {
 					"attack": 20
 				}

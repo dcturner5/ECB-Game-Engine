@@ -69,10 +69,14 @@ public class Vehicle extends Interactive {
 		}
 		
 		float speed = pc.velocity.magnitude();
+		AnimationComponent ac = (AnimationComponent) getComponent("animation");
 		if(speed != 0) {
-			AnimationComponent ac = (AnimationComponent) getComponent("animation");
+			ac.start("run");
 			ac.getAnimation().setMaxFrame((int) ((1f / speed) * 4));
 			wheelRotation += pc.velocity.x;
+		}
+		else {
+			ac.start("idle");
 		}
 		
 		for(int i = 0; i < mobs.size(); i++) {

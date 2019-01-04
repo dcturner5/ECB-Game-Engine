@@ -36,6 +36,13 @@ public class ClothingComponent extends MobComponent {
 			}
 		}
 		
+		public void activate(String name) {
+			System.out.println(name);
+			for(ClothingTemplate c : array) {
+				c.getScripts().activate(name);
+			}
+		}
+		
 		public boolean add(ClothingTemplate clothing) {
 			for(ClothingTemplate c : array) {
 				if(c.getType().equals(clothing.getType())) {
@@ -90,6 +97,10 @@ public class ClothingComponent extends MobComponent {
 	
 	public int getStat(String name) {
 		return outfit.getStat(name);
+	}
+	
+	public void activate(String name) {
+		outfit.activate(name);
 	}
 
 }

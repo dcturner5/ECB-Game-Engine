@@ -2,6 +2,7 @@ package com.gammarush.engine.entities.items.clothing;
 
 import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
+import com.gammarush.axil.AxilScript;
 import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.graphics.Renderer;
@@ -10,6 +11,7 @@ import com.gammarush.engine.graphics.model.Texture;
 import com.gammarush.engine.graphics.model.TextureArray;
 import com.gammarush.engine.math.matrix.Matrix4f;
 import com.gammarush.engine.math.vector.Vector3f;
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.utils.json.JSON;
 
 public class ClothingTemplate extends ItemTemplate {
@@ -19,11 +21,12 @@ public class ClothingTemplate extends ItemTemplate {
 	
 	private String type;
 	private int layer;
+	private ClothingScripts scripts = new ClothingScripts();
 	private ClothingStats stats = new ClothingStats();
 	
 	public Model model;
 	
-	public ClothingTemplate(int id, JSON json) {
+	public ClothingTemplate(int id, JSON json, ScriptManager scriptManager) {
 		super(id, json);
 		
 		type = json.getString("clothing.type");
@@ -45,6 +48,10 @@ public class ClothingTemplate extends ItemTemplate {
 		
 		if(json.exists("clothing.stats")) {
 			stats = new ClothingStats(json);
+		}
+		
+		if(json.exists("clothing.scripts")) {
+			scripts = new ClothingScripts(json, scriptManager);
 		}
 		
 		Texture texture = new TextureArray("res/entities/items/clothings/" + json.getString("name") + ".png", 64);
@@ -76,6 +83,10 @@ public class ClothingTemplate extends ItemTemplate {
 	
 	public String getType() {
 		return type;
+	}
+	
+	public ClothingScripts getScripts() {
+		return scripts;
 	}
 	
 	public ClothingStats getStats() {

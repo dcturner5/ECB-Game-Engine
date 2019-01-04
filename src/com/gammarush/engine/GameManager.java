@@ -50,23 +50,26 @@ public class GameManager {
 	private WorldManager worldManager;
 	
 	public GameManager(Game game) {
+		scriptManager = new ScriptManager(this);
+		
 		tiles = TileLoader.load("res/tiles/data.json");
 		statics = StaticLoader.load("res/entities/statics/data.json");
 		mobs = MobLoader.load("res/entities/mobs/data.json");
 		items = ItemLoader.load("res/entities/items/data.json");
-		clothings = ClothingLoader.load("res/entities/items/data.json");
+		clothings = ClothingLoader.load("res/entities/items/data.json", scriptManager);
 		vehicles = VehicleLoader.load("res/entities/vehicles/data.json");
 		
 		questManager = new QuestManager(this);
+		
 		actors = ActorLoader.load("res/actors/data.json", questManager);
 		
 		worldManager = new WorldManager(this);
-		scriptManager = new ScriptManager(this);
 		renderer = new Renderer(game.width, game.height, game.scale, this);
 		uiManager = new UIManager(this);
 		inputManager = new InputManager(game.window, this);
 		playerManager = new PlayerManager(this);
 		
+		questManager.loadMethods();
 		questManager.loadScripts();
 		questManager.getQuest("main").start();
 		

@@ -64,6 +64,8 @@ public class AttackComponent extends MobComponent {
 			if(Physics.getCollision(cb, mobBox)) mob = e1;
 		}
 		
+		activateClothing("attack", e);
+		
 		((AnimationComponent) e.getComponent("animation")).start("attack");
 		if(mob != null) {
 			PhysicsComponent pc = (PhysicsComponent) mob.getComponent("physics");
@@ -73,14 +75,22 @@ public class AttackComponent extends MobComponent {
 				sc.alterHealth(-damage, e);
 				pc.velocity = offset.mult(damage);
 				cooldownIndex = cooldown;
+				
+				activateClothing("defense", mob);
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
 	public int getRange() {
 		return range;
+	}
+	
+	public void activateClothing(String name, Mob e) {
+		ClothingComponent cc = (ClothingComponent) e.getComponent("clothing");
+		if(cc != null) cc.activate(name);
 	}
 	
 	public int getClothingStat(String name, Mob e) {

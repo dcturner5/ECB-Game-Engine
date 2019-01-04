@@ -1,2 +1,2 @@
 print("Special Script Activated");
-
+spawn("human", getX(), getY());

@@ -2,12 +2,13 @@ package com.gammarush.engine.entities.items.clothing;
 
 import java.util.ArrayList;
 
+import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.utils.json.JSON;
 import com.gammarush.engine.utils.json.JSONLoader;
 
 public class ClothingLoader {
 	
-	public static ClothingHashMap load(String path) {
+	public static ClothingHashMap load(String path, ScriptManager scriptManager) {
 		ClothingHashMap result = new ClothingHashMap();
 		JSON json = JSONLoader.load(path);
 		
@@ -16,7 +17,7 @@ public class ClothingLoader {
 		for(int i = 0; i < array.size(); i++) {
 			JSON element = array.get(i);
 			if(element.getJSON("clothing") != null) {
-				result.put(new ClothingTemplate(i, element));
+				result.put(new ClothingTemplate(i, element, scriptManager));
 			}
 		}
 		

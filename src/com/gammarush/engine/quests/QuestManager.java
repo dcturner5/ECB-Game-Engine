@@ -44,7 +44,7 @@ public class QuestManager {
 		return dialogues.get(name);
 	}
 	
-	public void loadScripts() {
+	public void loadMethods() {
 		getScriptManager().addMethod("console", 2, (int[] args, AxilMemory memory) -> {
 			String value = memory.getString(args[0]);
 			getUIManager().console.print(value);
@@ -193,7 +193,9 @@ public class QuestManager {
 			memory.setBoolean(address, true);
 			return -1;
 		});
-		
+	}
+	
+	public void loadScripts() {
 		for(String path : JSONLoader.load("res/scripts/data.json").getStringArray("scripts")) {
 			getScriptManager().getQueue().add(path);
 		}
