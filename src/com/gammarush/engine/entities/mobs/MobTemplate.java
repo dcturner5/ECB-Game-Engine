@@ -43,15 +43,19 @@ public class MobTemplate extends EntityTemplate {
 		components = json.getArray("components");
 		
 		colors = new ArrayList<Color>();
-		ArrayList<JSON> colorsJSON = json.getArray("colors");
-		for(JSON color : colorsJSON) {
-			colors.add(new Color(color));
+		if(json.exists("colors")) {
+			ArrayList<JSON> colorsJSON = json.getArray("colors");
+			for(JSON color : colorsJSON) {
+				colors.add(new Color(color));
+			}
 		}
 		
 		hairColors = new ArrayList<Color>();
-		ArrayList<JSON> hairColorsJSON = json.getArray("hairColors");
-		for(JSON hairColor : hairColorsJSON) {
-			hairColors.add(new Color(hairColor));
+		if(json.exists("hairColors")) {
+			ArrayList<JSON> hairColorsJSON = json.getArray("hairColors");
+			for(JSON hairColor : hairColorsJSON) {
+				hairColors.add(new Color(hairColor));
+			}
 		}
 		
 	}

@@ -10,6 +10,7 @@ import com.gammarush.engine.entities.mobs.actors.Actor;
 import com.gammarush.engine.entities.mobs.behaviors.AttackBehavior;
 import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
+import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
@@ -103,6 +104,23 @@ public class QuestManager {
 			getWorldManager().getWorld().addMob(e);
 			
 			int address = args[3];
+			memory.setString(address, e.getUUID().toString());
+			return -1;
+		});
+		
+		getScriptManager().addMethod("shoot", 6, (int[] args, AxilMemory memory) -> {
+			String type = memory.getString(args[0]);
+			int x = memory.getInt(args[1]);
+			int y = memory.getInt(args[2]);
+			float vx = memory.getFloat(args[3]);
+			float vy = memory.getFloat(args[4]);
+			Mob e = new Mob(GameManager.getMob(type), new Vector2f(x, y));
+			((PhysicsComponent) e.getComponent("physics")).velocity = new Vector2f(vx, vy);
+			
+			e.setWorld(getWorldManager().getWorld());
+			getWorldManager().getWorld().addMob(e);
+			
+			int address = args[5];
 			memory.setString(address, e.getUUID().toString());
 			return -1;
 		});

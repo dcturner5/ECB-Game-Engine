@@ -3,6 +3,7 @@ package com.gammarush.engine.entities.mobs;
 import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
+import com.gammarush.engine.entities.components.FrictionComponent;
 import com.gammarush.engine.entities.components.InventoryComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.actors.Actor;
@@ -10,6 +11,7 @@ import com.gammarush.engine.entities.mobs.components.AIComponent;
 import com.gammarush.engine.entities.mobs.components.AttackComponent;
 import com.gammarush.engine.entities.mobs.components.ClothingComponent;
 import com.gammarush.engine.entities.mobs.components.ControllableComponent;
+import com.gammarush.engine.entities.mobs.components.ProjectileComponent;
 import com.gammarush.engine.entities.mobs.components.StatsComponent;
 import com.gammarush.engine.entities.vehicles.Vehicle;
 import com.gammarush.engine.graphics.Renderer;
@@ -29,8 +31,8 @@ public class Mob extends Interactive {
 	public int direction = 2;
 	private Vehicle vehicle = null;
 	
-	public Color color;
-	public Color hairColor;
+	public Color color = new Color();
+	public Color hairColor = new Color();
 	
 	private Mob interactingMob;
 
@@ -40,8 +42,12 @@ public class Mob extends Interactive {
 		setSolid(false);
 		setCollisionBox(template.getCollisionBox());
 		
-		color = template.colors.get((int) (Math.random() * template.colors.size()));
-		hairColor = template.hairColors.get((int) (Math.random() * template.hairColors.size()));
+		if(template.colors.size() > 0) {
+			color = template.colors.get((int) (Math.random() * template.colors.size()));
+		}
+		if(template.hairColors.size() > 0) {
+			hairColor = template.hairColors.get((int) (Math.random() * template.hairColors.size()));
+		}
 		
 		for(JSON c : template.getComponents()) {
 			String name = c.getString("name");
@@ -60,11 +66,17 @@ public class Mob extends Interactive {
 			if(name.equals("controllable")) {
 				addComponent(new ControllableComponent(this));
 			}
+			if(name.equals("friction")) {
+				addComponent(new FrictionComponent(this));
+			}
 			if(name.equals("inventory")) {
 				addComponent(new InventoryComponent(this, c.getInteger("size")));
 			}
 			if(name.equals("physics")) {
 				addComponent(new PhysicsComponent(this, c.getFloat("acceleration")));
+			}
+			if(name.equals("projectile")) {
+				addComponent(new ProjectileComponent(this));
 			}
 			if(name.equals("stats")) {
 				addComponent(new StatsComponent(this, new MobStats(c)));
@@ -80,8 +92,8 @@ public class Mob extends Interactive {
 				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT;
 		
 		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
-		if(moving) ac.start("run");
-		else ac.stop("run");
+		//if(moving) ac.start("run");
+		//else ac.stop("run");
 
 		if(!ac.isRunning()) ac.start("idle");
 	}

@@ -24,7 +24,12 @@ public class MobBatchManager {
 		}
 		
 		AnimationComponent ac = (AnimationComponent) e.getComponent("animation");
-		batch.add(e.position, ac.getAnimation(), e.color);
+		if(ac != null) {
+			batch.add(e.position, ac.getAnimation(), e.color);
+		}
+		else {
+			batch.add(e.position, null, e.color);
+		}
 	}
 	
 	public void process(ArrayList<Mob> mobs) {

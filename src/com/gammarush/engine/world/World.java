@@ -48,6 +48,11 @@ public class World {
 	private TileBatchManager tileBatchManager = new TileBatchManager();
 	private VehicleBatchManager vehicleBatchManager = new VehicleBatchManager();
 	
+	private ArrayList<Item> itemQueue = new ArrayList<Item>();
+	private ArrayList<Mob> mobQueue = new ArrayList<Mob>();
+	private ArrayList<Static> staticQueue = new ArrayList<Static>();
+	private ArrayList<Vehicle> vehicleQueue = new ArrayList<Vehicle>();
+	
 	public World(int id, JSON json, WorldManager worldManager) {
 		this.id = id;
 		this.worldManager = worldManager;
@@ -66,6 +71,8 @@ public class World {
 	}
 	
 	public void update(double delta) {
+		addEntitiesFromQueue();
+		
 		for(Chunk c : loadedChunks) {
 			c.update(delta);
 		}
@@ -93,46 +100,68 @@ public class World {
 		
 		Renderer.MOB.enable();
 		getMobBatchManager().render();
-		clothingBatchManager.render();
+		getClothingBatchManager().render();
 		Renderer.MOB.disable();
 	}
 	
 	public void addItem(Item e) {
-		Chunk c = getChunkFromWorldPosition(e.position);
-		if(c != null) {
-			e.setWorld(this);
-			c.getItems().add(e);
-			c.getEntities().add(e);
-		}
+		itemQueue.add(e);
 	}
 	
 	public void addMob(Mob e) {
-		Chunk c = getChunkFromWorldPosition(e.position);
-		if(c != null) {
-			e.setWorld(this);
-			c.getMobs().add(e);
-			c.getInteractives().add(e);
-			c.getEntities().add(e);
-		}
-	}
-	
-	public void addVehicle(Vehicle e) {
-		Chunk c = getChunkFromWorldPosition(e.position);
-		if(c != null) {
-			e.setWorld(this);
-			c.getVehicles().add(e);
-			c.getInteractives().add(e);
-			c.getEntities().add(e);
-		}
+		mobQueue.add(e);
 	}
 	
 	public void addStatic(Static e) {
-		Chunk c = getChunkFromWorldPosition(e.position);
-		if(c != null) {
-			e.setWorld(this);
-			c.getStatics().add(e);
-			c.getEntities().add(e);
+		staticQueue.add(e);
+	}
+	
+	public void addVehicle(Vehicle e) {
+		vehicleQueue.add(e);
+	}
+	
+	private void addEntitiesFromQueue() {
+		for(Item e : itemQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				e.setWorld(this);
+				c.getItems().add(e);
+				c.getEntities().add(e);
+			}
 		}
+		for(Mob e : mobQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				e.setWorld(this);
+				c.getMobs().add(e);
+				c.getInteractives().add(e);
+				c.getEntities().add(e);
+			}
+		}
+		
+		for(Vehicle e : vehicleQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				e.setWorld(this);
+				c.getVehicles().add(e);
+				c.getInteractives().add(e);
+				c.getEntities().add(e);
+			}
+		}
+		
+		for(Static e : staticQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				e.setWorld(this);
+				c.getStatics().add(e);
+				c.getEntities().add(e);
+			}
+		}
+		
+		itemQueue.clear();
+		mobQueue.clear();
+		staticQueue.clear();
+		vehicleQueue.clear();
 	}
 	
 	public Entity getEntity(UUID uuid) {

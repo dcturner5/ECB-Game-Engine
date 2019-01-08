@@ -2,7 +2,6 @@ package com.gammarush.engine.entities.items.clothing;
 
 import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.mobs.Mob;
-import com.gammarush.axil.AxilScript;
 import com.gammarush.engine.entities.Color;
 import com.gammarush.engine.entities.animations.Animation;
 import com.gammarush.engine.graphics.Renderer;

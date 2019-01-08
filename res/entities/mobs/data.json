@@ -7,6 +7,7 @@
 			"collision": {"x": 3, "y": 10, "width": 10, "height": 6},
 			"components": [
 				{"name": "physics", "acceleration": 1},
+				{"name": "friction"},
 				{"name": "ai"},
 				{"name": "stats", "health": 100, "attack": {"damage": 10, "range": 32, "cooldown": 16}, "defense": 0, "hostility": 0.5},
 				{"name": "clothing"},
@@ -103,6 +104,16 @@
 					"primary": {"r": 0.83, "g": 0.46, "b": 0.22},
 					"secondary": {"r": 0.79, "g": 0.44, "b": 0.21}
 				}
+			]
+		},
+		{
+			"name": "bullet",
+			"width": 4,
+			"height": 4,
+			"components": [
+				{"name": "physics", "acceleration": 0},
+				{"name": "projectile"},
+				{"name": "animation", "animations": [{"name": "idle", "priority": 0, "loop": true, "maxFrame": 1, "indices": [[0],[0],[0],[0]]}]}
 			]
 		},
 		{

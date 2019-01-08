@@ -15,12 +15,11 @@ public class PhysicsComponent extends Component {
 	
 	public static final String NAME = "physics";
 	public static final String[] DEPENDENCIES = new String[]{};
-	public static final int PRIORITY = 3;
+	public static final int PRIORITY = 4;
 	
 	public Vector2f velocity;
 	public float acceleration;
-	public float deceleration;
-
+	
 	public PhysicsComponent(Entity entity) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
 		this.velocity = new Vector2f();
@@ -36,20 +35,6 @@ public class PhysicsComponent extends Component {
 	@Override
 	public void update(double delta) {
 		Entity e = getEntity();
-		
-		float deceleration = 2;
-		if(velocity.x < 0) {
-			velocity.x = Math.min(velocity.x + deceleration, 0);
-		}
-		if(velocity.x > 0) {
-			velocity.x = Math.max(velocity.x - deceleration, 0);
-		}
-		if(velocity.y < 0) {
-			velocity.y = Math.min(velocity.y + deceleration, 0);
-		}
-		if(velocity.y > 0) {
-			velocity.y = Math.max(velocity.y - deceleration, 0);
-		}
 		
 		Vector2f position = new Vector2f(e.position).add(velocity);
 		Vector2f translation = collision(position);

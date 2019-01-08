@@ -1,2 +1,1 @@
-print("Special Script Activated");
-spawn("human", getX(), getY());
+shoot("bullet", getX(), getY(), .5, .5);

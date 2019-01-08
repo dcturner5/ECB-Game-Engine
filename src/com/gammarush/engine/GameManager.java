@@ -6,6 +6,7 @@ import com.gammarush.engine.entities.items.ItemTemplate;
 import com.gammarush.engine.entities.items.clothing.ClothingHashMap;
 import com.gammarush.engine.entities.items.clothing.ClothingLoader;
 import com.gammarush.engine.entities.items.clothing.ClothingTemplate;
+import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.entities.mobs.MobHashMap;
 import com.gammarush.engine.entities.mobs.MobLoader;
 import com.gammarush.engine.entities.mobs.MobTemplate;
@@ -21,6 +22,7 @@ import com.gammarush.engine.entities.vehicles.VehicleTemplate;
 import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
@@ -74,6 +76,8 @@ public class GameManager {
 		questManager.getQuest("main").start();
 		
 		eventManager = new EventManager(this);
+		
+		new Mob(getMob("bullet"), new Vector2f());
 	}
 	
 	public void update(double delta) {

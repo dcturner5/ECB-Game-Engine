@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.gammarush.engine.GameManager;
 import com.gammarush.engine.entities.Interactive;
 import com.gammarush.engine.entities.components.AnimationComponent;
+import com.gammarush.engine.entities.components.FrictionComponent;
 import com.gammarush.engine.entities.components.PhysicsComponent;
 import com.gammarush.engine.entities.mobs.Mob;
 import com.gammarush.engine.graphics.Renderer;
@@ -35,6 +36,7 @@ public class Vehicle extends Interactive {
 		
 		setSolid(true);
 		addComponent(new PhysicsComponent(this, template.getAcceleration()));
+		addComponent(new FrictionComponent(this));
 		addComponent(new AnimationComponent(this, template.getAnimationHashMap()));
 		((AnimationComponent) getComponent("animation")).start("idle");
 	}

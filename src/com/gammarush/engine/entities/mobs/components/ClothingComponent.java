@@ -37,7 +37,6 @@ public class ClothingComponent extends MobComponent {
 		}
 		
 		public void activate(String name) {
-			System.out.println(name);
 			for(ClothingTemplate c : array) {
 				c.getScripts().activate(name);
 			}
