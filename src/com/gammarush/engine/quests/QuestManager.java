@@ -154,6 +154,20 @@ public class QuestManager {
 			return -1;
 		});
 		
+		getScriptManager().addMethod("getAttribute", 3, (int[] args, AxilMemory memory) -> {
+			int address = args[2];
+			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			if(mob == null) {
+				memory.setInt(address, 0);
+				return -1;
+			}
+			String attribute = memory.getString(args[1]);
+			if(attribute.equals("direction")) {
+				memory.setInt(address, mob.direction);
+			}
+			return -1;
+		});
+		
 		getScriptManager().addMethod("getX", 1, (int[] args, AxilMemory memory) -> {
 			int address = args[0];
 			int value = (int) Math.floor(getPlayerManager().getMob().position.x / Tile.WIDTH) * Tile.WIDTH;

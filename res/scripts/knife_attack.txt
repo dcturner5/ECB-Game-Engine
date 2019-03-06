@@ -1,1 +1,17 @@
-shoot("bullet", getX(), getY(), .5, .5);
+x = getX() + 32;
+y = getY() + 32;
+direction = getAttribute(getPlayer(), "direction");
+speed = 16;
+
+if(direction == 0) {
+	shoot("bullet", x, y, 0, negative(speed));
+}
+if(direction == 1) {
+	shoot("bullet", x, y, 0, speed);
+}
+if(direction == 2) {
+	shoot("bullet", x, y, negative(speed), 0);
+}
+if(direction == 3) {
+	shoot("bullet", x, y, speed, 0);
+}
