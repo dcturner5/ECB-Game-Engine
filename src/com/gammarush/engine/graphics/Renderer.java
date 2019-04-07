@@ -34,9 +34,9 @@ public class Renderer {
 	public static Shader VEHICLE;
 	
 	public static final int TILE_LAYER = 0;
-	public static final int ENTITY_LAYER = 1;
-	public static final int STRUCTURE_LAYER = 1;
-	public static final int GUI_LAYER = 7;
+	public static final int ENTITY_LAYER = 10;
+	public static final int STRUCTURE_LAYER = 10;
+	public static final int GUI_LAYER = 20;
 	
 	public static final int SCALE = 4;
 	

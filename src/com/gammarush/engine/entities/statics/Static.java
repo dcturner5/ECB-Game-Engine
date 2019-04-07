@@ -14,14 +14,14 @@ public class Static extends Entity {
 	private Color color;
 	
 	public Static(StaticTemplate template, Vector2f position) {
-		super(new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER + 1), template.getWidth(), template.getHeight(), template.getModel());
+		super(new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER + 1 + template.getZIndex()), template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		setSolid(template.getSolid());
 		setCollisionBox(template.getCollisionBox());
 	}
 	
 	public Static(StaticTemplate template, Vector2f position, World world) {
-		super(new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER + 1), template.getWidth(), template.getHeight(), template.getModel());
+		super(new Vector3f(position.x, position.y, Renderer.ENTITY_LAYER + 1 + template.getZIndex()), template.getWidth(), template.getHeight(), template.getModel());
 		this.template = template;
 		setSolid(template.getSolid());
 		setCollisionBox(template.getCollisionBox());
@@ -32,7 +32,7 @@ public class Static extends Entity {
 	public void update(double delta) {
 		//TODO MAKE IT BASED ON LOADED CHUNKS, NOT JUST ONE CHUNK
 		position.z = Renderer.ENTITY_LAYER + 
-				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT;
+				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT + template.getZIndex();
 	}
 	
 	public StaticTemplate getTemplate() {

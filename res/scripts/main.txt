@@ -11,6 +11,13 @@ function event_dialogue(dialogue_id, response_id) {
 			spawn("mutant", 256, 256);
 		}
 	}
+	if(dialogue_id == "main_010") {
+		if(response_id == "2") {
+			fz = getActor("Friendly Zombie");
+			mm = getActor("Mysterious Man");
+			attack(fz, getPlayer());
+		}
+	}
 }
 
 count = 0;

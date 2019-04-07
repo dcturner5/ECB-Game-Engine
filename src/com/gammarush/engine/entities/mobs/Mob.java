@@ -92,8 +92,8 @@ public class Mob extends Interactive {
 				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT;
 		
 		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
-		//if(moving) ac.start("run");
-		//else ac.stop("run");
+		if(moving) ac.start("run");
+		else ac.stop("run");
 
 		if(!ac.isRunning()) ac.start("idle");
 	}

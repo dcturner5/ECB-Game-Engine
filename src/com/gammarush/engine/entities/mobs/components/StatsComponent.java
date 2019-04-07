@@ -51,6 +51,7 @@ public class StatsComponent extends MobComponent {
 		if(health < 0) {
 			AnimationComponent ac = (AnimationComponent) getMob().getComponent("animation");
 			ac.start("dead");
+			
 			getMob().moving = false;
 			getMob().disable();
 			

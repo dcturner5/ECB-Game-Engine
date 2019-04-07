@@ -15,6 +15,15 @@
 			}
 		},
 		{
+			"name": "Friendly Zombie",
+			"type": "zombie",
+			"clothes": [
+				"knife",
+				"suit"
+			],
+			"dialogue": "main_010"
+		},
+		{
 			"name": "Mysterious Man",
 			"type": "human",
 			"clothes": [

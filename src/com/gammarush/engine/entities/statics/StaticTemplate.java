@@ -23,6 +23,8 @@ public class StaticTemplate extends EntityTemplate {
 	private Model model;
 	private ArrayList<Color> colors;
 	
+	private int zIndex = 0;
+	
 	public StaticTemplate(int id, JSON json) {
 		super(id, json);
 		
@@ -30,8 +32,11 @@ public class StaticTemplate extends EntityTemplate {
 		height = json.getInteger("height") * Renderer.SCALE;
 		solid = json.getBoolean("solid");
 		collisionBox = new AABB(0, 0, width, height);
-		if(json.get("collision") != null) {
+		if(json.exists("collision")) {
 			collisionBox = new AABB(json.getVector2f("collision").mult(Renderer.SCALE), json.getFloat("collision.width") * Renderer.SCALE, json.getFloat("collision.height") * Renderer.SCALE);
+		}
+		if(json.exists("zIndex")) {
+			zIndex = json.getInteger("zIndex");
 		}
 		
 		this.model = new Model(new Texture("res/entities/statics/" + json.getString("name") + ".png"));
@@ -80,6 +85,10 @@ public class StaticTemplate extends EntityTemplate {
 			if(c.getName().equals(name)) return c;
 		}
 		return null;
+	}
+	
+	public int getZIndex() {
+		return zIndex;
 	}
 	
 }

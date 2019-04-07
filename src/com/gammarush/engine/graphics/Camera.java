@@ -13,7 +13,7 @@ public class Camera {
 	private Renderer renderer;
 	
 	public static final float MIN_DEPTH = -1.0f;
-	public static final float MAX_DEPTH = 16.0f;
+	public static final float MAX_DEPTH = 50.0f;
 	public static final float MAX_ZOOM = 4f;
 	public static final float MIN_ZOOM = 1 / 4f;
 	

@@ -19,7 +19,7 @@ public class WorldManager {
 	public WorldManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 		worlds = WorldLoader.load("res/worlds/data.json", this);
-		world = worlds.get("overworld");
+		world = worlds.get("default");
 	}
 	
 	public void update(double delta) {

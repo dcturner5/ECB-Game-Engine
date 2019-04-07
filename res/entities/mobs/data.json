@@ -54,12 +54,12 @@
 							"name": "dead",
 							"priority": 3,
 							"loop": true,
-							"maxFrame": 1,
+							"maxFrame": 8,
 							"indices": [
-								[20],
-								[21],
-								[20],
-								[21]
+								[20, 21, 22, 23],
+								[20, 21, 22, 23],
+								[20, 21, 22, 23],
+								[20, 21, 22, 23]
 							]
 						}
 					]
@@ -103,6 +103,80 @@
 					"name": "red",
 					"primary": {"r": 0.83, "g": 0.46, "b": 0.22},
 					"secondary": {"r": 0.79, "g": 0.44, "b": 0.21}
+				}
+			]
+		},
+		{
+			"name": "zombie",
+			"width": 16,
+			"height": 16,
+			"collision": {"x": 3, "y": 10, "width": 10, "height": 6},
+			"components": [
+				{"name": "physics", "acceleration": 0.5},
+				{"name": "friction"},
+				{"name": "ai"},
+				{"name": "stats", "health": 100, "attack": {"damage": 10, "range": 32, "cooldown": 16}, "defense": 0, "hostility": 0.5},
+				{"name": "clothing"},
+				{
+					"name": "animation",
+					"animations": [
+						{
+							"name": "attack",
+							"priority": 1,
+							"loop": false,
+							"maxFrame": 4,
+							"indices": [
+								[0, 12, 13, 0],
+								[1, 14, 15, 1],
+								[2, 16, 17, 2],
+								[3, 18, 19, 3]
+							]
+						},
+						{
+							"name": "idle",
+							"priority": 0,
+							"loop": true,
+							"maxFrame": 1,
+							"indices": [
+								[0],
+								[1],
+								[2],
+								[3]
+							]
+						},
+						{
+							"name": "run",
+							"priority": 2,
+							"loop": true,
+							"maxFrame": 8,
+							"indices": [
+								[0, 4,  0,  5],
+								[1, 6,  1,  7],
+								[2, 8,  2,  9],
+								[3, 10, 3, 11]
+							]
+						},
+						{
+							"name": "dead",
+							"priority": 3,
+							"loop": true,
+							"maxFrame": 8,
+							"indices": [
+								[20, 21, 22, 23],
+								[20, 21, 22, 23],
+								[20, 21, 22, 23],
+								[20, 21, 22, 23]
+							]
+						}
+					]
+				},
+				{"name": "attack"}
+			],
+			"colors": [
+				{
+					"name": "green",
+					"primary": {"r": 0.27, "g": 0.44, "b": 0.00},
+					"secondary": {"r": 0.00, "g": 0.37, "b": 0.12}
 				}
 			]
 		},
