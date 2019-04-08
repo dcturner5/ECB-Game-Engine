@@ -3,6 +3,7 @@ package com.gammarush.engine.entities.items.clothing;
 import java.util.HashMap;
 
 import com.gammarush.axil.AxilScript;
+import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.utils.json.JSON;
 
@@ -33,12 +34,12 @@ public class ClothingScripts {
 		}
 	}
 	
-	public void activate(String name) {
+	public void activate(String name, Entity e) {
 		String scriptName = scripts.get(name);
 		if(scriptName != null) {
 			AxilScript script = scriptManager.getScript(scriptName + ".axil");
 			if(script != null) {
-				script.run();
+				script.call("main", e.getUUID().toString());
 			}
 		}
 	}

@@ -76,8 +76,6 @@ public class GameManager {
 		questManager.getQuest("main").start();
 		
 		eventManager = new EventManager(this);
-		
-		new Mob(getMob("bullet"), new Vector2f());
 	}
 	
 	public void update(double delta) {

@@ -5,7 +5,7 @@ import com.gammarush.engine.utils.json.JSON;
 
 public class ClothingStats extends EntityStats {
 	
-	public static final String[] NAMES = {"attack", "defense"};
+	public static final String[] NAMES = {"attack", "defense", "range"};
 	
 	public ClothingStats() {
 		super();

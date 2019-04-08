@@ -64,16 +64,16 @@
 			}
 		},
 		{
-			"name": "knife_special",
+			"name": "pistol",
 			"pool": "common",
 			"clothing": {
 				"type": "weapon",
 				"scripts": {
-					"attack": "res/scripts/knife_attack",
-					"defense": "res/scripts/knife_defense"
+					"attack": "res/scripts/pistol"
 				},
 				"stats": {
-					"attack": 20
+					"attack": 0,
+					"range": 1024
 				}
 			}
 		}

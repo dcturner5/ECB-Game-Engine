@@ -182,8 +182,8 @@
 		},
 		{
 			"name": "bullet",
-			"width": 4,
-			"height": 4,
+			"width": 3,
+			"height": 3,
 			"components": [
 				{"name": "physics", "acceleration": 0},
 				{"name": "projectile"},

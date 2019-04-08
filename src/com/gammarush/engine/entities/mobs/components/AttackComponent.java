@@ -85,7 +85,7 @@ public class AttackComponent extends MobComponent {
 	}
 	
 	public int getRange() {
-		return range;
+		return range + getClothingStat("range", getMob());
 	}
 	
 	public void activateClothing(String name, Mob e) {

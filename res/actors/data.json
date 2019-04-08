@@ -5,7 +5,7 @@
 			"type": "human",
 			"clothes": [
 				"hair_02",
-				"knife",
+				"pistol",
 				"hat",
 				"suit"
 			],
@@ -29,7 +29,7 @@
 			"clothes": [
 				"hair_01",
 				"overalls",
-				"knife"
+				"pistol"
 			],
 			"colors": {
 				"color": "white",

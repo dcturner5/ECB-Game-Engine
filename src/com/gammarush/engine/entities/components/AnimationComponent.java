@@ -73,7 +73,10 @@ public class AnimationComponent extends Component {
 	}
 	
 	public void stop(String name) {
-		animations.get(name).stop();
+		Animation animation = animations.get(name);
+		if(animation != null) {
+			animation.stop();
+		}
 	}
 	
 	public Animation getAnimation() {

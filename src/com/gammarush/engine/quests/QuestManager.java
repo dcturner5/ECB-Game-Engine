@@ -52,6 +52,13 @@ public class QuestManager {
 			return -1;
 		});
 		
+		getScriptManager().addMethod("scale", 2, (int[] args, AxilMemory memory) -> {
+			int address = args[1];
+			int value = memory.getInt(args[0]) * Renderer.SCALE;
+			memory.setInt(address, value);
+			return -1;
+		});
+		
 		getScriptManager().addMethod("getActor", 2, (int[] args, AxilMemory memory) -> {
 			int address = args[1];
 			String name = memory.getString(args[0]);
@@ -162,6 +169,12 @@ public class QuestManager {
 				return -1;
 			}
 			String attribute = memory.getString(args[1]);
+			if(attribute.equals("x")) {
+				memory.setInt(address, (int) mob.position.x);
+			}
+			if(attribute.equals("y")) {
+				memory.setInt(address, (int) mob.position.y);
+			}
 			if(attribute.equals("direction")) {
 				memory.setInt(address, mob.direction);
 			}
@@ -170,12 +183,26 @@ public class QuestManager {
 		
 		getScriptManager().addMethod("getX", 1, (int[] args, AxilMemory memory) -> {
 			int address = args[0];
-			int value = (int) Math.floor(getPlayerManager().getMob().position.x / Tile.WIDTH) * Tile.WIDTH;
+			int value = (int) getPlayerManager().getMob().position.x;
 			memory.setInt(address, value);
 			return -1;
 		});
 		
 		getScriptManager().addMethod("getY", 1, (int[] args, AxilMemory memory) -> {
+			int address = args[0];
+			int value = (int) getPlayerManager().getMob().position.y;
+			memory.setInt(address, value);
+			return -1;
+		});
+		
+		getScriptManager().addMethod("getTileX", 1, (int[] args, AxilMemory memory) -> {
+			int address = args[0];
+			int value = (int) Math.floor(getPlayerManager().getMob().position.x / Tile.WIDTH) * Tile.WIDTH;
+			memory.setInt(address, value);
+			return -1;
+		});
+		
+		getScriptManager().addMethod("getTileY", 1, (int[] args, AxilMemory memory) -> {
 			int address = args[0];
 			int value = (int) Math.floor(getPlayerManager().getMob().position.y / Tile.HEIGHT) * Tile.HEIGHT;
 			memory.setInt(address, value);

@@ -1,2 +1,0 @@
-print("Defense");
-spawn("mutant", getX(), getY());
