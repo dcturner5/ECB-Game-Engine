@@ -7,16 +7,18 @@ function main(reference) {
 	speed = 16;
 	
 	if(direction == 0) {
-		shoot("bullet", x + scale(11), y + scale(8), 0, negative(speed));
+		shoot("bullet", x + scale(11), y + scale(8), 0, negative(speed), reference);
 	}
 	if(direction == 1) {
-		shoot("bullet", x + scale(3), y + scale(8), 0, speed);
+		shoot("bullet", x + scale(3), y + scale(8), 0, speed, reference);
 	}
 	if(direction == 2) {
-		shoot("bullet", x + scale(3), y + scale(6), negative(speed), 0);
+		shoot("bullet", x + scale(3), y + scale(6), negative(speed), 0, reference);
 	}
 	if(direction == 3) {
-		shoot("bullet", x + scale(11), y + scale(6), speed, 0);
+		shoot("bullet", x + scale(11), y + scale(6), speed, 0, reference);
 	}
+	
+	setPlayer(getActor("Dalton"));
 
 }

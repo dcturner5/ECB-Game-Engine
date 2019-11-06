@@ -64,6 +64,7 @@ public class AttackComponent extends MobComponent {
 			if(Physics.getCollision(cb, mobBox)) mob = e1;
 		}
 		
+		cooldownIndex = cooldown;
 		activateClothing("attack", e);
 		
 		((AnimationComponent) e.getComponent("animation")).start("attack");
@@ -74,7 +75,7 @@ public class AttackComponent extends MobComponent {
 				int damage =  attack + getClothingStat("attack", e) - getClothingStat("defense", mob);
 				sc.alterHealth(-damage, e);
 				pc.velocity = offset.mult(damage);
-				cooldownIndex = cooldown;
+				cooldownIndex = cooldown; //? defense cooldown
 				
 				activateClothing("defense", mob);
 				return true;

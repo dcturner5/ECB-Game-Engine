@@ -4,13 +4,86 @@
 			"name": "Player",
 			"type": "human",
 			"clothes": [
-				"hair_02",
-				"pistol",
-				"hat",
-				"suit"
+				"hair_01",
+				"shirt_02",
+				"pistol"
 			],
 			"colors": {
 				"color": "white",
+				"hairColor": "red"
+			}
+		},
+		{
+			"name": "Ahmed",
+			"type": "human",
+			"clothes": [
+				"hair_02",
+				"shirt_02"
+			],
+			"colors": {
+				"color": "black",
+				"hairColor": "black"
+			},
+			"dialogues": [
+				{
+					"name": "ahmed_01",
+					"text": "When can I meet your sister?",
+					"options": [
+						{"name": "1", "text": "What?", "link": "mm_002"},
+						{"name": "2", "text": "From where?", "link": "main_001"},
+						{"name": "3", "text": "Fuck off", "link": "dismissal"}
+					]
+				}
+			]
+		},
+		{
+			"name": "Dalton",
+			"type": "human",
+			"clothes": [
+				"hair_01",
+				"shirt_01",
+				"pistol"
+			],
+			"colors": {
+				"color": "white",
+				"hairColor": "brown"
+			}
+		},
+		{
+			"name": "Erick",
+			"type": "human",
+			"clothes": [
+				"hair_02",
+				"shirt_04"
+			],
+			"colors": {
+				"color": "tan",
+				"hairColor": "black"
+			}
+		},
+		{
+			"name": "Matt",
+			"type": "human",
+			"clothes": [
+				"hair_05",
+				"overalls",
+				"knife"
+			],
+			"colors": {
+				"color": "tan",
+				"hairColor": "black"
+			}
+		},
+		{
+			"name": "Saadiq",
+			"type": "human",
+			"clothes": [
+				"hair_04",
+				"shirt_03",
+				"pistol"
+			],
+			"colors": {
+				"color": "black",
 				"hairColor": "black"
 			}
 		},
@@ -57,7 +130,7 @@
 			]
 		},
 		{
-			"name": "NPC 2",
+			"name": "Orlando",
 			"type": "human",
 			"clothes": [
 				"hair_01",

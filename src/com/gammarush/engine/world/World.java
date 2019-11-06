@@ -53,6 +53,11 @@ public class World {
 	private ArrayList<Static> staticQueue = new ArrayList<Static>();
 	private ArrayList<Vehicle> vehicleQueue = new ArrayList<Vehicle>();
 	
+	private ArrayList<Item> removeItemQueue = new ArrayList<Item>();
+	private ArrayList<Mob> removeMobQueue = new ArrayList<Mob>();
+	private ArrayList<Static> removeStaticQueue = new ArrayList<Static>();
+	private ArrayList<Vehicle> removeVehicleQueue = new ArrayList<Vehicle>();
+	
 	public World(int id, JSON json, WorldManager worldManager) {
 		this.id = id;
 		this.worldManager = worldManager;
@@ -78,6 +83,8 @@ public class World {
 		}
 		loadChunks(worldManager.getPlayerManager().getMob().getChunkPosition());
 		syncEntities();
+		
+		removeEntitiesFromQueue();
 	}
 	
 	public void render() {
@@ -164,6 +171,44 @@ public class World {
 		vehicleQueue.clear();
 	}
 	
+	private void removeEntitiesFromQueue() {
+		for(Item e : removeItemQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				c.getItems().remove(e);
+				c.getEntities().remove(e);
+			}
+		}
+		for(Mob e : removeMobQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				c.getMobs().remove(e);
+				c.getEntities().remove(e);
+			}
+		}
+		
+		for(Vehicle e : removeVehicleQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				c.getVehicles().remove(e);
+				c.getEntities().remove(e);
+			}
+		}
+		
+		for(Static e : removeStaticQueue) {
+			Chunk c = getChunkFromWorldPosition(e.position);
+			if(c != null) {
+				c.getStatics().remove(e);
+				c.getEntities().remove(e);
+			}
+		}
+		
+		removeItemQueue.clear();
+		removeMobQueue.clear();
+		removeStaticQueue.clear();
+		removeVehicleQueue.clear();
+	}
+	
 	public Entity getEntity(UUID uuid) {
 		for(Entity e : getEntities()) {
 			if(e.getUUID().equals(uuid)) {
@@ -182,11 +227,12 @@ public class World {
 	}
 	
 	public void removeMob(Mob e) {
-		Chunk c = getChunkFromWorldPosition(e.position);
+		/*Chunk c = getChunkFromWorldPosition(e.position);
 		if(c != null) {
 			c.getMobs().remove(e);
 			c.getEntities().remove(e);
-		}
+		}*/
+		removeMobQueue.add(e);
 	}
 	
 	public void removeVehicle(Vehicle e) {

@@ -13,6 +13,8 @@ public class ProjectileComponent extends MobComponent {
 	public static final String NAME = "projectile";
 	public static final String[] DEPENDENCIES = new String[]{"physics"};
 	public static final int PRIORITY = 4;
+	
+	private Mob owner = null;
 
 	public ProjectileComponent(Entity entity) {
 		super(NAME, DEPENDENCIES, PRIORITY, entity);
@@ -23,10 +25,16 @@ public class ProjectileComponent extends MobComponent {
 		World world = getMob().getWorld();
 		AABB box = getMob().getAABB();
 		for(Mob e : world.getMobs()) {
-			if(Physics.getCollision(box, e.getAABB())) {
-				//world.removeMob(getMob());
+			if(!e.equals(getMob()) && !e.equals(owner)) {
+				if(Physics.getCollision(box, e.getAABB())) {
+					world.removeMob(getMob());
+				}
 			}
 		}
+	}
+	
+	public void setOwner(Mob mob) {
+		this.owner = mob;
 	}
 	
 	public void setVelocity(Vector2f velocity) {
