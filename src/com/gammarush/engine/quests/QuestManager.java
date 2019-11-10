@@ -259,8 +259,8 @@ public class QuestManager {
 	}
 	
 	public void loadScripts() {
-		for(String path : JSONLoader.load("res/scripts/data.json").getStringArray("scripts")) {
-			getScriptManager().getQueue().add(path);
+		for(String name : JSONLoader.load("res/scripts/data.json").getStringArray("scripts")) {
+			getScriptManager().getQueue().add(name);
 		}
 		getScriptManager().compile();
 		

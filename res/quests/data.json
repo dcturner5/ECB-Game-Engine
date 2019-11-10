@@ -24,8 +24,7 @@
 					"name": "main_010",
 					"text": "Arrrggggghhhhh...",
 					"options": [
-						{"name": "1", "text": "What?"},
-						{"name": "2", "text": "Fuck off", "type": "exit"}
+						{"name": "1", "text": "What?", "link": "main_002"}
 					]
 				}
 			]

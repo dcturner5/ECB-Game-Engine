@@ -39,7 +39,7 @@ public class StaticTemplate extends EntityTemplate {
 			zIndex = json.getInteger("zIndex");
 		}
 		
-		this.model = new Model(new Texture("res/entities/statics/" + json.getString("name") + ".png"));
+		this.model = new Model(new Texture("res/entities/statics/sprites/" + json.getString("name") + ".png"));
 	}
 	
 	public void render(StaticBatch batch) {

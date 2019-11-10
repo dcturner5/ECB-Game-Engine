@@ -38,7 +38,7 @@ public class MobTemplate extends EntityTemplate {
 			collisionBox = new AABB(json.getVector2f("collision").mult(Renderer.SCALE), json.getFloat("collision.width") * Renderer.SCALE, json.getFloat("collision.height") * Renderer.SCALE);
 		}
 		
-		model = new Model(new TextureArray("res/entities/mobs/" + json.getString("name") + ".png", 64));
+		model = new Model(new TextureArray("res/entities/mobs/sprites/" + json.getString("name") + ".png", 64));
 		
 		components = json.getArray("components");
 		

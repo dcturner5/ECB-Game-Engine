@@ -1,14 +1,18 @@
 print("Main Quest Started...");
 
 function event_dialogue(dialogue_id, response_id) {
-	if(dialogue_id == "main_001") {
-		if(response_id == "1") {
-			hm = spawn("human", 256, 256);
-			mm = getActor("Mysterious Man");
-			attack(hm, getPlayer());
+	if(dialogue_id == "character_select_02") {
+		if(response_id == "ahmed") {
+			setPlayer(getActor("Ahmed"));
 		}
-		if(response_id == "2") {
-			spawn("mutant", 256, 256);
+		if(response_id == "erick") {
+			setPlayer(getActor("Erick"));
+		}
+		if(response_id == "matt") {
+			setPlayer(getActor("Matt"));
+		}
+		if(response_id == "saadiq") {
+			setPlayer(getActor("Saadiq"));
 		}
 	}
 	if(dialogue_id == "main_010") {

@@ -34,8 +34,8 @@ public class ItemTemplate extends EntityTemplate {
 		}
 		
 		Texture texture = null;
-		if(pool.equals("")) texture = new Texture("res/entities/items/default.png");
-		else texture = new Texture("res/entities/items/" + json.getString("name") + ".png");
+		if(pool.equals("")) texture = new Texture("res/entities/items/sprites/default.png");
+		else texture = new Texture("res/entities/items/sprites/" + json.getString("name") + ".png");
 		
 		this.model = new Model(texture);
 	}

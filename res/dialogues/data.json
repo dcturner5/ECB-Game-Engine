@@ -1,8 +1,33 @@
 {
 	"dialogues": [
 		{
+			"name": "character_select_01",
+			"text": "Would you like to switch characters?",
+			"options": [
+				{"name": "1", "text": "Yes.", "link": "character_select_02"},
+				{"name": "2", "text": "No.", "link": "dismissal"}
+			]
+		},
+		{
+			"name": "character_select_02",
+			"text": "Choose a character...",
+			"options": [
+				{"name": "ahmed", "text": "Ahmed", "type": "exit"},
+				{"name": "erick", "text": "Erick", "type": "exit"},
+				{"name": "matt", "text": "Matt", "type": "exit"},
+				{"name": "saadiq", "text": "Saadiq", "type": "exit"}
+			]
+		},
+		{
+			"name": "default",
+			"text": "...",
+			"options": [
+				{"name": "1", "text": "[Leave]", "type": "exit"}
+			]
+		},
+		{
 			"name": "dismissal",
-			"text": "Please... Just go away...",
+			"text": "Bye.",
 			"options": [
 				{"name": "1", "text": "[Leave]", "type": "exit"}
 			]

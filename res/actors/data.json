@@ -24,14 +24,21 @@
 				"color": "black",
 				"hairColor": "black"
 			},
+			"dialogue": "ahmed_01",
 			"dialogues": [
 				{
 					"name": "ahmed_01",
-					"text": "When can I meet your sister?",
+					"text": "What's up?",
 					"options": [
-						{"name": "1", "text": "What?", "link": "mm_002"},
-						{"name": "2", "text": "From where?", "link": "main_001"},
-						{"name": "3", "text": "Fuck off", "link": "dismissal"}
+						{"name": "1", "text": "Nothing much. What about you?", "link": "ahmed_02"},
+						{"name": "2", "text": "Leave me alone.", "link": "dismissal"}
+					]
+				},
+				{
+					"name": "ahmed_02",
+					"text": "Same. See you around.",
+					"options": [
+						{"name": "1", "text": "[Leave]", "type": "exit"}
 					]
 				}
 			]
@@ -41,13 +48,13 @@
 			"type": "human",
 			"clothes": [
 				"hair_01",
-				"shirt_01",
-				"pistol"
+				"shirt_01"
 			],
 			"colors": {
 				"color": "white",
 				"hairColor": "brown"
-			}
+			},
+			"dialogue": "character_select_01"
 		},
 		{
 			"name": "Erick",
@@ -59,7 +66,25 @@
 			"colors": {
 				"color": "tan",
 				"hairColor": "black"
-			}
+			},
+			"dialogue": "erick_01",
+			"dialogues": [
+				{
+					"name": "erick_01",
+					"text": "Hey man. How are you?",
+					"options": [
+						{"name": "1", "text": "Good. What about you?", "link": "erick_02"},
+						{"name": "2", "text": "Don't talk to me.", "link": "dismissal"}
+					]
+				},
+				{
+					"name": "erick_02",
+					"text": "Alright. See you around.",
+					"options": [
+						{"name": "1", "text": "[Leave]", "type": "exit"}
+					]
+				}
+			]
 		},
 		{
 			"name": "Matt",
@@ -72,7 +97,25 @@
 			"colors": {
 				"color": "tan",
 				"hairColor": "black"
-			}
+			},
+			"dialogue": "matt_01",
+			"dialogues": [
+				{
+					"name": "matt_01",
+					"text": "You want to hear a pun?",
+					"options": [
+						{"name": "1", "text": "Yes.", "link": "matt_02"},
+						{"name": "2", "text": "No.", "link": "dismissal_hostile"}
+					]
+				},
+				{
+					"name": "matt_02",
+					"text": "Then buy the DLC.",
+					"options": [
+						{"name": "1", "text": "[Leave]", "type": "exit"}
+					]
+				}
+			]
 		},
 		{
 			"name": "Saadiq",
@@ -85,7 +128,8 @@
 			"colors": {
 				"color": "black",
 				"hairColor": "black"
-			}
+			},
+			"dialogue": "default"
 		},
 		{
 			"name": "Friendly Zombie",
@@ -95,39 +139,6 @@
 				"suit"
 			],
 			"dialogue": "main_010"
-		},
-		{
-			"name": "Mysterious Man",
-			"type": "human",
-			"clothes": [
-				"hair_01",
-				"overalls",
-				"pistol"
-			],
-			"colors": {
-				"color": "white",
-				"hairColor": "brown"
-			},
-			"dialogue": "mm_001",
-			"dialogues": [
-				{
-					"name": "mm_001",
-					"text": "You... I know you from somewhere...",
-					"options": [
-						{"name": "1", "text": "What?", "link": "mm_002"},
-						{"name": "2", "text": "From where?", "link": "main_001"},
-						{"name": "3", "text": "Fuck off", "link": "dismissal"}
-					]
-				},
-				{
-					"name": "mm_002",
-					"text": "Are you deaf you little bitch?",
-					"options": [
-						{"name": "1", "text": "Yes", "link": "dismissal_hostile"},
-						{"name": "2", "text": "No... How do you know me?", "link": "main_001"}
-					]
-				}
-			]
 		},
 		{
 			"name": "Orlando",
@@ -140,9 +151,10 @@
 				"color": "brown",
 				"hairColor": "black"
 			},
+			"dialogue": "orlando_01",
 			"dialogues": [
 				{
-					"name": "orlando_001",
+					"name": "orlando_01",
 					"text": "You know Jesus kissed another man?",
 					"options": [
 						{"name": "1", "text": "This is why we're not living together!", "link": "dismissal"},

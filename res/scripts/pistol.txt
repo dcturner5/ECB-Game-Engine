@@ -18,7 +18,5 @@ function main(reference) {
 	if(direction == 3) {
 		shoot("bullet", x + scale(11), y + scale(6), speed, 0, reference);
 	}
-	
-	setPlayer(getActor("Dalton"));
 
 }
