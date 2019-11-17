@@ -15,6 +15,10 @@ function event_dialogue(dialogue_id, response_id) {
 			setPlayer(getActor("Saadiq"));
 		}
 	}
+	if(dialogue_id == "world_select_02") {
+		setWorld(response_id);
+		console("Good luck!");
+	}
 	if(dialogue_id == "main_010") {
 		if(response_id == "2") {
 			fz = getActor("Friendly Zombie");

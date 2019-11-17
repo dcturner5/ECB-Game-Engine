@@ -54,7 +54,7 @@
 				"color": "white",
 				"hairColor": "brown"
 			},
-			"dialogue": "character_select_01"
+			"dialogue": "dev_options_01"
 		},
 		{
 			"name": "Erick",

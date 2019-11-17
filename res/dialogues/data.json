@@ -1,6 +1,30 @@
 {
 	"dialogues": [
 		{
+			"name": "dev_options_01",
+			"text": "What can I do for you?",
+			"options": [
+				{"name": "1", "text": "I want to go to a different world.", "link": "world_select_02"},
+				{"name": "2", "text": "I want to switch characters.", "link": "character_select_02"}
+			]
+		},
+		{
+			"name": "world_select_01",
+			"text": "Would you like to change worlds?",
+			"options": [
+				{"name": "1", "text": "Yes.", "link": "world_select_02"},
+				{"name": "2", "text": "No.", "link": "dismissal"}
+			]
+		},
+		{
+			"name": "world_select_02",
+			"text": "Choose a world...",
+			"options": [
+				{"name": "default", "text": "Courtyard", "type": "exit"},
+				{"name": "dorm", "text": "Dorm", "type": "exit"}
+			]
+		},
+		{
 			"name": "character_select_01",
 			"text": "Would you like to switch characters?",
 			"options": [

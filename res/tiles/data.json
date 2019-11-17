@@ -1,5 +1,6 @@
 {
 	"tiles":[
+		{"name": "asphalt", 	"solid": false},
 		{"name": "brick", 		"solid": false},
 		{"name": "carpet", 		"solid": false},
 		{"name": "concrete", 	"solid": false},
