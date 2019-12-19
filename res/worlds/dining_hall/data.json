@@ -10,12 +10,11 @@
 						{"name": "Player", "position": {"x": 5, "y": 11}}
 					],
 					"statics": [
-						{
-							"name": "dining_hall_counter_01",
-							"positions": [
-								{"x": 3, "y": 9}
-							]
-						},
+						{"name": "dining_hall_counter_01_a", "positions": [{"x": 3, "y": 9}]},
+						{"name": "dining_hall_counter_01_b", "positions": [{"x": 3, "y": 9}]},
+						{"name": "dining_hall_counter_01_c", "positions": [{"x": 3, "y": 9}]},
+						{"name": "dining_hall_counter_01_d", "positions": [{"x": 3, "y": 9}]},
+						{"name": "dining_hall_counter_01_e", "positions": [{"x": 3, "y": 9}]},
 						{
 							"name": "dining_hall_counter_02",
 							"positions": [
