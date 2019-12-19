@@ -5,7 +5,6 @@ import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector3f;
-import com.gammarush.engine.world.Chunk;
 import com.gammarush.engine.world.World;
 
 public class Static extends Entity {
@@ -30,9 +29,7 @@ public class Static extends Entity {
 	
 	@Override
 	public void update(double delta) {
-		//TODO MAKE IT BASED ON LOADED CHUNKS, NOT JUST ONE CHUNK
-		position.z = Renderer.ENTITY_LAYER + 
-				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT + template.getZIndex();
+		position.z = Renderer.ENTITY_LAYER + getNormalizedWorldPosition().y + template.getZIndex();
 	}
 	
 	public StaticTemplate getTemplate() {

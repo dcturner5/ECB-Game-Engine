@@ -169,14 +169,21 @@ public class Entity {
 		return new Vector2f((float) (x - Math.floor(x)) * Chunk.WIDTH, (float) (y - Math.floor(y)) * Chunk.HEIGHT);
 	}
 	
-	public Vector2f getLocalChunkCollisionBox() {
-		float x = position.x / Tile.WIDTH / Chunk.WIDTH;
-		float y = position.y / Tile.HEIGHT / Chunk.HEIGHT;
+	public Vector2f getLocalChunkCollisionBoxPosition() {
+		AABB collisionBox = getCollisionBox();
+		float x = (position.x + collisionBox.x) / Tile.WIDTH / Chunk.WIDTH;
+		float y = (position.y + collisionBox.y) / Tile.HEIGHT / Chunk.HEIGHT;
 		return new Vector2f((float) (x - Math.floor(x)) * Chunk.WIDTH, (float) (y - Math.floor(y)) * Chunk.HEIGHT);
 	}
 	
 	public Vector2i getLastChunkPosition() {
 		return chunkPosition;
+	}
+	
+	public Vector2f getNormalizedWorldPosition() {
+		AABB collisionBox = getCollisionBox();
+		return new Vector2f((position.x + collisionBox.x) / Tile.WIDTH / (getWorld().getWidth() * Chunk.WIDTH),
+				(position.y + collisionBox.y) / Tile.HEIGHT / (getWorld().getHeight() * Chunk.HEIGHT));
 	}
 	
 	public Vector2i getTilePosition() {

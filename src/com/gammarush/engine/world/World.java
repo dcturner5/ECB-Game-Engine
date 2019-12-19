@@ -28,6 +28,8 @@ public class World {
 	
 	private int id;
 	private String name;
+	private int width = 0;
+	private int height = 0;
 	private ArrayList<String> tileOrder;
 	
 	private Vector2i mainChunkPosition;
@@ -68,6 +70,13 @@ public class World {
 		for(JSON chunkJson : chunksArray) {
 			Chunk c = new Chunk(chunkJson, this);
 			chunks.put(c.getPosition(), c);
+			
+			int cx = c.getPosition().x + 1;
+			int cy = c.getPosition().y + 1;
+			if(cx > width)
+				width = cx;
+			if(cy > height)
+				height = cy;
 		}
 		
 		global = new GlobalLight(new Vector3f(0f, 0f, 1f), new Vector3f(1f, 1f, 1f), 0f);
@@ -257,6 +266,14 @@ public class World {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 	
 	public ArrayList<String> getTileOrder() {

@@ -211,12 +211,6 @@ public class Chunk {
 		}
 	}
 	
-	public static Vector2f convertWorldCoordinates(float x, float y) {
-		float x1 = x / Tile.WIDTH / Chunk.WIDTH;
-		float y1 = y / Tile.HEIGHT / Chunk.HEIGHT;
-		return new Vector2f((float) (x1 - Math.floor(x1)) * Chunk.WIDTH, (float) (y1 - Math.floor(y1)) * Chunk.HEIGHT);
-	}
-	
 	public void print() {
 		System.out.println("CHUNK (" + position.x + ", " + position.y + ")");
 		System.out.println("Entities: " + entities.size());

@@ -87,9 +87,7 @@ public class Mob extends Interactive {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		
-		position.z = Renderer.ENTITY_LAYER + 
-				Chunk.convertWorldCoordinates(position.x + getCollisionBox().x, position.y + getCollisionBox().y).y / Chunk.HEIGHT;
+		position.z = Renderer.ENTITY_LAYER + getNormalizedWorldPosition().y;
 		
 		AnimationComponent ac = ((AnimationComponent) getComponent("animation"));
 		if(moving) ac.start("run");
