@@ -3,12 +3,20 @@
 		{"name": "asphalt", 	"solid": false},
 		{"name": "brick", 		"solid": false},
 		{"name": "carpet", 		"solid": false},
+		{"name": "ceramic", 	"solid": false},
 		{"name": "concrete", 	"solid": false},
 		{"name": "default", 	"solid": false},
 		{"name": "grass", 		"solid": false},
+		{"name": "marble_01", 	"solid": false},
+		{"name": "marble_02",	"solid": false},
 		{"name": "sand", 		"solid": false},
 		{"name": "void", 		"solid": true},
-		{"name": "wall",		"solid": true},
-		{"name": "wood",		"solid": false}
+		{"name": "wall_01_a",	"solid": true},
+		{"name": "wall_01_b",	"solid": true},
+		{"name": "wall_02_a",	"solid": true},
+		{"name": "wall_02_b",	"solid": true},
+		{"name": "wall_02_c",	"solid": true},
+		{"name": "wood_01",		"solid": false},
+		{"name": "wood_02",		"solid": false}
 	]
 }

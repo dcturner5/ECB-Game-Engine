@@ -18,8 +18,7 @@ public class WorldManager {
 	
 	public WorldManager(GameManager gameManager) {
 		this.gameManager = gameManager;
-		worlds = WorldLoader.load("res/worlds/data.json", this);
-		world = worlds.get("default");
+		WorldLoader.load("res/worlds/data.json", this);
 	}
 	
 	public void update(double delta) {
@@ -38,6 +37,10 @@ public class WorldManager {
 		if(worlds.get(name) != null) {
 			world = worlds.get(name);
 		}
+	}
+	
+	public void setWorldHashMap(WorldHashMap worlds) {
+		this.worlds = worlds;
 	}
 	
 	public EventManager getEventManager() {

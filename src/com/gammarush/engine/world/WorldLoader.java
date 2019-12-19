@@ -7,17 +7,21 @@ import com.gammarush.engine.utils.json.JSONLoader;
 
 public class WorldLoader {
 	
-	public static WorldHashMap load(String path, WorldManager worldManager) {
-		WorldHashMap result = new WorldHashMap();
+	public static void load(String path, WorldManager worldManager) {
+		WorldHashMap worlds = new WorldHashMap();
 		JSON json = JSONLoader.load(path);
 		
-		ArrayList<JSON> array = json.getArray("worlds");
-		for(int i = 0; i < array.size(); i++) {
-			JSON element = array.get(i);
-			result.put(new World(i, element, worldManager));
+		ArrayList<String> files = json.getStringArray("files");
+		for(int i = 0; i < files.size(); i++) {
+			JSON worldJson = JSONLoader.load(files.get(i));
+			ArrayList<JSON> array = worldJson.getArray("worlds");
+			for(int j = 0; j < array.size(); j++) {
+				JSON element = array.get(j);
+				worlds.put(new World(i, element, worldManager));
+			}
 		}
-		
-		return result;
+		worldManager.setWorldHashMap(worlds);
+		worldManager.setWorld(json.getString("default"));
 	}
 
 }
