@@ -20,28 +20,12 @@
 							"name": "bed",
 							"positions": [
 								{"x": 0.25, "y": 1},
-								{"x": 0.25, "y": 7}
+								{"x": 0.25, "y": 7},
+								{"x": 0.75, "y": 15}
 							]
 						},
 						{
-							"name": "wall_door",
-							"positions": [
-								{"x": 4, "y": 4},
-								{"x": 7, "y": 4}
-							]
-						},
-						{
-							"name": "wall_side",
-							"positions": [
-								{"x": 0, "y": 0, "stretch": {"x": 0, "y": 15}},
-								{"x": 8, "y": 0, "stretch": {"x": 0, "y": 9}},
-								{"x": 5, "y": 0, "stretch": {"x": 0, "y": 3}},
-								{"x": 3.75, "y": 4, "stretch": {"x": 0, "y": 3}},
-								{"x": 8, "y": 9, "stretch": {"x": 0, "y": 6}}
-							]
-						},
-						{
-							"name": "wall",
+							"name": "wall_01_a",
 							"positions": [
 								{"x": 0, "y": 0, "stretch": {"x": 7, "y": 0}},
 								{"x": 0, "y": 4, "stretch": {"x": 3, "y": 0}},
@@ -53,7 +37,17 @@
 							]
 						},
 						{
-							"name": "wall_junction",
+							"name": "wall_01_b",
+							"positions": [
+								{"x": 0, "y": 0, "stretch": {"x": 0, "y": 15}},
+								{"x": 8, "y": 0, "stretch": {"x": 0, "y": 9}},
+								{"x": 5, "y": 0, "stretch": {"x": 0, "y": 3}},
+								{"x": 3.75, "y": 4, "stretch": {"x": 0, "y": 3}},
+								{"x": 8, "y": 9, "stretch": {"x": 0, "y": 6}}
+							]
+						},
+						{
+							"name": "wall_01_c",
 							"positions": [
 								{"x": 0, "y": 0},
 								{"x": 5, "y": 0},
@@ -70,6 +64,13 @@
 								{"x": 3.75, "y": 14},
 								{"x": 5, "y": 14},
 								{"x": 8, "y": 14}
+							]
+						},
+						{
+							"name": "wall_01_d",
+							"positions": [
+								{"x": 4, "y": 4},
+								{"x": 7, "y": 4}
 							]
 						}
 					],
@@ -96,38 +97,46 @@
 					"position": {"x": 0, "y": 1},
 					"statics": [
 						{
-							"name": "wall_door",
+							"name": "bathtub",
 							"positions": [
-								{"x": 4, "y": 2},
-								{"x": 7, "y": 2}
+								{"x": 5.25, "y": 6}
 							]
 						},
 						{
-							"name": "wall_side",
+							"name": "bed",
 							"positions": [
-								{"x": 0, "y": 0, "stretch": {"x": 0, "y": 5}},
-								{"x": 8, "y": 0, "stretch": {"x": 0, "y": 5}},
-								{"x": 5, "y": 2, "stretch": {"x": 0, "y": 3}}
+								{"x": 0.25, "y": 3}
 							]
 						},
 						{
-							"name": "wall",
+							"name": "wall_01_a",
 							"positions": [
 								{"x": 0, "y": 2, "stretch": {"x": 3, "y": 0}},
-								{"x": 5, "y": 2, "stretch": {"x": 1, "y": 0}},
-								{"x": 0, "y": 6, "stretch": {"x": 7, "y": 0}}
+								{"x": 5, "y": 2, "stretch": {"x": 1, "y": 0}}
 							]
 						},
 						{
-							"name": "wall_junction",
+							"name": "wall_01_b",
+							"positions": [
+								{"x": 0, "y": 0, "stretch": {"x": 0, "y": 7}},
+								{"x": 8, "y": 0, "stretch": {"x": 0, "y": 7}},
+								{"x": 5, "y": 2, "stretch": {"x": 0, "y": 5}}
+							]
+						},
+						{
+							"name": "wall_01_c",
 							"positions": [
 								{"x": 0, "y": 2},
 								{"x": 3.75, "y": 2},
 								{"x": 5, "y": 2},
-								{"x": 8, "y": 2},
-								{"x": 0, "y": 6},
-								{"x": 5, "y": 6},
-								{"x": 8, "y": 6}
+								{"x": 8, "y": 2}
+							]
+						},
+						{
+							"name": "wall_01_d",
+							"positions": [
+								{"x": 4, "y": 2},
+								{"x": 7, "y": 2}
 							]
 						}
 					],

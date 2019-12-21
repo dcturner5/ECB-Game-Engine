@@ -21,7 +21,6 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.utils.json.JSON;
-import com.gammarush.engine.world.Chunk;
 
 public class Mob extends Interactive {
 	

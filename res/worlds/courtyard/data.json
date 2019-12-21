@@ -2,7 +2,7 @@
 	"worlds": [
 		{
 			"name": "courtyard",
-			"tiles": ["grass", "concrete", "brick", "sand", "void", "asphalt"],
+			"tiles": ["grass", "concrete", "brick_01", "sand", "void", "asphalt"],
 			"chunks": [
 				{
 					"position": {"x": 0, "y": 0},

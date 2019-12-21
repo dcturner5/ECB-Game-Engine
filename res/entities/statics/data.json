@@ -17,6 +17,10 @@
 		{"name": "dining_hall_counter_02", "width": 16, "height": 128, "solid": true, "collision": {"x": 0, "y": 48, "width": 15, "height": 75}},
 		{"name": "dining_hall_counter_03", "width": 128, "height": 32, "solid": true, "collision": {"x": 0, "y": 16, "width": 123, "height": 12}},
 		{"name": "dining_hall_counter_04", "width": 48, "height": 32, "solid": true, "collision": {"x": 5, "y": 16, "width": 43, "height": 12}},
+		{"name": "dining_hall_desk", "width": 16, "height": 22, "solid": true, "collision": {"x": 1, "y": 16, "width": 14, "height": 6}},
+		{"name": "dining_hall_table_01_a", "width": 32, "height": 40, "solid": true, "collision": {"x": 0, "y": 16, "width": 32, "height": 16}},
+		{"name": "dining_hall_table_01_b", "width": 32, "height": 40, "solid": false, "collision": {"x": 3, "y": 40, "width": 26, "height": 0}},
+		{"name": "dining_hall_table_01_c", "width": 32, "height": 40, "solid": false, "collision": {"x": 3, "y": 8, "width": 26, "height": 0}},
 		{"name": "curb_01", "width": 16, "height": 22, "zIndex": -1, "solid": false},
 		{"name": "curb_02", "width": 64, "height": 54, "zIndex": -1, "solid": false},
 		{"name": "curb_03", "width": 64, "height": 54, "zIndex": -1, "solid": false},
@@ -24,12 +28,14 @@
 		{"name": "curb_05", "width": 16, "height": 16, "zIndex": -1, "solid": false},
 		{"name": "fence_01", "width": 16, "height": 32, "solid": true, "collision": {"x": 0, "y": 24, "width": 16, "height": 8}},
 		{"name": "fence_02", "width": 17, "height": 32, "solid": true, "collision": {"x": 16, "y": 16, "width": 2, "height": 16}},
+		{"name": "glass_01", "width": 16, "height": 48, "solid": true, "collision": {"x": 0, "y": 43, "width": 16, "height": 5}},
+		{"name": "glass_02", "width": 16, "height": 48, "zIndex": 1, "solid": false},
 		{"name": "rock_01", "width": 16, "height": 16, "solid": true},
 		{"name": "tree_01", "width": 48, "height": 64, "solid": true, "collision": {"x": 23, "y": 56, "width": 5, "height": 5}},
 		{"name": "tree_02", "width": 64, "height": 64, "solid": true, "collision": {"x": 26, "y": 56, "width": 8, "height": 5}},
-		{"name": "wall", "width": 16, "height": 32, "solid": true, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
-		{"name": "wall_door", "width": 16, "height": 32, "solid": false, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
-		{"name": "wall_junction", "width": 4, "height": 4, "zIndex": 1, "solid": false},
-		{"name": "wall_side", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 32, "width": 4, "height": 16}}
+		{"name": "wall_01_a", "width": 16, "height": 32, "solid": true, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
+		{"name": "wall_01_b", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 32, "width": 4, "height": 16}},
+		{"name": "wall_01_c", "width": 4, "height": 4, "zIndex": 1, "solid": false},
+		{"name": "wall_01_d", "width": 16, "height": 32, "solid": false, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}}
 	]
 }

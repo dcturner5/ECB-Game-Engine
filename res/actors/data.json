@@ -163,6 +163,10 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "dining_hall_belt",
+			"type": "dining_hall_belt"
 		}
 	]
 }

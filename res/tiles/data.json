@@ -1,7 +1,9 @@
 {
 	"tiles":[
 		{"name": "asphalt", 	"solid": false},
-		{"name": "brick", 		"solid": false},
+		{"name": "brick_01", 	"solid": false},
+		{"name": "brick_02", 	"solid": false},
+		{"name": "brick_03", 	"solid": false},
 		{"name": "carpet", 		"solid": false},
 		{"name": "ceramic", 	"solid": false},
 		{"name": "concrete", 	"solid": false},
@@ -16,7 +18,11 @@
 		{"name": "wall_02_a",	"solid": true},
 		{"name": "wall_02_b",	"solid": true},
 		{"name": "wall_02_c",	"solid": true},
+		{"name": "wall_03_a",	"solid": true},
+		{"name": "wall_03_b",	"solid": true},
+		{"name": "wall_03_c",	"solid": true},
 		{"name": "wood_01",		"solid": false},
-		{"name": "wood_02",		"solid": false}
+		{"name": "wood_02",		"solid": false},
+		{"name": "wood_03",		"solid": false}
 	]
 }
