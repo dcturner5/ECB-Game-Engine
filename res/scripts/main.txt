@@ -16,7 +16,7 @@ function event_dialogue(dialogue_id, response_id) {
 		}
 	}
 	if(dialogue_id == "world_select_02") {
-		setWorld(response_id);
+		teleport(getPlayer(), response_id, "test");
 		console("Good luck!");
 	}
 	if(dialogue_id == "main_010") {

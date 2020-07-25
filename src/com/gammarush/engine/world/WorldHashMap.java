@@ -2,6 +2,9 @@ package com.gammarush.engine.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
+
+import com.gammarush.engine.entities.Entity;
 
 public class WorldHashMap {
 	
@@ -27,6 +30,26 @@ public class WorldHashMap {
 		idMap.put(e.getId(), e);
 		nameMap.put(e.getName(), e);
 		array.add(e);
+	}
+	
+	public Entity getEntity(UUID uuid) {
+		for(World world : array) {
+			Entity e = world.getEntity(uuid);
+			if(e != null) {
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	public World getEntityWorld(UUID uuid) {
+		for(World world : array) {
+			Entity e = world.getEntity(uuid);
+			if(e != null) {
+				return world;
+			}
+		}
+		return null;
 	}
 
 }

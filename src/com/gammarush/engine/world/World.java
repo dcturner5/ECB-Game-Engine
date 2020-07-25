@@ -2,6 +2,7 @@ package com.gammarush.engine.world;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.gammarush.engine.entities.Entity;
@@ -18,6 +19,7 @@ import com.gammarush.engine.entities.vehicles.VehicleBatchManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.lights.AmbientLight;
 import com.gammarush.engine.lights.GlobalLight;
+import com.gammarush.engine.math.vector.Vector2f;
 import com.gammarush.engine.math.vector.Vector2i;
 import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.tiles.Tile;
@@ -59,6 +61,8 @@ public class World {
 	private ArrayList<Mob> removeMobQueue = new ArrayList<Mob>();
 	private ArrayList<Static> removeStaticQueue = new ArrayList<Static>();
 	private ArrayList<Vehicle> removeVehicleQueue = new ArrayList<Vehicle>();
+	
+	private HashMap<String, Vector2f> markers = new HashMap<String, Vector2f>();
 	
 	public World(int id, JSON json, WorldManager worldManager) {
 		this.id = id;
@@ -219,7 +223,8 @@ public class World {
 	}
 	
 	public Entity getEntity(UUID uuid) {
-		for(Entity e : getEntities()) {
+		//May have to change this back to getEntities()
+		for(Entity e : getAllEntities()) {
 			if(e.getUUID().equals(uuid)) {
 				return e;
 			}
@@ -278,6 +283,15 @@ public class World {
 	
 	public ArrayList<String> getTileOrder() {
 		return tileOrder;
+	}
+	
+	public ArrayList<Entity> getAllEntities() {
+		ArrayList<Entity> result = new ArrayList<Entity>();
+		for(Map.Entry<Vector2i, Chunk> entry : chunks.entrySet()) {
+			Chunk c = (Chunk) entry.getValue();
+			result.addAll(c.getEntities());
+		}
+		return result;
 	}
 	
 	public ArrayList<Entity> getEntities() {
@@ -503,27 +517,49 @@ public class World {
 				if(c == null || lc == null) {
 					continue;
 				}
-				
 				if(e instanceof Mob) {
+					//Test code
+					if(c.getMobs().contains((Mob) e)) {
+						System.out.println("Duplicate Mob");
+						lc.print();
+						c.print();
+						continue;
+					}
+					
 					lc.getMobs().remove(e);
 					c.getMobs().add((Mob) e);
+					c.refreshEntityArray();
 				}
-				if(e instanceof Vehicle) {
+				else if(e instanceof Vehicle) {
 					lc.getVehicles().remove(e);
 					c.getVehicles().add((Vehicle) e);
+					c.refreshEntityArray();
 				}
 				else if(e instanceof Item) {
 					lc.getItems().remove(e);
 					c.getItems().add((Item) e);
+					c.refreshEntityArray();
 				}
 				else if(e instanceof Interactive) {
 					lc.getInteractives().remove(e);
 					c.getInteractives().add((Interactive) e);
+					c.refreshEntityArray();
 				}
 				e.setLastChunkPosition(cp);
 			}
 		}
 		entitySyncQueue.clear();
+	}
+	
+	public void addMarker(String name, Vector2f position) {
+		markers.put(name, position);
+	}
+	
+	public Vector2f getMarker(String name) {
+		if(markers.containsKey(name)) {
+			return markers.get(name);
+		}
+		return new Vector2f();
 	}
 	
 }

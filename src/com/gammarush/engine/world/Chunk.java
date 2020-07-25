@@ -52,17 +52,6 @@ public class Chunk {
 			}
 		}
 		
-		ArrayList<JSON> vehiclesJson = json.getArray("vehicles");
-		if(vehiclesJson != null) {
-			for(JSON vehicleJson : vehiclesJson) {
-				Vector2f vehiclePosition = vehicleJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
-				Vehicle vehicle = new Vehicle(GameManager.getVehicle(vehicleJson.getString("name")), vehiclePosition, 1);
-				vehicle.setWorld(world);
-				vehicle.setLastChunkPosition(vehicle.getChunkPosition());
-				vehicles.add(vehicle);
-			}
-		}
-		
 		ArrayList<JSON> staticsJson = json.getArray("statics");
 		if(staticsJson != null) {
 			for(JSON staticJson : staticsJson) {
@@ -85,24 +74,36 @@ public class Chunk {
 			}
 		}
 		
+		ArrayList<JSON> markersJson = json.getArray("markers");
+		if(markersJson != null) {
+			for(JSON markerJson : markersJson) {
+				String markerName = markerJson.getString("name");
+				Vector2f markerPosition = markerJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+				world.addMarker(markerName, markerPosition);
+			}
+		}
+		
+		ArrayList<JSON> vehiclesJson = json.getArray("vehicles");
+		if(vehiclesJson != null) {
+			for(JSON vehicleJson : vehiclesJson) {
+				Vector2f vehiclePosition = vehicleJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+				Vehicle vehicle = new Vehicle(GameManager.getVehicle(vehicleJson.getString("name")), vehiclePosition, 1);
+				vehicle.setWorld(world);
+				vehicle.setLastChunkPosition(vehicle.getChunkPosition());
+				vehicles.add(vehicle);
+			}
+		}
+		
 		ArrayList<Integer> array = json.getIntegerArray("array");
 		for(int i = 0; i < array.size(); i++) {
 			this.array[i] = GameManager.getTile(getWorld().getTileOrder().get(array.get(i))).getId();
 		}
 		
-		//print();
+		refreshEntityArray();
 	}
 	
 	public void update(double delta) {
-		interactives.clear();
-		interactives.addAll(mobs);
-		interactives.addAll(vehicles);
-		
-		entities.clear();
-		entities.addAll(interactives);
-		entities.addAll(items);
-		entities.addAll(statics);
-		
+		refreshEntityArray();
 		for(Entity e : entities) {
 			e.update(delta);
 		}
@@ -115,6 +116,17 @@ public class Chunk {
 		world.getStaticBatchManager().process(statics);
 		world.getVehicleBatchManager().process(vehicles);
 		world.getMobBatchManager().process(mobs);
+	}
+	
+	public void refreshEntityArray() {
+		interactives.clear();
+		interactives.addAll(mobs);
+		interactives.addAll(vehicles);
+		
+		entities.clear();
+		entities.addAll(interactives);
+		entities.addAll(items);
+		entities.addAll(statics);
 	}
 	
 	public Entity getEntity(UUID uuid) {

@@ -52,7 +52,9 @@ public class Actor extends Mob {
 			}
 		}
 		
-		addComponent(new NameTagComponent(this));
+		if(json.exists("displayName") && json.getBoolean("displayName")) {
+			addComponent(new NameTagComponent(this));
+		}
 	}
 	
 	@Override

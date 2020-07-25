@@ -9,6 +9,9 @@
 					"actors": [
 						{"name": "Player", "position": {"x": 5, "y": 11}}
 					],
+					"markers": [
+						{"name": "test", "position": {"x": 5, "y": 7}}
+					],
 					"statics": [
 						{"name": "dining_hall_counter_01_a", "positions": [{"x": 3, "y": 8}]},
 						{"name": "dining_hall_counter_01_b", "positions": [{"x": 3, "y": 8}]},
@@ -31,6 +34,12 @@
 							"name": "dining_hall_counter_04",
 							"positions": [
 								{"x": 10, "y": 4}
+							]
+						},
+						{
+							"name": "wall_02_b",
+							"positions": [
+								{"x": 0, "y": 4, "stretch": {"x": 0, "y": 11}}
 							]
 						}
 					],
@@ -55,6 +64,41 @@
 				},
 				{
 					"position": {"x": 1, "y": 1},
+					"statics": [
+						{
+							"name": "wall_03_a",
+							"positions": [
+								{"x": 0, "y": 8},
+								{"x": 2, "y": 8, "stretch": {"x": 1, "y": 0}},
+								{"x": 5, "y": 8, "stretch": {"x": 1, "y": 0}},
+								{"x": 9, "y": 8, "stretch": {"x": 1, "y": 0}},
+								{"x": 12, "y": 8, "stretch": {"x": 1, "y": 0}},
+								{"x": 15, "y": 8}
+							]
+						},
+						{
+							"name": "wall_03_b",
+							"positions": [
+								{"x": 0, "y": 0, "stretch": {"x": 0, "y": 7}},
+								{"x": 15.75, "y": 0, "stretch": {"x": 0, "y": 7}}
+							]
+						},
+						{
+							"name": "wall_03_d",
+							"positions": [
+								{"x": 7, "y": 8}
+							]
+						},
+						{
+							"name": "wall_03_e",
+							"positions": [
+								{"x": 1, "y": 8},
+								{"x": 4, "y": 8},
+								{"x": 11, "y": 8},
+								{"x": 14, "y": 8}
+							]
+						}
+					],
 					"array": [
 						11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
 						9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,

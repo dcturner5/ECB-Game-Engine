@@ -14,7 +14,7 @@ public class IdleBehavior extends Behavior {
 	public static final int PRIORITY = 0;
 	
 	private Vector2f origin;
-	private int range = 16;
+	private int range = 4;
 	private int waitTime = 240;
 	
 	public IdleBehavior() {

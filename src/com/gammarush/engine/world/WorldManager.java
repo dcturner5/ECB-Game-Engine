@@ -1,6 +1,9 @@
 package com.gammarush.engine.world;
 
+import java.util.UUID;
+
 import com.gammarush.engine.GameManager;
+import com.gammarush.engine.entities.Entity;
 import com.gammarush.engine.events.EventManager;
 import com.gammarush.engine.graphics.Renderer;
 import com.gammarush.engine.input.InputManager;
@@ -33,6 +36,10 @@ public class WorldManager {
 		return world;
 	}
 	
+	public World getWorld(String name) {
+		return worlds.get(name);
+	}
+	
 	public void setWorld(String name) {
 		if(worlds.get(name) != null) {
 			world = worlds.get(name);
@@ -41,6 +48,14 @@ public class WorldManager {
 	
 	public void setWorldHashMap(WorldHashMap worlds) {
 		this.worlds = worlds;
+	}
+	
+	public Entity getEntity(UUID uuid) {
+		return worlds.getEntity(uuid);
+	}
+	
+	public World getEntityWorld(UUID uuid) {
+		return worlds.getEntityWorld(uuid);
 	}
 	
 	public EventManager getEventManager() {

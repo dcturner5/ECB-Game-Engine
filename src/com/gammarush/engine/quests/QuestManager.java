@@ -20,6 +20,7 @@ import com.gammarush.engine.scripts.ScriptManager;
 import com.gammarush.engine.tiles.Tile;
 import com.gammarush.engine.ui.UIManager;
 import com.gammarush.engine.utils.json.JSONLoader;
+import com.gammarush.engine.world.World;
 import com.gammarush.engine.world.WorldManager;
 
 public class QuestManager {
@@ -76,7 +77,7 @@ public class QuestManager {
 		
 		getScriptManager().addMethod("setPlayer", 2, (int[] args, AxilMemory memory) -> {
 			int address = args[1];
-			Mob mob = (Mob) getWorldManager().getWorld().getEntity(UUID.fromString(memory.getString(args[0])));
+			Mob mob = (Mob) getWorldManager().getEntity(UUID.fromString(memory.getString(args[0])));
 			if(mob == null) {
 				memory.setBoolean(address, false);
 				return -1;
@@ -99,6 +100,34 @@ public class QuestManager {
 			getWorldManager().setWorld(name);
 			getWorldManager().getWorld().addMob(getPlayerManager().getMob());
 			getPlayerManager().getMob().setWorld(getWorldManager().getWorld());
+			return -1;
+		});
+		
+		getScriptManager().addMethod("teleport", 4, (int[] args, AxilMemory memory) -> {
+			UUID uuid = UUID.fromString(memory.getString(args[0]));
+			Mob mob = (Mob) getWorldManager().getEntity(uuid);
+			String worldName = memory.getString(args[1]);
+			String markerName = memory.getString(args[2]);
+			World world = getWorldManager().getWorld(worldName);
+			Vector2f position = world.getMarker(markerName);
+			
+			mob.setPosition(position);
+			
+			if(!mob.getWorld().equals(world)) {
+				if(uuid.equals(getPlayerManager().getMob().getUUID())) {
+					getWorldManager().setWorld(worldName);
+				}
+				
+				mob.getWorld().removeMob(mob);
+				mob.setLastChunkPosition(mob.getChunkPosition());
+				world.addMob(mob);
+			}
+			else {
+				world.syncEntity(mob);
+			}
+			
+			mob.getAIComponent().removeAllBehaviors();
+			
 			return -1;
 		});
 		

@@ -319,6 +319,12 @@
 						{"name": "Matt", "position": {"x": 12, "y": 11}},
 						{"name": "Saadiq", "position": {"x": 15, "y": 11}}
 					],
+					"markers": [
+						{"name": "test", "position": {"x": 1, "y": 1}}
+					],
+					"teleports": [
+						{"position": {"x": 0, "y": 0}, "destination": {"world": "dining_hall", "marker": "test"}}
+					],
 					"vehicles": [
 						{"name": "mercury", "position": {"x": 11, "y": 3}}
 					],

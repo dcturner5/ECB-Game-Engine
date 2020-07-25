@@ -36,6 +36,13 @@
 		{"name": "wall_01_a", "width": 16, "height": 32, "solid": true, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
 		{"name": "wall_01_b", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 32, "width": 4, "height": 16}},
 		{"name": "wall_01_c", "width": 4, "height": 4, "zIndex": 1, "solid": false},
-		{"name": "wall_01_d", "width": 16, "height": 32, "solid": false, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}}
+		{"name": "wall_01_d", "width": 16, "height": 32, "solid": false, "collision": {"x": 0, "y": 28, "width": 16, "height": 4}},
+		{"name": "wall_02_b", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 48, "width": 4, "height": 16}},
+		{"name": "wall_02_c", "width": 4, "height": 4, "zIndex": 1, "solid": false},
+		{"name": "wall_03_a", "width": 16, "height": 48, "solid": true, "collision": {"x": 0, "y": 44, "width": 16, "height": 4}},
+		{"name": "wall_03_b", "width": 4, "height": 16, "solid": true, "collision": {"x": 0, "y": 48, "width": 4, "height": 16}},
+		{"name": "wall_03_c", "width": 4, "height": 4, "zIndex": 1, "solid": false},
+		{"name": "wall_03_d", "width": 32, "height": 48, "solid": false, "collision": {"x": 0, "y": 44, "width": 32, "height": 4}},
+		{"name": "wall_03_e", "width": 16, "height": 48, "solid": true, "collision": {"x": 0, "y": 44, "width": 16, "height": 4}}
 	]
 }

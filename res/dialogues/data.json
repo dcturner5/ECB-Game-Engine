@@ -20,7 +20,8 @@
 			"name": "world_select_02",
 			"text": "Choose a world...",
 			"options": [
-				{"name": "default", "text": "Courtyard", "type": "exit"},
+				{"name": "courtyard", "text": "Courtyard", "type": "exit"},
+				{"name": "dining_hall", "text": "Dining Hall", "type": "exit"},
 				{"name": "dorm", "text": "Dorm", "type": "exit"}
 			]
 		},

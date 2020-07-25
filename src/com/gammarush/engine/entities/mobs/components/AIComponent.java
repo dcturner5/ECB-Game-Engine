@@ -65,6 +65,12 @@ public class AIComponent extends MobComponent {
 		return success;
 	}
 	
+	public boolean removeAllBehaviors() {
+		boolean success = behaviors.removeAll(behaviors);
+		addBehavior(new IdleBehavior());
+		return success;
+	}
+	
 	public AStar getAStar() {
 		astar.setWorld(getMob().getWorld());
 		return astar;
