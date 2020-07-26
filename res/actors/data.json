@@ -1,7 +1,8 @@
 {
 	"actors": [
 		{
-			"name": "Player",
+			"name": "player",
+			"displayName": "Kanye",
 			"type": "human",
 			"clothes": [
 				"hair_01",
@@ -14,7 +15,8 @@
 			}
 		},
 		{
-			"name": "Ahmed",
+			"name": "ahmed",
+			"displayName": "Ahmed",
 			"type": "human",
 			"clothes": [
 				"hair_02",
@@ -44,7 +46,8 @@
 			]
 		},
 		{
-			"name": "Dalton",
+			"name": "dalton",
+			"displayName": "Dalton",
 			"type": "human",
 			"clothes": [
 				"hair_01",
@@ -57,7 +60,8 @@
 			"dialogue": "dev_options_01"
 		},
 		{
-			"name": "Erick",
+			"name": "erick",
+			"displayName": "Erick",
 			"type": "human",
 			"clothes": [
 				"hair_02",
@@ -87,7 +91,8 @@
 			]
 		},
 		{
-			"name": "Matt",
+			"name": "matt",
+			"displayName": "Matt",
 			"type": "human",
 			"clothes": [
 				"hair_05",
@@ -118,7 +123,8 @@
 			]
 		},
 		{
-			"name": "Saadiq",
+			"name": "saadiq",
+			"displayName": "Saadiq",
 			"type": "human",
 			"clothes": [
 				"hair_04",
@@ -141,7 +147,8 @@
 			"dialogue": "main_010"
 		},
 		{
-			"name": "Orlando",
+			"name": "orlando",
+			"displayName": "Orlando",
 			"type": "human",
 			"clothes": [
 				"hair_01",
@@ -166,8 +173,7 @@
 		},
 		{
 			"name": "dining_hall_belt",
-			"type": "dining_hall_belt",
-			"displayName": false
+			"type": "dining_hall_belt"
 		}
 	]
 }

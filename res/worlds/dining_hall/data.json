@@ -7,7 +7,7 @@
 				{
 					"position": {"x": 2, "y": 0},
 					"actors": [
-						{"name": "Player", "position": {"x": 5, "y": 11}}
+						{"name": "player", "position": {"x": 5, "y": 11}}
 					],
 					"markers": [
 						{"name": "test", "position": {"x": 5, "y": 7}}

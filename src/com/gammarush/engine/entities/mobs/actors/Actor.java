@@ -18,6 +18,7 @@ public class Actor extends Mob {
 	
 	private int id;
 	private String name;
+	private String displayName;
 	private String dialogueLink;
 	
 	public Actor(int id, JSON json, QuestManager questManager) {
@@ -25,6 +26,12 @@ public class Actor extends Mob {
 		
 		this.id = id;
 		this.name = json.getString("name");
+		
+		if(json.exists("displayName")) {
+			displayName = json.getString("displayName");
+			addComponent(new NameTagComponent(this));
+		}
+		
 		
 		if(json.getArray("clothes") != null) {
 			for(String clothesName : json.getStringArray("clothes")) {
@@ -51,10 +58,6 @@ public class Actor extends Mob {
 				questManager.addDialogue(new Dialogue(i, dialogueJson, questManager));
 			}
 		}
-		
-		if(json.exists("displayName") && json.getBoolean("displayName")) {
-			addComponent(new NameTagComponent(this));
-		}
 	}
 	
 	@Override
@@ -74,6 +77,10 @@ public class Actor extends Mob {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
 	}
 
 }

@@ -27,7 +27,7 @@ public class NameTagComponent extends ActorComponent {
 	@Override
 	public void render() {
 		Vector3f position = getActor().position;
-		FONT.drawStringWorld(getActor().getName(), position.add(8, -8, 1), (int) Math.max(.5f * Renderer.SCALE, 1), Color.WHITE, new Vector4f(position.x - 1000, position.y - 1000, position.x + 1000, position.y + 1000));
+		FONT.drawStringWorld(getActor().getDisplayName(), position.add(8, -8, 1), (int) Math.max(.5f * Renderer.SCALE, 1), Color.WHITE, new Vector4f(position.x - 1000, position.y - 1000, position.x + 1000, position.y + 1000));
 	}
 
 }

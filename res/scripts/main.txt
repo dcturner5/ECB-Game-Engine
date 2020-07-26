@@ -2,18 +2,7 @@ print("Main Quest Started...");
 
 function event_dialogue(dialogue_id, response_id) {
 	if(dialogue_id == "character_select_02") {
-		if(response_id == "ahmed") {
-			setPlayer(getActor("Ahmed"));
-		}
-		if(response_id == "erick") {
-			setPlayer(getActor("Erick"));
-		}
-		if(response_id == "matt") {
-			setPlayer(getActor("Matt"));
-		}
-		if(response_id == "saadiq") {
-			setPlayer(getActor("Saadiq"));
-		}
+		setPlayer(getActor(response_id));
 	}
 	if(dialogue_id == "world_select_02") {
 		teleport(getPlayer(), response_id, "test");

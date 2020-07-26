@@ -20,7 +20,7 @@ public class PlayerManager {
 	public PlayerManager(GameManager gameManager) {
 		this.gameManager = gameManager;
 		
-		setMob(GameManager.getActor("Player"));
+		setMob(GameManager.getActor("player"));
 	}
 	
 	public void update(double delta) {

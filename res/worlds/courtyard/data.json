@@ -313,11 +313,11 @@
 				{
 					"position": {"x": 2, "y": 2},
 					"actors": [
-						{"name": "Ahmed", "position": {"x": 5, "y": 11}},
-						{"name": "Dalton", "position": {"x": 7, "y": 11}},
-						{"name": "Erick", "position": {"x": 10, "y": 11}},
-						{"name": "Matt", "position": {"x": 12, "y": 11}},
-						{"name": "Saadiq", "position": {"x": 15, "y": 11}}
+						{"name": "ahmed", "position": {"x": 5, "y": 11}},
+						{"name": "dalton", "position": {"x": 7, "y": 11}},
+						{"name": "erick", "position": {"x": 10, "y": 11}},
+						{"name": "matt", "position": {"x": 12, "y": 11}},
+						{"name": "saadiq", "position": {"x": 15, "y": 11}}
 					],
 					"markers": [
 						{"name": "test", "position": {"x": 1, "y": 1}}
