@@ -41,16 +41,16 @@ public class AttackComponent extends MobComponent {
 		AABB cb = new AABB(e.position.x, e.position.y, e.width, e.height);
 		
 		Vector2f offset = new Vector2f();
-		if(e.direction == Mob.DIRECTION_UP) {
+		if(e.getDirection() == Mob.DIRECTION_UP) {
 			offset.y = -1;
 		}
-		if(e.direction == Mob.DIRECTION_DOWN) {
+		if(e.getDirection() == Mob.DIRECTION_DOWN) {
 			offset.y = 1;
 		}
-		if(e.direction == Mob.DIRECTION_LEFT) {
+		if(e.getDirection() == Mob.DIRECTION_LEFT) {
 			offset.x = -1;
 		}
-		if(e.direction == Mob.DIRECTION_RIGHT) {
+		if(e.getDirection() == Mob.DIRECTION_RIGHT) {
 			offset.x = 1;
 		}
 		

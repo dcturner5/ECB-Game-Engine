@@ -8,27 +8,7 @@ function event_dialogue(dialogue_id, response_id) {
 		teleport(getPlayer(), response_id, "test");
 		console("Good luck!");
 	}
-	if(dialogue_id == "main_010") {
-		if(response_id == "2") {
-			fz = getActor("Friendly Zombie");
-			mm = getActor("Mysterious Man");
-			attack(fz, getPlayer());
-		}
-	}
 }
 
-count = 0;
-function event_death_mob_by_player(mob_name) {
-	if(mob_name == "human") {
-		++count;
-		if(count % 5 == 0) {
-			print(count + " humans have been killed...");
-			i = 0;
-			while(i < 100) {
-				hm = spawn("human", int(random() * 2048), int(random() * 2048));
-				attack(hm, getPlayer());
-				++i;
-			}
-		}
-	}
-}
+teleport(getActor("ahmed"), "dining_hall", "courtyard_entrance_01");
+teleport(getActor("saadiq"), "dining_hall", "courtyard_entrance_01");

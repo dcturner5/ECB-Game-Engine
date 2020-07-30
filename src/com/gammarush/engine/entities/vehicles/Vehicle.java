@@ -18,9 +18,9 @@ public class Vehicle extends Interactive {
 	private WheelTemplate wheelTemplate;
 	private int occupancy;
 	private ArrayList<Mob> mobs = new ArrayList<Mob>();
-	private ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
+	//private ArrayList<Vector2f> mobPositions = new ArrayList<Vector2f>();
 	
-	public int direction;
+	private int direction;
 	public boolean moving = true;
 	public boolean braking = false;
 	
@@ -32,7 +32,7 @@ public class Vehicle extends Interactive {
 		this.wheelTemplate = GameManager.vehicles.getRandomWheel();
 		this.occupancy = template.getOccupancy();
 		this.direction = direction;
-		this.mobPositions = template.getMobPositions();
+		//this.mobPositions = template.getMobPositions();
 		
 		setSolid(true);
 		addComponent(new PhysicsComponent(this, template.getAcceleration()));
@@ -135,6 +135,14 @@ public class Vehicle extends Interactive {
 	
 	public WheelTemplate getWheelTemplate() {
 		return wheelTemplate;
+	}
+	
+	public int getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }

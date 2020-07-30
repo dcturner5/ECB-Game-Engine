@@ -46,7 +46,7 @@ public class AttackBehavior extends Behavior {
 			
 			AttackComponent ac = (AttackComponent) getMob().getComponent("attack");
 			if(ac != null && distance <= ac.getRange()) {
-				getMob().direction = direction;
+				getMob().setDirection(direction);
 				
 				attackSubBehavior = new AttackSubBehavior(this);
 				queue.add(attackSubBehavior);

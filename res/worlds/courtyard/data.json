@@ -189,13 +189,20 @@
 				},
 				{
 					"position": {"x": 3, "y": 1},
+					"markers": [
+						{"name": "dining_hall_entrance_02", "position": {"x": 11, "y": 6}}
+					],
+					"teleports": [
+						{"position": {"x": 11, "y": 6}, "direction": 2, "destination": {"world": "dining_hall", "marker": "courtyard_entrance_02", "direction": 2}}
+					],
 					"statics": [
 						{
 							"name": "building_dining_hall_01",
 							"positions": [
 								{"x": 0, "y": 0}
 							]
-						}
+						},
+						{"name": "exit_02", "positions": [{"x": 11, "y": 6}]}
 					],
 					"array": [
 						4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3,
@@ -320,10 +327,10 @@
 						{"name": "saadiq", "position": {"x": 15, "y": 11}}
 					],
 					"markers": [
-						{"name": "test", "position": {"x": 1, "y": 1}}
+						{"name": "dining_hall_entrance_01", "position": {"x": 9, "y": 1}}
 					],
 					"teleports": [
-						{"position": {"x": 0, "y": 0}, "destination": {"world": "dining_hall", "marker": "test"}}
+						{"position": {"x": 9, "y": 1}, "direction": 0, "destination": {"world": "dining_hall", "marker": "courtyard_entrance_01", "direction": 0}}
 					],
 					"vehicles": [
 						{"name": "mercury", "position": {"x": 11, "y": 3}}
@@ -364,6 +371,12 @@
 							"name": "curb_05",
 							"positions": [
 								{"x": 13, "y": 3, "stretch": {"x": 0, "y": 9}}
+							]
+						},
+						{
+							"name": "exit_01",
+							"positions": [
+								{"x": 9, "y": 1}
 							]
 						},
 						{

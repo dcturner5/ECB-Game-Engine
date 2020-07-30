@@ -9,9 +9,6 @@
 					"actors": [
 						{"name": "player", "position": {"x": 5, "y": 11}}
 					],
-					"markers": [
-						{"name": "test", "position": {"x": 5, "y": 7}}
-					],
 					"statics": [
 						{"name": "dining_hall_counter_01_a", "positions": [{"x": 3, "y": 8}]},
 						{"name": "dining_hall_counter_01_b", "positions": [{"x": 3, "y": 8}]},
@@ -31,9 +28,21 @@
 							]
 						},
 						{
-							"name": "dining_hall_counter_04",
+							"name": "dining_hall_counter_04_a",
 							"positions": [
 								{"x": 10, "y": 4}
+							]
+						},
+						{
+							"name": "dining_hall_counter_04_b",
+							"positions": [
+								{"x": 12, "y": 5}
+							]
+						},
+						{
+							"name": "dining_hall_counter_05_a",
+							"positions": [
+								{"x": 12, "y": 9}
 							]
 						},
 						{
@@ -97,7 +106,8 @@
 								{"x": 11, "y": 8},
 								{"x": 14, "y": 8}
 							]
-						}
+						},
+						{"name": "dining_hall_floor_03", "positions": [{"x": 9, "y": 15}]}
 					],
 					"array": [
 						11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
@@ -183,12 +193,10 @@
 								{"x": 12, "y": 4},
 								{"x": 14, "y": 4},
 								{"x": 7, "y": 7},
-								{"x": 9, "y": 7},
 								{"x": 12, "y": 7},
 								{"x": 14, "y": 7},
 								{"x": 7, "y": 10},
 								{"x": 9, "y": 10},
-								{"x": 12, "y": 10},
 								{"x": 14, "y": 10}
 							]
 						}
@@ -216,6 +224,48 @@
 					"position": {"x": 3, "y": 1},
 					"actors": [
 						{"name": "dining_hall_belt", "position": {"x": 2, "y": 0}}
+					],
+					"markers": [
+						{"name": "courtyard_entrance_02", "position": {"x": 7, "y": 7}}
+					],
+					"teleports": [
+						{"position": {"x": 7, "y": 7}, "direction": 3, "destination": {"world": "courtyard", "marker": "dining_hall_entrance_02", "direction": 3}}
+					],
+					"statics": [
+						{"name": "dining_hall_floor_01", "positions": [{"x": 4, "y": 12}]},
+						{
+							"name": "dining_hall_table_01_a",
+							"positions": [
+								{"x": 1, "y": 4},
+								{"x": 3, "y": 4},
+								{"x": 1, "y": 7},
+								{"x": 3, "y": 7},
+								{"x": 1, "y": 10},
+								{"x": 3, "y": 10}
+							]
+						},
+						{
+							"name": "dining_hall_table_01_b",
+							"positions": [
+								{"x": 1, "y": 4},
+								{"x": 3, "y": 4},
+								{"x": 1, "y": 7},
+								{"x": 3, "y": 7},
+								{"x": 1, "y": 10},
+								{"x": 3, "y": 10}
+							]
+						},
+						{
+							"name": "dining_hall_table_01_c",
+							"positions": [
+								{"x": 1, "y": 4},
+								{"x": 1, "y": 7},
+								{"x": 3, "y": 7},
+								{"x": 1, "y": 10},
+								{"x": 3, "y": 10}
+							]
+						},
+						{"name": "exit_02", "positions": [{"x": 7.5, "y": 7}]}
 					],
 					"array": [
 						7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -280,6 +330,16 @@
 				},
 				{
 					"position": {"x": 2, "y": 2},
+					"markers": [
+						{"name": "courtyard_entrance_01", "position": {"x": 6, "y": 1}}
+					],
+					"teleports": [
+						{"position": {"x": 6, "y": 1}, "direction": 1, "destination": {"world": "courtyard", "marker": "dining_hall_entrance_01", "direction": 1}}
+					],
+					"statics": [
+						{"name": "dining_hall_floor_02", "positions": [{"x": 1, "y": 0}]},
+						{"name": "exit_01", "positions": [{"x": 6, "y": 1.5}]}
+					],
 					"array": [
 						0, 0, 2, 2, 1, 1, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0,
 						0, 0, 0, 0, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0,

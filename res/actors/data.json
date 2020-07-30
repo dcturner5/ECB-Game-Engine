@@ -2,7 +2,7 @@
 	"actors": [
 		{
 			"name": "player",
-			"displayName": "Kanye",
+			"displayName": "Player",
 			"type": "human",
 			"clothes": [
 				"hair_01",

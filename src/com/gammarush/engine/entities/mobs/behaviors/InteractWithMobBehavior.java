@@ -37,25 +37,25 @@ public class InteractWithMobBehavior extends Behavior {
 	}
 	
 	public void updateDirection() {
-		switch(target.direction) {
+		switch(target.getDirection()) {
 		case Mob.DIRECTION_UP:
-			getMob().direction = Mob.DIRECTION_DOWN;
+			getMob().setDirection(Mob.DIRECTION_DOWN);
 			break;
 		case Mob.DIRECTION_DOWN:
-			getMob().direction = Mob.DIRECTION_UP;
+			getMob().setDirection(Mob.DIRECTION_UP);
 			break;
 		case Mob.DIRECTION_LEFT:
-			getMob().direction = Mob.DIRECTION_RIGHT;
+			getMob().setDirection(Mob.DIRECTION_RIGHT);
 			break;
 		case Mob.DIRECTION_RIGHT:
-			getMob().direction = Mob.DIRECTION_LEFT;
+			getMob().setDirection(Mob.DIRECTION_LEFT);
 			break;
 		}
 	}
 	
 	public Vector2i getTargetPosition() {
 		Vector2i offset = new Vector2i();
-		switch(target.direction) {
+		switch(target.getDirection()) {
 		case Mob.DIRECTION_UP:
 			offset.y = -1;
 			break;

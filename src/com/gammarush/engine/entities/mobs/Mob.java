@@ -21,13 +21,14 @@ import com.gammarush.engine.math.vector.Vector3f;
 import com.gammarush.engine.physics.AABB;
 import com.gammarush.engine.physics.Physics;
 import com.gammarush.engine.utils.json.JSON;
+import com.gammarush.engine.world.Teleport;
 
 public class Mob extends Interactive {
 	
 	private MobTemplate template;
 	
 	public boolean moving = false;
-	public int direction = 2;
+	private int direction = 2;
 	private Vehicle vehicle = null;
 	
 	public Color color = new Color();
@@ -93,6 +94,15 @@ public class Mob extends Interactive {
 		else ac.stop("run");
 
 		if(!ac.isRunning()) ac.start("idle");
+		
+		//Teleport check
+		if(isPlayer()) {
+			for(Teleport t : getWorld().getTeleports()) {
+				if(Physics.getCollision(getAABB(), t.getAABB()) && getDirection() == t.getDirection()) {
+					t.activate(this);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -146,6 +156,14 @@ public class Mob extends Interactive {
 	
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
+	}
+	
+	public int getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 	
 	public MobTemplate getTemplate() {

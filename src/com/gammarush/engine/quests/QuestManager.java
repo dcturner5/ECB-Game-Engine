@@ -119,6 +119,7 @@ public class QuestManager {
 				}
 				
 				mob.getWorld().removeMob(mob);
+				mob.getWorld().removeEntitiesFromQueue();
 				mob.setLastChunkPosition(mob.getChunkPosition());
 				world.addMob(mob);
 			}
@@ -209,7 +210,7 @@ public class QuestManager {
 				memory.setInt(address, (int) mob.position.y);
 			}
 			if(attribute.equals("direction")) {
-				memory.setInt(address, mob.direction);
+				memory.setInt(address, mob.getDirection());
 			}
 			return -1;
 		});

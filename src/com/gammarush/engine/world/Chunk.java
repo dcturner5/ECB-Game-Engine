@@ -83,6 +83,18 @@ public class Chunk {
 			}
 		}
 		
+		ArrayList<JSON> teleportsJson = json.getArray("teleports");
+		if(teleportsJson != null) {
+			for(JSON teleportJson : teleportsJson) {
+				Vector2f teleportPosition = teleportJson.getVector2f("position").mult(Tile.WIDTH, Tile.HEIGHT).add(position.mult(Chunk.WIDTH * Tile.WIDTH, Chunk.HEIGHT * Tile.HEIGHT));
+				int teleportDirection = teleportJson.getInteger("direction");
+				String teleportWorld = teleportJson.getString("destination.world");
+				String teleportMarker = teleportJson.getString("destination.marker");
+				int teleportDestDirection = teleportJson.getInteger("destination.direction");
+				world.addTeleport(new Teleport(teleportPosition, teleportDirection, teleportWorld, teleportMarker, teleportDestDirection));
+			}
+		}
+		
 		ArrayList<JSON> vehiclesJson = json.getArray("vehicles");
 		if(vehiclesJson != null) {
 			for(JSON vehicleJson : vehiclesJson) {

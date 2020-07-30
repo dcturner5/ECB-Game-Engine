@@ -12,6 +12,7 @@ import com.gammarush.engine.math.vector.Vector4f;
 import com.gammarush.engine.player.PlayerManager;
 import com.gammarush.engine.quests.QuestManager;
 import com.gammarush.engine.scripts.ScriptManager;
+import com.gammarush.engine.ui.containers.UIBlackScreen;
 import com.gammarush.engine.ui.containers.UIConsole;
 import com.gammarush.engine.ui.containers.UIContainer;
 import com.gammarush.engine.ui.containers.UIDialogue;
@@ -42,6 +43,7 @@ public class UIManager {
 	
 	public UIConsole console;
 	public UIDialogue dialogue;
+	public UIBlackScreen fade;
 	
 	Font font = new Font();
 	
@@ -74,7 +76,7 @@ public class UIManager {
 		}
 		Renderer.GUI.disable();
 		
-		//font.drawStringWorld("Welcome to Martín Simulator", new Vector3f(16, 32, Renderer.ENTITY_LAYER), 5, Color.WHITE, new Vector4f(0, 0, 1000, 1000));
+		//font.drawStringWorld("Welcome", new Vector3f(16, 32, Renderer.ENTITY_LAYER), 5, Color.WHITE, new Vector4f(0, 0, 1000, 1000));
 	}
 
 	public void init() {
@@ -83,6 +85,9 @@ public class UIManager {
 		
 		dialogue = new UIDialogue(new Vector3f(getRenderer().getWidth() / 2 - 720 / 2, getRenderer().getHeight() - 192 - 128, Renderer.GUI_LAYER), 720, 192);
 		add(dialogue);
+		
+		fade = new UIBlackScreen(new Vector3f(0, 0, Renderer.GUI_LAYER), getRenderer().getWidth(), getRenderer().getHeight());
+		add(fade);
 	}
 	
 	public void add(UIContainer container) {

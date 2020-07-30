@@ -33,10 +33,10 @@ public class AnimationComponent extends Component {
 		if(active != null) {
 			Entity e = getEntity();
 			if(e instanceof Mob) {
-				active.setDirection(((Mob) e).direction);
+				active.setDirection(((Mob) e).getDirection());
 			}
 			if(e instanceof Vehicle) {
-				active.setDirection(((Vehicle) e).direction);
+				active.setDirection(((Vehicle) e).getDirection());
 			}
 			active.update(delta);
 		}
@@ -61,10 +61,10 @@ public class AnimationComponent extends Component {
 		
 		Entity e = getEntity();
 		if(e instanceof Mob) {
-			active.setDirection(((Mob) e).direction);
+			active.setDirection(((Mob) e).getDirection());
 		}
 		if(e instanceof Vehicle) {
-			active.setDirection(((Vehicle) e).direction);
+			active.setDirection(((Vehicle) e).getDirection());
 		}
 	}
 	

@@ -29,15 +29,15 @@ public class UIDialogue extends UIContainer {
 		setSolid(false);
 		setVisible(false);
 		
-		textbox = new UITextBox(new Vector2f(0, height - 16), width, 16, BASE_COLOR);
+		textbox = new UITextBox(new Vector2f(0, height - 21), width, 21, BASE_COLOR);
 		textbox.setAlignment(Alignment.LEFT);
 		textbox.setFontColor(FONT_COLOR);
-		textbox.setScale(3);
+		textbox.setScale(4);
 		add(textbox);
 	}
 	
 	public void set(Dialogue dialogue) {
-		String name = ((Actor) (dialogue.getQuestManager().getPlayerManager().getMob().getInteractingMob())).getName();
+		String name = ((Actor) (dialogue.getQuestManager().getPlayerManager().getMob().getInteractingMob())).getDisplayName();
 		textbox.setString(name + ": " + dialogue.getText());
 		
 		ArrayList<DialogueOption> options = dialogue.getOptions();

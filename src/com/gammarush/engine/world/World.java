@@ -63,6 +63,7 @@ public class World {
 	private ArrayList<Vehicle> removeVehicleQueue = new ArrayList<Vehicle>();
 	
 	private HashMap<String, Vector2f> markers = new HashMap<String, Vector2f>();
+	private ArrayList<Teleport> teleports = new ArrayList<Teleport>();
 	
 	public World(int id, JSON json, WorldManager worldManager) {
 		this.id = id;
@@ -184,7 +185,7 @@ public class World {
 		vehicleQueue.clear();
 	}
 	
-	private void removeEntitiesFromQueue() {
+	public void removeEntitiesFromQueue() {
 		for(Item e : removeItemQueue) {
 			Chunk c = getChunkFromWorldPosition(e.position);
 			if(c != null) {
@@ -518,12 +519,9 @@ public class World {
 					continue;
 				}
 				if(e instanceof Mob) {
-					//Test code
 					if(c.getMobs().contains((Mob) e)) {
-						System.out.println("Duplicate Mob");
-						lc.print();
-						c.print();
-						continue;
+						System.out.println("DUPLICATE");
+						c.getMobs().remove(e);
 					}
 					
 					lc.getMobs().remove(e);
@@ -531,16 +529,28 @@ public class World {
 					c.refreshEntityArray();
 				}
 				else if(e instanceof Vehicle) {
+					if(c.getVehicles().contains((Vehicle) e)) {
+						c.getVehicles().remove(e);
+					}
+					
 					lc.getVehicles().remove(e);
 					c.getVehicles().add((Vehicle) e);
 					c.refreshEntityArray();
 				}
 				else if(e instanceof Item) {
+					if(c.getItems().contains((Item) e)) {
+						c.getItems().remove(e);
+					}
+					
 					lc.getItems().remove(e);
 					c.getItems().add((Item) e);
 					c.refreshEntityArray();
 				}
 				else if(e instanceof Interactive) {
+					if(c.getInteractives().contains((Interactive) e)) {
+						c.getInteractives().remove(e);
+					}
+					
 					lc.getInteractives().remove(e);
 					c.getInteractives().add((Interactive) e);
 					c.refreshEntityArray();
@@ -560,6 +570,14 @@ public class World {
 			return markers.get(name);
 		}
 		return new Vector2f();
+	}
+	
+	public void addTeleport(Teleport teleport) {
+		teleports.add(teleport);
+	}
+	
+	public ArrayList<Teleport> getTeleports() {
+		return teleports;
 	}
 	
 }

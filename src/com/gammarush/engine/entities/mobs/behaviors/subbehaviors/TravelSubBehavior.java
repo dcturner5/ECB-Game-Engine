@@ -40,19 +40,19 @@ public class TravelSubBehavior extends SubBehavior {
 			Vector2f velocity = new Vector2f();
 			if(position.y > waypoint.y) {
 				velocity.y = Math.max(velocity.y - pc.acceleration, waypoint.y - position.y);
-				e.direction = Mob.DIRECTION_UP;
+				e.setDirection(Mob.DIRECTION_UP);
 			}
 			else if(position.y < waypoint.y) {
 				velocity.y = Math.min(velocity.y + pc.acceleration, waypoint.y - position.y);
-				e.direction = Mob.DIRECTION_DOWN;
+				e.setDirection(Mob.DIRECTION_DOWN);
 			}
 			if(position.x > waypoint.x) {
 				velocity.x = Math.max(velocity.x - pc.acceleration, waypoint.x - position.x);
-				e.direction = Mob.DIRECTION_LEFT;
+				e.setDirection(Mob.DIRECTION_LEFT);
 			}
 			else if(position.x < waypoint.x) {
 				velocity.x = Math.min(velocity.x + pc.acceleration, waypoint.x - position.x);
-				e.direction = Mob.DIRECTION_RIGHT;
+				e.setDirection(Mob.DIRECTION_RIGHT);
 			}
 			
 			e.moving = !velocity.isEmpty();

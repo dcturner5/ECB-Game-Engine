@@ -49,8 +49,6 @@ public class UIButton extends UIComponent {
 		stringWidth *= scale;
 		stringHeight *= scale;
 		
-		//System.out.println(stringWidth + " " + stringHeight);
-		
 		Renderer.GUI.disable();
 		font.drawString(string,
 				new Vector3f(position.x + container.getPosition().x + width / 2 - stringWidth / 2,
